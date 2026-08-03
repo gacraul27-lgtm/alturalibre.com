@@ -515,10 +515,11 @@ async function doLogin(){
   const t=document.getElementById('tk').value.trim();
   if(!t){showErr('Ingresa tu token.');return;}
   document.querySelector('.btn-login').textContent='Verificando...';
+  TOKEN=t;
   try{
     const r=await ghFetch(`/repos/${OWNER}/${REPO}`,'GET');
-    if(!r.ok){showErr('Token inválido o sin permisos.');document.querySelector('.btn-login').textContent='Entrar al panel →';return;}
-    TOKEN=t;localStorage.setItem('al_tk',t);
+    if(!r.ok){TOKEN='';showErr('Token inválido o sin permisos.');document.querySelector('.btn-login').textContent='Entrar al panel →';return;}
+    localStorage.setItem('al_tk',t);
     document.getElementById('login').style.display='none';
     document.getElementById('app').style.display='flex';
     await loadContent();
