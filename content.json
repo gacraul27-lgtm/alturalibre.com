@@ -2,52 +2,118 @@
   "hero": {
     "linea1": "La cima",
     "linea2": "te espera",
-    "subtexto": "Expediciones y aventuras en montaña desde Monterrey, Nuevo León."
+    "subtexto": "Expediciones y aventuras en montaÃ±a desde Monterrey, Nuevo LeÃ³n."
   },
-  "fondo": { "tipo": "gradiente", "imagen_url": "", "video_url": "", "overlay": 0.65 },
+  "fondo": {
+    "tipo": "gradiente",
+    "imagen_url": "",
+    "video_url": "",
+    "overlay": 0.65
+  },
   "botones": [
-    { "texto": "Ver actividades", "url": "#act1", "estilo": "primary", "icono": "🏔", "icono_pos": "left", "tamano": "md", "forma": "rounded" },
-    { "texto": "Contacto", "url": "#cnt1", "estilo": "outline", "icono": "", "icono_pos": "none", "tamano": "md", "forma": "rounded" }
+    {
+      "texto": "Ver actividades",
+      "url": "#act1",
+      "estilo": "primary",
+      "icono": "ð",
+      "icono_pos": "left",
+      "tamano": "md",
+      "forma": "rounded"
+    },
+    {
+      "texto": "Contacto",
+      "url": "#cnt1",
+      "estilo": "outline",
+      "icono": "",
+      "icono_pos": "none",
+      "tamano": "md",
+      "forma": "rounded"
+    }
   ],
   "media": [],
   "actividades_catalogo": [],
   "calendario": [],
   "secciones": [
     {
-      "id": "nos1", "tipo": "nosotros", "visible": true,
-      "titulo": "Quiénes somos",
-      "texto": "Somos un equipo apasionado por la montaña con más de 5 años llevando a aventureros a descubrir los paisajes más impresionantes del noreste de México.",
+      "id": "nos1",
+      "tipo": "nosotros",
+      "visible": true,
+      "titulo": "QuiÃ©nes somos",
+      "texto": "Somos un equipo apasionado por la montaÃ±a con mÃ¡s de 5 aÃ±os llevando a aventureros a descubrir los paisajes mÃ¡s impresionantes del noreste de MÃ©xico.",
       "stats": [
-        { "valor": "5+", "etiqueta": "Años de experiencia" },
-        { "valor": "200+", "etiqueta": "Expediciones" },
-        { "valor": "50+", "etiqueta": "Rutas exploradas" },
-        { "valor": "500+", "etiqueta": "Aventureros" }
+        {
+          "valor": "5+",
+          "etiqueta": "AÃ±os de experiencia"
+        },
+        {
+          "valor": "200+",
+          "etiqueta": "Expediciones"
+        },
+        {
+          "valor": "50+",
+          "etiqueta": "Rutas exploradas"
+        },
+        {
+          "valor": "500+",
+          "etiqueta": "Aventureros"
+        }
       ]
     },
     {
-      "id": "act1", "tipo": "actividades", "visible": true,
-      "titulo": "Próximas actividades",
+      "id": "act1",
+      "tipo": "actividades",
+      "visible": true,
+      "titulo": "PrÃ³ximas actividades",
       "subtitulo": "Elige tu aventura y reserva tu lugar.",
       "cta_url": "#cnt1"
     },
     {
-      "id": "srv1", "tipo": "servicios", "visible": true,
+      "id": "srv1",
+      "tipo": "servicios",
+      "visible": true,
       "titulo": "Nuestros servicios",
       "items": [
-        { "emoji": "🏔", "titulo": "Senderismo", "descripcion": "Rutas guiadas para todos los niveles en las sierras del noreste." },
-        { "emoji": "🧗", "titulo": "Escalada", "descripcion": "Paredes naturales y técnicas con equipo certificado y guías expertos." },
-        { "emoji": "⛺", "titulo": "Campamentos", "descripcion": "Noches bajo las estrellas en los puntos más remotos y hermosos." },
-        { "emoji": "🗺", "titulo": "Expediciones", "descripcion": "Rutas de varios días para los que buscan la aventura completa." }
+        {
+          "emoji": "ð",
+          "titulo": "Senderismo",
+          "descripcion": "Rutas guiadas para todos los niveles en las sierras del noreste."
+        },
+        {
+          "emoji": "ð§",
+          "titulo": "Escalada",
+          "descripcion": "Paredes naturales y tÃ©cnicas con equipo certificado y guÃ­as expertos."
+        },
+        {
+          "emoji": "âº",
+          "titulo": "Campamentos",
+          "descripcion": "Noches bajo las estrellas en los puntos mÃ¡s remotos y hermosos."
+        },
+        {
+          "emoji": "ðº",
+          "titulo": "Expediciones",
+          "descripcion": "Rutas de varios dÃ­as para los que buscan la aventura completa."
+        }
       ]
     },
     {
-      "id": "cnt1", "tipo": "contacto", "visible": true,
-      "titulo": "Únete a la aventura",
-      "subtitulo": "Contáctanos y empecemos a planear tu próxima expedición.",
+      "id": "cnt1",
+      "tipo": "contacto",
+      "visible": true,
+      "titulo": "Ãnete a la aventura",
+      "subtitulo": "ContÃ¡ctanos y empecemos a planear tu prÃ³xima expediciÃ³n.",
       "email": "info@alturalibre.com",
       "telefono": "+52 81 0000 0000",
       "instagram": "@alturalibre"
+    },
+    {
+      "id": "logmsdbnfzs",
+      "titulo": "Únete a la aventura",
+      "subtitulo": "Reserva actividades y lleva el seguimiento de tus expediciones.",
+      "tipo": "login",
+      "visible": true
     }
   ],
-  "footer": { "texto": "Altura Libre · Basecamp Monterrey" }
+  "footer": {
+    "texto": "Altura Libre Â· Basecamp Monterrey"
+  }
 }
