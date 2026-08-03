@@ -2,7 +2,7 @@
   "hero": {
     "linea1": "La cima",
     "linea2": "te espera",
-    "subtexto": "Expediciones y aventuras en montaÃ±a desde Monterrey, Nuevo LeÃ³n."
+    "subtexto": "Expediciones y aventuras en montaÃ±a desde Monterrey, Nuevo León."
   },
   "fondo": {
     "tipo": "gradiente",
@@ -15,7 +15,7 @@
       "texto": "Ver actividades",
       "url": "#act1",
       "estilo": "primary",
-      "icono": "ð",
+      "icono": "",
       "icono_pos": "left",
       "tamano": "md",
       "forma": "rounded"
