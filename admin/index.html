@@ -459,6 +459,7 @@ const SEC_TYPES={
   precios:    {ico:'💳',name:'Precios',             desc:'Tarjetas de planes o precios'},
   actividades:{ico:'🗓',name:'Actividades',         desc:'Calendario de próximas actividades'},
   staff:      {ico:'🧑‍🤝‍🧑',name:'Nuestro Staff',     desc:'Fotos y mensajes del equipo por disciplina'},
+  login:      {ico:'🔐',name:'Login & Cuenta',    desc:'Registro, inicio de sesión y reservaciones'},
 };
 
 const SEC_DEFAULTS={
@@ -473,6 +474,7 @@ const SEC_DEFAULTS={
   precios:    {titulo:'Nuestros planes',items:[]},
   actividades:{titulo:'Próximas actividades',subtitulo:'Elige tu aventura y reserva tu lugar.',cta_url:'#cnt1'},
   staff:      {titulo:'Nuestro Staff',items:[]},
+  login:      {titulo:'Únete a la aventura',subtitulo:'Reserva actividades y lleva el seguimiento de tus expediciones.'},
 };
 
 const TIPO_ICONS={hike:'🥾',campamento:'⛺',rapel:'🧗','social-run':'🏃'};
@@ -844,6 +846,7 @@ function fSection(sec,b){
   else if(tipo==='precios')fSecPrecios(sec,b);
   else if(tipo==='actividades')fSecActividades(sec,b);
   else if(tipo==='staff')fSecStaff(sec,b);
+  else if(tipo==='login')fSecLogin(sec,b);
 }
 
 function sIdx(){return content.secciones.findIndex(s=>s.id===currentSecId);}
@@ -999,6 +1002,18 @@ function fSecActividades(sec,b){
     <div class="divider"></div>
     <div style="padding:12px;background:rgba(249,115,22,.05);border:1px solid rgba(249,115,22,.15);border-radius:7px;font-size:.78rem;color:rgba(249,115,22,.7);line-height:1.6">
       💡 Las actividades y fechas se gestionan en <strong>Catálogo</strong> y <strong>Calendario</strong> en el menú lateral.
+    </div>
+  `;
+}
+
+function fSecLogin(sec,b){
+  b.innerHTML=`
+    ${mkF('Título','sec-titulo','text',sec.titulo,'',60)}
+    ${mkF('Subtítulo','sec-subtitulo','text',sec.subtitulo||'','',150)}
+    <div class="divider"></div>
+    <div style="padding:14px;background:rgba(59,130,246,.05);border:1px solid rgba(59,130,246,.15);border-radius:8px;font-size:.78rem;color:rgba(93,163,250,.75);line-height:1.65">
+      🔐 <strong>Requiere Supabase configurado.</strong><br>
+      Crea un proyecto gratis en <strong>supabase.com</strong> y reemplaza las constantes <code>SB_URL</code> y <code>SB_KEY</code> en el código del sitio.
     </div>
   `;
 }
@@ -1339,6 +1354,23 @@ function pvSection(sec){
   if(sec.tipo==='texto')return `<div class="pv-section" style="${bgStyle}">${sec.titulo?`<div class="pv-title">${sec.titulo}</div>`:''}<div class="pv-text" style="margin-top:${sec.titulo?'12':'0'}px">${(sec.cuerpo||'').replace(/\n/g,'<br>')}</div></div>`;
   if(sec.tipo==='faq')return `<div class="pv-section" style="${bgStyle}"><div class="pv-tag">FAQ</div><div class="pv-title">${sec.titulo||''}</div><div style="margin-top:14px;display:flex;flex-direction:column;gap:2px">${(sec.items||[]).map(it=>`<div style="border:1px solid rgba(134,239,172,.08);padding:12px 16px"><div style="font-size:.82rem;font-weight:500;color:#fef3c7">${it.pregunta}</div><div style="font-size:.75rem;color:rgba(134,239,172,.55);margin-top:6px">${it.respuesta}</div></div>`).join('')}</div></div>`;
   if(sec.tipo==='precios')return `<div class="pv-section" style="${bgStyle}"><div class="pv-tag">Planes</div><div class="pv-title">${sec.titulo||''}</div><div style="display:grid;grid-template-columns:repeat(${Math.min(sec.items?.length||1,3)},1fr);gap:2px;margin-top:14px">${(sec.items||[]).map(it=>`<div style="padding:20px 16px;border:1px solid ${it.destacado?'rgba(249,115,22,.25)':'rgba(134,239,172,.08)'};background:${it.destacado?'rgba(249,115,22,.05)':'rgba(255,255,255,.01)'}"><div style="font-family:var(--mono);font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:#f97316;margin-bottom:8px">${it.nombre}</div><div style="font-family:var(--disp);font-size:2rem;color:#fef3c7">${it.precio}</div><div style="font-family:var(--mono);font-size:.55rem;color:rgba(134,239,172,.35)">${it.periodo||''}</div></div>`).join('')}</div></div>`;
+  if(sec.tipo==='login'){
+    return `<div class="pv-section" style="${bgStyle}">
+      <div class="pv-tag">Mi cuenta</div>
+      <div class="pv-title">${sec.titulo||'Únete a la aventura'}</div>
+      <div style="margin-top:14px;border:1px solid rgba(134,239,172,.08);border-radius:8px;overflow:hidden;max-width:360px">
+        <div style="display:flex;background:rgba(0,0,0,.2)">
+          <div style="flex:1;padding:10px;text-align:center;font-family:var(--mono);font-size:.52rem;letter-spacing:.12em;color:var(--ember);border-bottom:2px solid var(--ember)">INICIAR SESIÓN</div>
+          <div style="flex:1;padding:10px;text-align:center;font-family:var(--mono);font-size:.52rem;letter-spacing:.12em;color:rgba(134,239,172,.3)">REGISTRARSE</div>
+        </div>
+        <div style="padding:16px;display:flex;flex-direction:column;gap:8px">
+          <div style="height:28px;border-radius:4px;background:rgba(0,0,0,.25);border:1px solid rgba(134,239,172,.08)"></div>
+          <div style="height:28px;border-radius:4px;background:rgba(0,0,0,.25);border:1px solid rgba(134,239,172,.08)"></div>
+          <div style="height:32px;border-radius:4px;background:rgba(249,115,22,.25);margin-top:4px"></div>
+        </div>
+      </div>
+    </div>`;
+  }
   if(sec.tipo==='staff'){
     const equipoLabel={'hike':'🥾 Hike','social-run':'🏃 Social Run'};
     return `<div class="pv-section" style="${bgStyle}">
