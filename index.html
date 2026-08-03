@@ -345,6 +345,50 @@ footer{padding:40px 48px;border-top:1px solid rgba(134,239,172,.07);display:flex
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;}}
 
+/* ── ESTILOS POR SECCIÓN ── */
+/* medianoche: negro azulado profundo */
+section[data-estilo="medianoche"]{background:linear-gradient(to bottom,#020408,#040812)!important;}
+section[data-estilo="medianoche"] .servicio-card,section[data-estilo="medianoche"] .testimonio-card,section[data-estilo="medianoche"] .staff-card,section[data-estilo="medianoche"] .act-card,section[data-estilo="medianoche"] .precio-card,section[data-estilo="medianoche"] .stat-card,section[data-estilo="medianoche"] .contacto-item,section[data-estilo="medianoche"] .auth-card,section[data-estilo="medianoche"] .faq-item{background:rgba(255,255,255,.02);border-color:rgba(130,140,252,.1);}
+
+/* claro: fondo blanco luminoso con texto oscuro */
+section[data-estilo="claro"]{background:linear-gradient(to bottom,#f0fdf4,#f8fafc)!important;}
+section[data-estilo="claro"] .section-title,section[data-estilo="claro"] .servicio-titulo,section[data-estilo="claro"] .staff-nombre,section[data-estilo="claro"] .testimonio-nombre,section[data-estilo="claro"] .faq-q,section[data-estilo="claro"] .precio-valor,section[data-estilo="claro"] .auth-verify-title,section[data-estilo="claro"] .profile-name,section[data-estilo="claro"] .rsv-nombre,section[data-estilo="claro"] .cta-titulo{color:#1e293b;}
+section[data-estilo="claro"] .nosotros-text,section[data-estilo="claro"] .servicio-desc,section[data-estilo="claro"] .testimonio-texto,section[data-estilo="claro"] .staff-mensaje,section[data-estilo="claro"] .cta-sub,section[data-estilo="claro"] .texto-body,section[data-estilo="claro"] .faq-a,section[data-estilo="claro"] .precio-feature,section[data-estilo="claro"] .act-desc,section[data-estilo="claro"] .contacto-valor,section[data-estilo="claro"] .auth-verify-sub{color:rgba(30,41,59,.65);}
+section[data-estilo="claro"] .stat-card,section[data-estilo="claro"] .servicio-card,section[data-estilo="claro"] .testimonio-card,section[data-estilo="claro"] .staff-card,section[data-estilo="claro"] .act-card,section[data-estilo="claro"] .precio-card,section[data-estilo="claro"] .contacto-item,section[data-estilo="claro"] .faq-item,section[data-estilo="claro"] .auth-card{background:#fff;border-color:rgba(0,0,0,.08);}
+section[data-estilo="claro"] .stat-lbl{color:#15803d!important;opacity:1!important;}
+section[data-estilo="claro"] .servicio-num{color:rgba(30,41,59,.07);}
+section[data-estilo="claro"] .act-stat{background:#f8fafc;border-color:rgba(0,0,0,.06);}
+section[data-estilo="claro"] .act-stat-val{color:#1e293b;}
+section[data-estilo="claro"] .act-stat-lbl,section[data-estilo="claro"] .act-cupos,section[data-estilo="claro"] .precio-periodo,section[data-estilo="claro"] .rsv-meta,section[data-estilo="claro"] .profile-email-txt,section[data-estilo="claro"] .reservas-head{color:rgba(30,41,59,.4);}
+section[data-estilo="claro"] .act-footer,section[data-estilo="claro"] .rsv-item{border-color:rgba(0,0,0,.06);}
+section[data-estilo="claro"] .faq-q:hover{background:rgba(0,0,0,.03);}
+section[data-estilo="claro"] .form-group input,section[data-estilo="claro"] .form-group textarea,section[data-estilo="claro"] .auth-input{background:#fff;border-color:rgba(0,0,0,.1);color:#1e293b;}
+section[data-estilo="claro"] .form-group input::placeholder,section[data-estilo="claro"] .form-group textarea::placeholder,section[data-estilo="claro"] .auth-input::placeholder{color:rgba(30,41,59,.25);}
+section[data-estilo="claro"] .form-group label,section[data-estilo="claro"] .auth-label{color:#166534;opacity:1;}
+section[data-estilo="claro"] .auth-tabs{background:#f1f5f9;}
+section[data-estilo="claro"] .auth-tab{color:rgba(30,41,59,.4);}
+section[data-estilo="claro"] .p-chip{background:rgba(21,128,61,.06);border-color:rgba(21,128,61,.12);color:rgba(30,41,59,.58);}
+section[data-estilo="claro"] .p-chip.blood{background:rgba(239,68,68,.05);border-color:rgba(239,68,68,.15);}
+section[data-estilo="claro"] .btn-logout{border-color:rgba(0,0,0,.1);color:rgba(30,41,59,.4);}
+section[data-estilo="claro"] .act-fecha-badge{background:rgba(255,255,255,.9);border-color:rgba(0,0,0,.08);}
+section[data-estilo="claro"] .act-fecha-dia{color:var(--ember);}
+section[data-estilo="claro"] .act-fecha-mes{color:#166534;}
+
+/* acento: realzado con el color del tema activo */
+section[data-estilo="acento"]{background:linear-gradient(135deg,var(--ember-dim) 0%,var(--forest-deep) 65%)!important;border-top:1px solid rgba(249,115,22,.15)!important;border-bottom:1px solid rgba(249,115,22,.08)!important;}
+section[data-estilo="acento"] .servicio-card,section[data-estilo="acento"] .testimonio-card,section[data-estilo="acento"] .act-card,section[data-estilo="acento"] .staff-card,section[data-estilo="acento"] .stat-card,section[data-estilo="acento"] .precio-card,section[data-estilo="acento"] .contacto-item,section[data-estilo="acento"] .auth-card,section[data-estilo="acento"] .faq-item{background:rgba(249,115,22,.04);border-color:rgba(249,115,22,.14);}
+section[data-estilo="acento"] .servicio-card:hover,section[data-estilo="acento"] .act-card:hover,section[data-estilo="acento"] .staff-card:hover,section[data-estilo="acento"] .testimonio-card:hover{border-color:rgba(249,115,22,.4);}
+
+/* musgo: verde bosque profundo */
+section[data-estilo="musgo"]{background:linear-gradient(to bottom,#010f04,#031a08)!important;}
+section[data-estilo="musgo"] .servicio-card,section[data-estilo="musgo"] .testimonio-card,section[data-estilo="musgo"] .act-card,section[data-estilo="musgo"] .staff-card,section[data-estilo="musgo"] .stat-card,section[data-estilo="musgo"] .precio-card,section[data-estilo="musgo"] .contacto-item,section[data-estilo="musgo"] .auth-card,section[data-estilo="musgo"] .faq-item{background:rgba(134,239,172,.028);border-color:rgba(134,239,172,.12);}
+section[data-estilo="musgo"] .servicio-card:hover,section[data-estilo="musgo"] .act-card:hover,section[data-estilo="musgo"] .staff-card:hover{border-color:rgba(134,239,172,.32);}
+
+/* vidrio: glass morphism oscuro */
+section[data-estilo="vidrio"]{background:linear-gradient(135deg,rgba(255,255,255,.025) 0%,rgba(134,239,172,.01) 100%)!important;}
+section[data-estilo="vidrio"] .servicio-card,section[data-estilo="vidrio"] .testimonio-card,section[data-estilo="vidrio"] .act-card,section[data-estilo="vidrio"] .staff-card,section[data-estilo="vidrio"] .stat-card,section[data-estilo="vidrio"] .precio-card,section[data-estilo="vidrio"] .contacto-item,section[data-estilo="vidrio"] .auth-card,section[data-estilo="vidrio"] .faq-item{background:rgba(255,255,255,.05);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-color:rgba(255,255,255,.1);box-shadow:0 4px 24px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.07);}
+section[data-estilo="vidrio"] .servicio-card:hover,section[data-estilo="vidrio"] .act-card:hover,section[data-estilo="vidrio"] .staff-card:hover{border-color:rgba(255,255,255,.22);}
+
 /* ── MODE TOGGLE BUTTON ── */
 .mode-btn{display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;border:1px solid rgba(134,239,172,.2);background:transparent;cursor:pointer;font-size:1rem;transition:all .25s;flex-shrink:0;line-height:1;}
 .mode-btn:hover{background:rgba(249,115,22,.1);border-color:rgba(249,115,22,.35);}
@@ -1163,6 +1207,14 @@ async function loadContent(){
   // Secciones dinámicas
   const secs=(c.secciones||[]).filter(s=>s.visible!==false);
   document.getElementById('secciones-wrapper').innerHTML=secs.map(s=>(SEC_RENDER[s.tipo]||function(){return '';})(s,c)).join('');
+
+  // Estilos por sección
+  secs.forEach(s=>{
+    if(s.estilo&&s.estilo!=='oscuro'){
+      const el=document.getElementById(s.id);
+      if(el)el.setAttribute('data-estilo',s.estilo);
+    }
+  });
 
   // Nav links
   const navHtml=secs.map(s=>`<a href="#${s.id}">${s.titulo}</a>`).join('');

@@ -128,6 +128,20 @@ button,input,textarea,select{font-family:inherit;}
 .btn-add{display:flex;align-items:center;justify-content:center;gap:7px;padding:11px;background:transparent;border:1px dashed rgba(134,239,172,.18);border-radius:8px;color:rgba(134,239,172,.4);font-family:var(--mono);font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;width:100%;transition:all .2s;}
 .btn-add:hover{background:rgba(134,239,172,.06);border-color:rgba(134,239,172,.3);color:var(--moss);}
 
+/* ESTILO POR SECCIÓN */
+.estilos-bloque{margin-bottom:4px;}
+.estilos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:4px;}
+.estilo-card{padding:10px 8px 8px;border:1px solid rgba(134,239,172,.1);border-radius:8px;cursor:pointer;transition:all .2s;background:rgba(134,239,172,.02);}
+.estilo-card:hover{border-color:rgba(134,239,172,.28);background:rgba(134,239,172,.05);}
+.estilo-card.active{border-color:var(--ember);background:rgba(249,115,22,.05);box-shadow:0 0 0 1px rgba(249,115,22,.2);}
+.estilo-swatches{display:flex;gap:4px;margin-bottom:6px;}
+.estilo-swatches span{display:block;height:18px;flex:1;border-radius:3px;}
+.estilo-label{font-family:var(--mono);font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:center;}
+.estilo-card.active .estilo-label{color:var(--ember);}
+html[data-admin-mode="light"] .estilo-card{border-color:rgba(0,0,0,.08);background:rgba(0,0,0,.01);}
+html[data-admin-mode="light"] .estilo-card:hover{border-color:rgba(0,0,0,.2);background:rgba(0,0,0,.04);}
+html[data-admin-mode="light"] .estilo-card.active{border-color:var(--ember);background:rgba(0,0,0,.03);box-shadow:0 0 0 1px rgba(0,0,0,.08);}
+
 /* SLIDER */
 .slider-wrap{display:flex;align-items:center;gap:12px;}
 .slider{-webkit-appearance:none;flex:1;height:4px;border-radius:2px;background:rgba(134,239,172,.15);outline:none;cursor:pointer;}
@@ -647,6 +661,43 @@ const ADMIN_TEMAS={
 };
 /* Ember oscuro para cada tema en modo claro (contraste ≥ 4.5:1 sobre blanco) */
 const ADMIN_LIGHT_EMBER={bosque:'#c2410c',obsidiana:'#3730a3',carbon:'#c2410c',aurora:'#7e22ce',volcan:'#b91c1c',ambar:'#92400e'};
+
+/* ── ESTILOS POR SECCIÓN ── */
+const ESTILOS_SEC={
+  oscuro:    {label:'Oscuro',     desc:'Fondo oscuro del bosque (predeterminado)', swatches:['#03050a','#060d10','#091a10']},
+  medianoche:{label:'Medianoche', desc:'Negro azulado profundo',                  swatches:['#020408','#040812','#8284fc']},
+  claro:     {label:'Claro',      desc:'Fondo blanco luminoso con texto oscuro',  swatches:['#f0fdf4','#f8fafc','#166534']},
+  acento:    {label:'Acento',     desc:'Realzado con el color del tema activo',   swatches:['#f97316','#86efac','#03050a']},
+  musgo:     {label:'Musgo',      desc:'Verde bosque profundo e intenso',         swatches:['#010f04','#031a08','#86efac']},
+  vidrio:    {label:'Vidrio',     desc:'Glass morphism — superficies translúcidas',swatches:['rgba(255,255,255,.05)','rgba(134,239,172,.03)','rgba(255,255,255,.1)']},
+};
+function fEstiloPicker(sec){
+  const cur=sec.estilo||'oscuro';
+  const cards=Object.entries(ESTILOS_SEC).map(([key,e])=>`
+    <div class="estilo-card${cur===key?' active':''}" onclick="setSectionEstilo('${sec.id}','${key}',this)" title="${e.desc}">
+      <div class="estilo-swatches">
+        ${e.swatches.map(s=>`<span style="background:${s}"></span>`).join('')}
+      </div>
+      <div class="estilo-label">${e.label}</div>
+    </div>`).join('');
+  return `<div class="estilos-bloque">
+    <div class="section-subtitle" style="margin-bottom:10px">Estilo visual de sección</div>
+    <div class="estilos-grid">${cards}</div>
+    <div class="divider"></div>
+  </div>`;
+}
+function setSectionEstilo(secId,estilo,el){
+  const idx=content.secciones.findIndex(s=>s.id===secId);
+  if(idx<0)return;
+  content.secciones[idx].estilo=estilo;
+  mk();up();
+  const grid=el.closest('.estilos-grid');
+  if(grid)grid.querySelectorAll('.estilo-card').forEach(c=>c.classList.toggle('active',c===el));
+  const pv=document.getElementById('pv-content');
+  const sec=content.secciones[idx];
+  if(pv&&currentSecId===secId)pv.innerHTML=pvSection(sec);
+}
+
 function aplicarAdminTema(key){
   const t=ADMIN_TEMAS[key]||ADMIN_TEMAS.bosque;
   const isLight=document.documentElement.getAttribute('data-admin-mode')==='light';
@@ -1096,6 +1147,7 @@ function fSection(sec,b){
   else if(tipo==='actividades')fSecActividades(sec,b);
   else if(tipo==='staff')fSecStaff(sec,b);
   else if(tipo==='login')fSecLogin(sec,b);
+  b.insertAdjacentHTML('afterbegin',fEstiloPicker(sec));
 }
 
 function sIdx(){return content.secciones.findIndex(s=>s.id===currentSecId);}
@@ -1601,7 +1653,16 @@ function pvMedia(){const items=content.media||[];return `<div class="pv-section"
 
 function pvSection(sec){
   const bg=['#060e0a','linear-gradient(to bottom,#040a06,#060e0a)','#040a06'];
-  const bgStyle=`background:${bg[content.secciones.findIndex(s=>s.id===sec.id)%3]}`;
+  const estilosBg={
+    oscuro:null,
+    medianoche:'linear-gradient(to bottom,#020408,#040812)',
+    claro:'linear-gradient(to bottom,#f0fdf4,#f8fafc)',
+    acento:'linear-gradient(135deg,rgba(249,115,22,.12) 0%,#040a06 65%)',
+    musgo:'linear-gradient(to bottom,#010f04,#031a08)',
+    vidrio:'linear-gradient(135deg,rgba(255,255,255,.04) 0%,rgba(134,239,172,.015) 100%)',
+  };
+  const estiloFondo=estilosBg[sec.estilo||'oscuro']||bg[content.secciones.findIndex(s=>s.id===sec.id)%3];
+  const bgStyle=`background:${estiloFondo}`;
   if(sec.tipo==='nosotros')return `<div class="pv-section" style="${bgStyle}"><div class="pv-tag">Nuestra historia</div><div class="pv-title">${sec.titulo||''}</div><div class="pv-text">${sec.texto||''}</div><div class="pv-stats">${(sec.stats||[]).map(s=>`<div class="pv-stat"><div class="pv-stat-v">${s.valor}</div><div class="pv-stat-l">${s.etiqueta}</div></div>`).join('')}</div></div>`;
   if(sec.tipo==='servicios')return `<div class="pv-section" style="${bgStyle}"><div class="pv-tag">Lo que hacemos</div><div class="pv-title">${sec.titulo||''}</div><div class="pv-srv-grid">${(sec.items||[]).map(it=>`<div class="pv-srv"><span class="pv-srv-ico">${it.emoji}</span><div class="pv-srv-t">${it.titulo}</div><p class="pv-srv-d">${it.descripcion}</p></div>`).join('')}</div></div>`;
   if(sec.tipo==='contacto')return `<div class="pv-section" style="${bgStyle}"><div class="pv-tag">Hablemos</div><div class="pv-title">${sec.titulo||''}</div><div class="pv-text">${sec.subtitulo||''}</div><div class="pv-cnt-items">${[sec.email&&['✉️','Email',sec.email],sec.telefono&&['📞','Teléfono',sec.telefono],sec.instagram&&['📸','Instagram',sec.instagram]].filter(Boolean).map(([ico,t,v])=>`<div class="pv-cnt-item">${ico}<div><div class="pv-cnt-t">${t}</div><div class="pv-cnt-v">${v}</div></div></div>`).join('')}</div></div>`;
