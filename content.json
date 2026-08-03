@@ -1,0 +1,37 @@
+{
+  "hero": {
+    "linea1": "La cima",
+    "linea2": "te espera",
+    "subtexto": "Expediciones y aventuras en montaña desde Monterrey, Nuevo León.",
+    "cta": "Explorar aventuras"
+  },
+  "nosotros": {
+    "titulo": "Quiénes somos",
+    "texto": "Somos un equipo apasionado por la montaña con más de 5 años llevando a aventureros a descubrir los paisajes más impresionantes del noreste de México.",
+    "stats": [
+      { "valor": "5+", "etiqueta": "Años de experiencia" },
+      { "valor": "200+", "etiqueta": "Expediciones" },
+      { "valor": "50+", "etiqueta": "Rutas exploradas" },
+      { "valor": "500+", "etiqueta": "Aventureros" }
+    ]
+  },
+  "servicios": {
+    "titulo": "Nuestros servicios",
+    "items": [
+      { "emoji": "🏔", "titulo": "Senderismo", "descripcion": "Rutas guiadas para todos los niveles en las sierras del noreste." },
+      { "emoji": "🧗", "titulo": "Escalada", "descripcion": "Paredes naturales y técnicas con equipo certificado y guías expertos." },
+      { "emoji": "⛺", "titulo": "Campamentos", "descripcion": "Noches bajo las estrellas en los puntos más remotos y hermosos." },
+      { "emoji": "🗺", "titulo": "Expediciones", "descripcion": "Rutas de varios días para los que buscan la aventura completa." }
+    ]
+  },
+  "contacto": {
+    "titulo": "Únete a la aventura",
+    "subtitulo": "Contáctanos y empecemos a planear tu próxima expedición.",
+    "email": "info@alturalibre.com",
+    "telefono": "+52 81 0000 0000",
+    "instagram": "@alturalibre"
+  },
+  "footer": {
+    "texto": "Altura Libre · Basecamp Monterrey"
+  }
+}
