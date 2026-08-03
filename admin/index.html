@@ -173,6 +173,8 @@ button,input,textarea,select{font-family:inherit;}
 .tema-nombre{font-size:.8rem;font-weight:700;color:var(--text);margin-bottom:3px;}
 .tema-desc{font-size:.7rem;color:var(--muted);line-height:1.35;}
 .tema-badge{position:absolute;top:8px;right:8px;background:var(--ember);color:#000;font-family:var(--mono);font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:10px;font-weight:700;}
+.admin-tc.selected{border-color:var(--ember);box-shadow:0 0 0 2px rgba(var(--ember-rgb,.5) , .25);}
+.admin-tc:hover{border-color:var(--faint);}
 
 /* MEDIA */
 .media-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
@@ -504,6 +506,44 @@ const TEMAS={
   desierto:{nombre:'Desierto',desc:'Arena y polvo — tonos dorados',swatches:['#d97706','#fbbf24','#150a01']},
   cobre:{nombre:'Cobre',desc:'Industrial metálico — brillo mineral',swatches:['#b45309','#f59e0b','#0d0905']},
 };
+const ADMIN_TEMAS={
+  bosque:{
+    nombre:'Bosque',desc:'Verde noche — tema original del panel',
+    swatches:['#f97316','#86efac','#080d09'],
+    vars:{'--bg':'#080d09','--side':'#0c1410','--card':'#111a12','--card2':'#162018','--border':'rgba(134,239,172,.09)','--border2':'rgba(134,239,172,.2)','--ember':'#f97316','--moss':'#86efac','--cream':'#fef3c7','--text':'rgba(254,243,199,.88)','--muted':'rgba(134,239,172,.45)','--faint':'rgba(134,239,172,.2)'}
+  },
+  obsidiana:{
+    nombre:'Obsidiana',desc:'Azul profundo — fría y técnica',
+    swatches:['#6366f1','#a5b4fc','#07080f'],
+    vars:{'--bg':'#07080f','--side':'#0b0d18','--card':'#10131f','--card2':'#151928','--border':'rgba(99,102,241,.1)','--border2':'rgba(99,102,241,.25)','--ember':'#6366f1','--moss':'#a5b4fc','--cream':'#e0e7ff','--text':'rgba(224,231,255,.88)','--muted':'rgba(165,180,252,.45)','--faint':'rgba(165,180,252,.2)'}
+  },
+  carbon:{
+    nombre:'Carbón',desc:'Negro neutro — minimalista absoluto',
+    swatches:['#f97316','#d4d4d4','#0a0a0a'],
+    vars:{'--bg':'#0a0a0a','--side':'#111111','--card':'#181818','--card2':'#1f1f1f','--border':'rgba(255,255,255,.07)','--border2':'rgba(255,255,255,.18)','--ember':'#f97316','--moss':'#d4d4d4','--cream':'#fafafa','--text':'rgba(250,250,250,.88)','--muted':'rgba(163,163,163,.65)','--faint':'rgba(163,163,163,.2)'}
+  },
+  aurora:{
+    nombre:'Aurora',desc:'Violeta medianoche — elegante y oscuro',
+    swatches:['#a855f7','#c084fc','#060810'],
+    vars:{'--bg':'#060810','--side':'#090c18','--card':'#0e1220','--card2':'#131828','--border':'rgba(168,85,247,.1)','--border2':'rgba(168,85,247,.25)','--ember':'#a855f7','--moss':'#c084fc','--cream':'#faf5ff','--text':'rgba(250,245,255,.88)','--muted':'rgba(192,132,252,.45)','--faint':'rgba(192,132,252,.2)'}
+  },
+  volcan:{
+    nombre:'Volcán',desc:'Rojo carmín — dramático e intenso',
+    swatches:['#ef4444','#fca5a5','#0d0608'],
+    vars:{'--bg':'#0d0608','--side':'#130a0c','--card':'#1a0e10','--card2':'#200f12','--border':'rgba(239,68,68,.1)','--border2':'rgba(239,68,68,.25)','--ember':'#ef4444','--moss':'#fca5a5','--cream':'#fff1f2','--text':'rgba(255,241,242,.88)','--muted':'rgba(252,165,165,.45)','--faint':'rgba(252,165,165,.2)'}
+  },
+  ambar:{
+    nombre:'Ámbar',desc:'Dorado cálido — cálido y profesional',
+    swatches:['#f59e0b','#fcd34d','#0d0a06'],
+    vars:{'--bg':'#0d0a06','--side':'#130e08','--card':'#1a1408','--card2':'#211a0a','--border':'rgba(245,158,11,.1)','--border2':'rgba(245,158,11,.25)','--ember':'#f59e0b','--moss':'#fcd34d','--cream':'#fffbeb','--text':'rgba(255,251,235,.88)','--muted':'rgba(252,211,77,.45)','--faint':'rgba(252,211,77,.2)'}
+  },
+};
+function aplicarAdminTema(key){
+  const t=ADMIN_TEMAS[key]||ADMIN_TEMAS.bosque;
+  const r=document.documentElement;
+  Object.entries(t.vars).forEach(([k,v])=>r.style.setProperty(k,v));
+  localStorage.setItem('al_admin_tema',key);
+}
 
 /* ── LOGIN ── */
 async function doLogin(){
@@ -717,9 +757,10 @@ function fFooter(b){
 /* ── TEMAS FORM ── */
 function fTemas(b){
   const actual=content.tema||'cumbre';
+  const actualAdmin=localStorage.getItem('al_admin_tema')||'bosque';
   b.innerHTML=`
-    <div class="section-subtitle">Paleta de colores del sitio</div>
-    <p style="font-size:.84rem;color:var(--muted);margin:0 0 18px">Elige un tema diseñado por expertos. Se aplica al instante en la vista previa y al publicar.</p>
+    <div class="section-subtitle">🌐 Tema del sitio público</div>
+    <p style="font-size:.82rem;color:var(--muted);margin:4px 0 14px">Paleta de colores visible para los visitantes. Guarda y publica para aplicar.</p>
     <div class="temas-grid">
       ${Object.entries(TEMAS).map(([key,t])=>`
         <div class="tema-card ${key===actual?'selected':''}" onclick="selectTema('${key}')">
@@ -734,15 +775,38 @@ function fTemas(b){
         </div>
       `).join('')}
     </div>
+
+    <div class="divider" style="margin:10px 0"></div>
+
+    <div class="section-subtitle">🖥 Tema del panel administrativo</div>
+    <p style="font-size:.82rem;color:var(--muted);margin:4px 0 14px">Cambia la apariencia de este panel. Solo afecta tu sesión — no altera el sitio.</p>
+    <div class="temas-grid">
+      ${Object.entries(ADMIN_TEMAS).map(([key,t])=>`
+        <div class="tema-card admin-tc ${key===actualAdmin?'selected':''}" onclick="selectAdminTema('${key}')">
+          <div class="tema-swatches">
+            ${t.swatches.map(c=>`<span class="tema-swatch" style="background:${c}"></span>`).join('')}
+          </div>
+          <div class="tema-info">
+            <div class="tema-nombre">${t.nombre}</div>
+            <div class="tema-desc">${t.desc}</div>
+          </div>
+          ${key===actualAdmin?'<span class="tema-badge">Activo</span>':''}
+        </div>
+      `).join('')}
+    </div>
   `;
 }
 function selectTema(key){
   content.tema=key;
   mk();
-  // Re-render view to update selected state
   fTemas(document.getElementById('editor-body'));
   up();
-  toast('success','Tema aplicado',TEMAS[key].nombre+' — guarda para publicar.');
+  toast('success','Tema del sitio',TEMAS[key].nombre+' — guarda para publicar.');
+}
+function selectAdminTema(key){
+  aplicarAdminTema(key);
+  fTemas(document.getElementById('editor-body'));
+  toast('success','Tema del panel',ADMIN_TEMAS[key].nombre+' aplicado.');
 }
 
 /* ── FONDO FORM ── */
@@ -1487,8 +1551,9 @@ function toast(type,title,body=''){const t=document.getElementById('toast');cons
 /* ── KEYBOARD ── */
 document.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key==='s'){e.preventDefault();saveChanges();}});
 
-/* ── AUTO LOGIN ── */
+/* ── AUTO LOGIN + ADMIN TEMA ── */
 window.addEventListener('DOMContentLoaded',()=>{
+  aplicarAdminTema(localStorage.getItem('al_admin_tema')||'bosque');
   const s=localStorage.getItem('al_tk');
   if(s){TOKEN=s;document.getElementById('tk').value=s;doLogin();}
 });
