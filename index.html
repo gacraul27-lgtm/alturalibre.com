@@ -151,6 +151,24 @@ section{position:relative;z-index:10;}
 .testimonio-nombre{font-weight:600;font-size:.88rem;color:var(--cream);}
 .testimonio-cargo{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;color:var(--ember);opacity:.7;margin-top:2px;}
 
+/* STAFF */
+.sec-staff{padding:120px 0;background:linear-gradient(to bottom,#060e0a,var(--forest-deep));}
+.staff-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:60px;}
+.staff-card{background:rgba(255,255,255,.02);border:1px solid rgba(134,239,172,.07);overflow:hidden;transition:border-color .3s,transform .35s;}
+.staff-card:hover{border-color:rgba(134,239,172,.2);transform:translateY(-5px);}
+.staff-cover{position:relative;aspect-ratio:3/4;overflow:hidden;}
+.staff-cover img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s;}
+.staff-card:hover .staff-cover img{transform:scale(1.04);}
+.staff-cover-placeholder{width:100%;height:100%;background:linear-gradient(135deg,rgba(249,115,22,.08),rgba(134,239,172,.04));display:flex;align-items:center;justify-content:center;font-size:3rem;}
+.staff-badge{position:absolute;top:12px;left:12px;font-family:var(--mono);font-size:.52rem;letter-spacing:.12em;text-transform:uppercase;padding:4px 10px;border-radius:10px;border:1px solid;}
+.staff-badge.hike{background:rgba(34,197,94,.18);color:#86efac;border-color:rgba(34,197,94,.2);}
+.staff-badge.social-run{background:rgba(59,130,246,.18);color:#93c5fd;border-color:rgba(59,130,246,.2);}
+.staff-body{padding:24px 20px;}
+.staff-nombre{font-family:var(--display);font-size:1.35rem;text-transform:uppercase;color:var(--cream);margin-bottom:10px;letter-spacing:.04em;}
+.staff-mensaje{font-size:.85rem;font-weight:300;line-height:1.75;color:rgba(134,239,172,.55);font-style:italic;}
+.staff-mensaje::before{content:'"';}
+.staff-mensaje::after{content:'"';}
+
 /* CTA */
 .sec-cta{padding:100px 0;background:linear-gradient(135deg,rgba(249,115,22,.08) 0%,rgba(134,239,172,.04) 100%);border-top:1px solid rgba(249,115,22,.12);border-bottom:1px solid rgba(249,115,22,.12);text-align:center;}
 .cta-titulo{font-family:var(--display);font-size:clamp(2rem,5vw,3.4rem);text-transform:uppercase;color:var(--cream);margin-bottom:16px;}
@@ -248,10 +266,10 @@ footer{padding:40px 48px;border-top:1px solid rgba(134,239,172,.07);display:flex
   nav{padding:16px 20px;}
   .nav-links{display:none;}
   .nosotros-grid,.contacto-inner{grid-template-columns:1fr;gap:40px;}
-  .servicios-grid,.testimonios-grid,.galeria-grid{grid-template-columns:1fr;}
+  .servicios-grid,.testimonios-grid,.galeria-grid,.staff-grid{grid-template-columns:1fr;}
   .precios-grid{grid-template-columns:1fr;}
   .section-inner{padding:0 20px;}
-  .sec-nosotros,.sec-servicios,.sec-contacto,.sec-galeria,.sec-testimonios,.sec-faq,.sec-precios{padding:80px 0;}
+  .sec-nosotros,.sec-servicios,.sec-contacto,.sec-galeria,.sec-testimonios,.sec-faq,.sec-precios,.sec-staff{padding:80px 0;}
   .sec-cta,.sec-texto{padding:60px 0;}
   footer{flex-direction:column;gap:12px;text-align:center;padding:28px 20px;}
 }
@@ -552,7 +570,28 @@ function filtrarActs(secId,btn){
   btn.closest('.actividades-filtros').querySelectorAll('.filtro-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
 }
-const SEC_RENDER={nosotros:rNosotros,servicios:rServicios,contacto:rContacto,galeria:rGaleria,testimonios:rTestimonios,cta:rCTA,texto:rTexto,faq:rFAQ,precios:rPrecios,actividades:rActividades};
+function rStaff(s){
+  const BADGE={'hike':'🥾 Hike','social-run':'🏃 Social Run'};
+  return `<section id="${s.id}" class="sec-staff">
+    <div class="section-inner">
+      <div class="section-tag reveal">El equipo</div>
+      <div class="section-title reveal">${s.titulo}</div>
+      <div class="staff-grid">${(s.items||[]).map(m=>`
+        <div class="staff-card reveal">
+          <div class="staff-cover">
+            ${m.cover_url?`<img src="${m.cover_url}" alt="${m.nombre}" loading="lazy">`:`<div class="staff-cover-placeholder">🧗</div>`}
+            <span class="staff-badge ${m.equipo==='social-run'?'social-run':'hike'}">${BADGE[m.equipo]||m.equipo||'Equipo'}</span>
+          </div>
+          <div class="staff-body">
+            <div class="staff-nombre">${m.nombre}</div>
+            ${m.mensaje?`<div class="staff-mensaje">${m.mensaje}</div>`:''}
+          </div>
+        </div>`).join('')}
+      </div>
+    </div>
+  </section>`;
+}
+const SEC_RENDER={nosotros:rNosotros,servicios:rServicios,contacto:rContacto,galeria:rGaleria,testimonios:rTestimonios,cta:rCTA,texto:rTexto,faq:rFAQ,precios:rPrecios,actividades:rActividades,staff:rStaff};
 
 /* LOAD CONTENT */
 async function loadContent(){

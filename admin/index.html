@@ -458,6 +458,7 @@ const SEC_TYPES={
   faq:        {ico:'❓',name:'Preguntas frecuentes',desc:'Lista expandible de Q&A'},
   precios:    {ico:'💳',name:'Precios',             desc:'Tarjetas de planes o precios'},
   actividades:{ico:'🗓',name:'Actividades',         desc:'Calendario de próximas actividades'},
+  staff:      {ico:'🧑‍🤝‍🧑',name:'Nuestro Staff',     desc:'Fotos y mensajes del equipo por disciplina'},
 };
 
 const SEC_DEFAULTS={
@@ -471,6 +472,7 @@ const SEC_DEFAULTS={
   faq:        {titulo:'Preguntas frecuentes',items:[]},
   precios:    {titulo:'Nuestros planes',items:[]},
   actividades:{titulo:'Próximas actividades',subtitulo:'Elige tu aventura y reserva tu lugar.',cta_url:'#cnt1'},
+  staff:      {titulo:'Nuestro Staff',items:[]},
 };
 
 const TIPO_ICONS={hike:'🥾',campamento:'⛺',rapel:'🧗','social-run':'🏃'};
@@ -841,6 +843,7 @@ function fSection(sec,b){
   else if(tipo==='faq')fSecFAQ(sec,b);
   else if(tipo==='precios')fSecPrecios(sec,b);
   else if(tipo==='actividades')fSecActividades(sec,b);
+  else if(tipo==='staff')fSecStaff(sec,b);
 }
 
 function sIdx(){return content.secciones.findIndex(s=>s.id===currentSecId);}
@@ -998,6 +1001,33 @@ function fSecActividades(sec,b){
       💡 Las actividades y fechas se gestionan en <strong>Catálogo</strong> y <strong>Calendario</strong> en el menú lateral.
     </div>
   `;
+}
+
+function fSecStaff(sec,b){
+  b.innerHTML=`
+    ${mkF('Título','sec-titulo','text',sec.titulo,'',60)}
+    <div class="divider"></div>
+    <div class="section-subtitle">Integrantes del equipo</div>
+    <div class="drag-list" id="items-list"></div>
+    <button class="btn-add" onclick="addItem('items',{nombre:'',cover_url:'',mensaje:'',equipo:'hike'})">+ Agregar miembro</button>
+  `;
+  renderItemList('items','items-list',(m,i)=>`
+    ${m.cover_url?`<img src="${m.cover_url}" style="width:100%;height:80px;object-fit:cover;border-radius:5px;margin-bottom:10px" loading="lazy">`:''}
+    <div class="row2">
+      <div class="field"><label>Nombre</label><input class="fi" value="${esc(m.nombre||'')}" oninput="setItemField('items',${i},'nombre',this.value)"></div>
+      <div class="field"><label>Equipo</label>
+        <select class="fi" onchange="setItemField('items',${i},'equipo',this.value)">
+          <option value="hike" ${!m.equipo||m.equipo==='hike'?'selected':''}>🥾 Hike</option>
+          <option value="social-run" ${m.equipo==='social-run'?'selected':''}>🏃 Social Run</option>
+        </select>
+      </div>
+    </div>
+    <div class="field" style="margin-top:10px"><label>URL de foto</label>
+      <input class="fi" value="${esc(m.cover_url||'')}" placeholder="https://..." oninput="setItemField('items',${i},'cover_url',this.value)">
+    </div>
+    <div class="field" style="margin-top:10px"><label>Mensaje del staff</label>
+      <textarea class="fi" rows="2" oninput="setItemField('items',${i},'mensaje',this.value)">${m.mensaje||''}</textarea>
+    </div>`);
 }
 
 /* ── CATÁLOGO DE ACTIVIDADES ── */
@@ -1309,6 +1339,24 @@ function pvSection(sec){
   if(sec.tipo==='texto')return `<div class="pv-section" style="${bgStyle}">${sec.titulo?`<div class="pv-title">${sec.titulo}</div>`:''}<div class="pv-text" style="margin-top:${sec.titulo?'12':'0'}px">${(sec.cuerpo||'').replace(/\n/g,'<br>')}</div></div>`;
   if(sec.tipo==='faq')return `<div class="pv-section" style="${bgStyle}"><div class="pv-tag">FAQ</div><div class="pv-title">${sec.titulo||''}</div><div style="margin-top:14px;display:flex;flex-direction:column;gap:2px">${(sec.items||[]).map(it=>`<div style="border:1px solid rgba(134,239,172,.08);padding:12px 16px"><div style="font-size:.82rem;font-weight:500;color:#fef3c7">${it.pregunta}</div><div style="font-size:.75rem;color:rgba(134,239,172,.55);margin-top:6px">${it.respuesta}</div></div>`).join('')}</div></div>`;
   if(sec.tipo==='precios')return `<div class="pv-section" style="${bgStyle}"><div class="pv-tag">Planes</div><div class="pv-title">${sec.titulo||''}</div><div style="display:grid;grid-template-columns:repeat(${Math.min(sec.items?.length||1,3)},1fr);gap:2px;margin-top:14px">${(sec.items||[]).map(it=>`<div style="padding:20px 16px;border:1px solid ${it.destacado?'rgba(249,115,22,.25)':'rgba(134,239,172,.08)'};background:${it.destacado?'rgba(249,115,22,.05)':'rgba(255,255,255,.01)'}"><div style="font-family:var(--mono);font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:#f97316;margin-bottom:8px">${it.nombre}</div><div style="font-family:var(--disp);font-size:2rem;color:#fef3c7">${it.precio}</div><div style="font-family:var(--mono);font-size:.55rem;color:rgba(134,239,172,.35)">${it.periodo||''}</div></div>`).join('')}</div></div>`;
+  if(sec.tipo==='staff'){
+    const equipoLabel={'hike':'🥾 Hike','social-run':'🏃 Social Run'};
+    return `<div class="pv-section" style="${bgStyle}">
+      <div class="pv-tag">El equipo</div>
+      <div class="pv-title">${sec.titulo||'Nuestro Staff'}</div>
+      <div style="display:grid;grid-template-columns:repeat(${Math.min((sec.items||[]).length||1,3)},1fr);gap:2px;margin-top:14px">
+        ${(sec.items||[]).map(m=>`
+          <div style="border:1px solid rgba(134,239,172,.07);overflow:hidden">
+            ${m.cover_url?`<img src="${m.cover_url}" style="width:100%;height:90px;object-fit:cover;display:block" loading="lazy">`:`<div style="width:100%;height:90px;background:rgba(249,115,22,.05);display:flex;align-items:center;justify-content:center;font-size:1.5rem">🧗</div>`}
+            <div style="padding:10px 12px">
+              <span style="font-family:var(--mono);font-size:.48rem;letter-spacing:.1em;padding:2px 7px;border-radius:8px;display:inline-block;margin-bottom:6px;background:${m.equipo==='social-run'?'rgba(59,130,246,.18)':'rgba(34,197,94,.18)'};color:${m.equipo==='social-run'?'#93c5fd':'#86efac'}">${equipoLabel[m.equipo]||'Equipo'}</span>
+              <div style="font-family:var(--disp);font-size:1rem;text-transform:uppercase;color:#fef3c7;margin-bottom:5px">${m.nombre||'—'}</div>
+              ${m.mensaje?`<div style="font-size:.7rem;font-weight:300;color:rgba(134,239,172,.45);font-style:italic">"${m.mensaje}"</div>`:''}
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+  }
   if(sec.tipo==='actividades'){
     const cat=content.actividades_catalogo||[];
     const calEvs=(content.calendario||[]).filter(e=>e.estado!=='cancelado').sort((a,b)=>new Date(a.fecha)-new Date(b.fecha)).slice(0,3);
