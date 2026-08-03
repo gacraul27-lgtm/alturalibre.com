@@ -38,8 +38,8 @@
       "id": "nos1",
       "tipo": "nosotros",
       "visible": true,
-      "titulo": "QuiÃ©nes somos",
-      "texto": "Somos un equipo apasionado por la montaÃ±a con mÃ¡s de 5 aÃ±os llevando a aventureros a descubrir los paisajes mÃ¡s impresionantes del noreste de MÃ©xico.",
+      "titulo": "Quienes somos",
+      "texto": "Somos un equipo apasionado por la montaña con mas de 5 años llevando a aventureros a descubrir los paisajes mass impresionantes del noreste de Mexico.",
       "stats": [
         {
           "valor": "5+",
@@ -63,7 +63,7 @@
       "id": "act1",
       "tipo": "actividades",
       "visible": true,
-      "titulo": "PrÃ³ximas actividades",
+      "titulo": "Proximas actividades",
       "subtitulo": "Elige tu aventura y reserva tu lugar.",
       "cta_url": "#cnt1"
     },
@@ -74,24 +74,24 @@
       "titulo": "Nuestros servicios",
       "items": [
         {
-          "emoji": "ð",
+          "emoji": "🏔️",
           "titulo": "Senderismo",
           "descripcion": "Rutas guiadas para todos los niveles en las sierras del noreste."
         },
         {
-          "emoji": "ð§",
-          "titulo": "Escalada",
-          "descripcion": "Paredes naturales y tÃ©cnicas con equipo certificado y guÃ­as expertos."
+          "emoji": "🪢",
+          "titulo": "Rápel",
+          "descripcion": "Paredes naturales y tecnicas con equipo certificado y guías expertos."
         },
         {
-          "emoji": "âº",
+          "emoji": "⛺️",
           "titulo": "Campamentos",
           "descripcion": "Noches bajo las estrellas en los puntos mÃ¡s remotos y hermosos."
         },
         {
-          "emoji": "ðº",
+          "emoji": "⭐️",
           "titulo": "Expediciones",
-          "descripcion": "Rutas de varios dÃ­as para los que buscan la aventura completa."
+          "descripcion": "Rutas de varios días para los que buscan la aventura completa."
         }
       ]
     },
@@ -99,8 +99,8 @@
       "id": "cnt1",
       "tipo": "contacto",
       "visible": true,
-      "titulo": "Ãnete a la aventura",
-      "subtitulo": "ContÃ¡ctanos y empecemos a planear tu prÃ³xima expediciÃ³n.",
+      "titulo": "Unete a la aventura",
+      "subtitulo": "Contactanos y empecemos a planear tu proxima expedir",
       "email": "info@alturalibre.com",
       "telefono": "+52 81 0000 0000",
       "instagram": "@alturalibre"
