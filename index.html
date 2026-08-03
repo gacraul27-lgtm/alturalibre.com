@@ -185,6 +185,47 @@ section{position:relative;z-index:10;}
 .precio-feature{display:flex;align-items:flex-start;gap:10px;font-size:.85rem;font-weight:300;color:rgba(254,243,199,.65);}
 .precio-feature::before{content:'✓';color:var(--ember);font-size:.75rem;flex-shrink:0;margin-top:1px;}
 
+/* ACTIVIDADES */
+.sec-actividades{padding:120px 0;background:#060e0a;}
+.actividades-filtros{display:flex;gap:8px;flex-wrap:wrap;margin-top:36px;}
+.filtro-btn{font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;padding:8px 18px;border:1px solid rgba(134,239,172,.15);background:transparent;color:rgba(134,239,172,.5);border-radius:4px;cursor:pointer;transition:all .2s;}
+.filtro-btn:hover,.filtro-btn.active{background:rgba(249,115,22,.1);border-color:rgba(249,115,22,.35);color:var(--ember);}
+.actividades-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:24px;}
+.act-card{background:rgba(255,255,255,.02);border:1px solid rgba(134,239,172,.07);transition:all .35s;overflow:hidden;}
+.act-card:hover{border-color:rgba(249,115,22,.3);transform:translateY(-4px);box-shadow:0 24px 48px rgba(0,0,0,.4);}
+.act-card.act-hidden{display:none;}
+.act-cover{position:relative;aspect-ratio:16/9;overflow:hidden;background:linear-gradient(135deg,#091a10,#0c1a2e);}
+.act-cover img{width:100%;height:100%;object-fit:cover;transition:transform .6s;display:block;}
+.act-card:hover .act-cover img{transform:scale(1.06);}
+.act-cover-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3.5rem;}
+.act-tipo-badge{position:absolute;top:12px;left:12px;font-family:var(--mono);font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;padding:5px 12px;border-radius:2px;font-weight:600;backdrop-filter:blur(4px);}
+.act-tipo-badge.hike{background:rgba(34,197,94,.18);color:#86efac;border:1px solid rgba(34,197,94,.3);}
+.act-tipo-badge.campamento{background:rgba(249,115,22,.18);color:#fdba74;border:1px solid rgba(249,115,22,.3);}
+.act-tipo-badge.rapel{background:rgba(239,68,68,.18);color:#fca5a5;border:1px solid rgba(239,68,68,.3);}
+.act-tipo-badge.social-run{background:rgba(59,130,246,.18);color:#93c5fd;border:1px solid rgba(59,130,246,.3);}
+.act-fecha-badge{position:absolute;top:12px;right:12px;background:rgba(3,5,10,.82);backdrop-filter:blur(6px);border:1px solid rgba(134,239,172,.15);border-radius:4px;padding:7px 11px;text-align:center;}
+.act-fecha-dia{font-family:var(--display);font-size:1.5rem;line-height:1;color:var(--ember);}
+.act-fecha-mes{font-family:var(--mono);font-size:.5rem;letter-spacing:.15em;text-transform:uppercase;color:var(--moss);opacity:.7;}
+.act-body{padding:24px;}
+.act-nombre{font-family:var(--display);font-size:1.55rem;letter-spacing:.04em;text-transform:uppercase;color:var(--cream);margin-bottom:10px;line-height:1.1;}
+.act-desc{font-size:.84rem;font-weight:300;line-height:1.72;color:rgba(254,243,199,.55);margin-bottom:16px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+.act-stats{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:16px;}
+.act-stat{padding:10px 12px;background:rgba(134,239,172,.03);border:1px solid rgba(134,239,172,.06);}
+.act-stat-ico{font-size:.78rem;margin-bottom:3px;display:block;}
+.act-stat-val{font-family:var(--mono);font-size:.7rem;font-weight:600;color:var(--cream);letter-spacing:.04em;}
+.act-stat-lbl{font-family:var(--mono);font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(134,239,172,.4);margin-top:2px;}
+.act-footer{display:flex;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid rgba(134,239,172,.07);}
+.act-precio{font-family:var(--display);font-size:1.45rem;color:var(--ember);}
+.act-cupos{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(134,239,172,.45);margin-top:2px;}
+.act-cupos.bajo{color:var(--warn);}
+.act-cupos.lleno{color:var(--err);}
+.act-cta{font-family:var(--mono);font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;padding:10px 20px;background:var(--ember);color:#000;border:none;border-radius:3px;cursor:none;transition:all .2s;text-decoration:none;font-weight:700;display:inline-block;}
+.act-cta:hover{background:#fb923c;transform:translateY(-1px);}
+.act-agotado{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--err);padding:10px 0;}
+.act-vacio{text-align:center;padding:60px 24px;color:rgba(134,239,172,.3);font-size:.9rem;grid-column:1/-1;border:1px dashed rgba(134,239,172,.1);}
+.act-hora-badge{position:absolute;bottom:12px;left:12px;font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;background:rgba(3,5,10,.75);color:var(--cream);padding:4px 10px;border-radius:3px;backdrop-filter:blur(4px);}
+@media(max-width:768px){.actividades-grid{grid-template-columns:1fr;}.act-stats{grid-template-columns:1fr 1fr;}}
+
 /* FOOTER */
 footer{padding:40px 48px;border-top:1px solid rgba(134,239,172,.07);display:flex;align-items:center;justify-content:space-between;position:relative;z-index:10;}
 .footer-brand{display:flex;align-items:center;gap:10px;}
@@ -443,7 +484,75 @@ function rPrecios(s){
   </section>`;
 }
 
-const SEC_RENDER={nosotros:rNosotros,servicios:rServicios,contacto:rContacto,galeria:rGaleria,testimonios:rTestimonios,cta:rCTA,texto:rTexto,faq:rFAQ,precios:rPrecios};
+const TIPO_META={
+  'hike':       {ico:'🥾',label:'Hike',        cls:'hike'},
+  'campamento': {ico:'⛺',label:'Campamento',  cls:'campamento'},
+  'rapel':      {ico:'🧗',label:'Rápel',        cls:'rapel'},
+  'social-run': {ico:'🏃',label:'Social Run',  cls:'social-run'},
+};
+const MESES_SHORT=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+
+function rActividades(s,c){
+  const catalogo=c.actividades_catalogo||[];
+  const calendario=(c.calendario||[])
+    .filter(e=>e.estado!=='cancelado')
+    .sort((a,b)=>new Date(a.fecha)-new Date(b.fecha));
+  const tiposPresentes=[...new Set(calendario.map(e=>{const a=catalogo.find(x=>x.id===e.actividad_id);return a?.tipo;}).filter(Boolean))];
+  const filtros=['todos',...tiposPresentes];
+  const cards=calendario.map(evt=>{
+    const act=catalogo.find(a=>a.id===evt.actividad_id);
+    if(!act)return '';
+    const t=TIPO_META[act.tipo]||{ico:'📌',label:act.tipo,cls:'hike'};
+    const fecha=new Date((evt.fecha||'2099-01-01')+'T12:00:00');
+    const dia=fecha.getDate();
+    const mes=MESES_SHORT[fecha.getMonth()];
+    const cuposNum=parseInt(evt.cupos_disponibles??act.capacidad??0);
+    const lleno=evt.estado==='lleno'||cuposNum===0;
+    const bajo=!lleno&&cuposNum>0&&cuposNum<=3;
+    const cuposLabel=lleno?'Sin cupos disponibles':bajo?`¡Últimos ${cuposNum} cupos!`:`${cuposNum} cupos disponibles`;
+    return `<div class="act-card reveal" data-tipo="${act.tipo}">
+      <div class="act-cover">
+        ${act.cover?`<img src="${act.cover}" alt="${act.nombre}" loading="lazy">`:`<div class="act-cover-placeholder">${t.ico}</div>`}
+        <div class="act-tipo-badge ${t.cls}">${t.ico} ${t.label}</div>
+        <div class="act-fecha-badge"><div class="act-fecha-dia">${dia}</div><div class="act-fecha-mes">${mes}</div></div>
+        ${evt.hora?`<div class="act-hora-badge">🕐 ${evt.hora}</div>`:''}
+      </div>
+      <div class="act-body">
+        <div class="act-nombre">${act.nombre}</div>
+        ${act.descripcion?`<p class="act-desc">${act.descripcion}</p>`:''}
+        <div class="act-stats">
+          ${act.distancia?`<div class="act-stat"><span class="act-stat-ico">📍</span><div class="act-stat-val">${act.distancia}</div><div class="act-stat-lbl">Distancia</div></div>`:''}
+          ${act.tiempo?`<div class="act-stat"><span class="act-stat-ico">⏱</span><div class="act-stat-val">${act.tiempo}</div><div class="act-stat-lbl">Duración</div></div>`:''}
+          ${act.capacidad?`<div class="act-stat"><span class="act-stat-ico">👥</span><div class="act-stat-val">${act.capacidad} pers.</div><div class="act-stat-lbl">Capacidad</div></div>`:''}
+          ${act.dificultad?`<div class="act-stat"><span class="act-stat-ico">📊</span><div class="act-stat-val">${act.dificultad}</div><div class="act-stat-lbl">Dificultad</div></div>`:''}
+        </div>
+        <div class="act-footer">
+          <div>
+            <div class="act-precio">${evt.precio||''}</div>
+            <div class="act-cupos ${lleno?'lleno':bajo?'bajo':''}">${cuposLabel}</div>
+          </div>
+          ${!lleno?`<a class="act-cta" href="${s.cta_url||'#'}">Reservar lugar</a>`:`<span class="act-agotado">AGOTADO</span>`}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  return `<section id="${s.id}" class="sec-actividades">
+    <div class="section-inner">
+      <div class="section-tag reveal">Agenda</div>
+      <div class="section-title reveal">${s.titulo}</div>
+      ${s.subtitulo?`<p style="margin-top:14px;font-size:.95rem;font-weight:300;color:rgba(134,239,172,.55);max-width:480px;line-height:1.75;" class="reveal">${s.subtitulo}</p>`:''}
+      ${filtros.length>2?`<div class="actividades-filtros reveal">${filtros.map(f=>`<button class="filtro-btn${f==='todos'?' active':''}" data-filtro="${f}" onclick="filtrarActs('${s.id}',this)">${TIPO_META[f]?TIPO_META[f].ico+' '+TIPO_META[f].label:'Todas'}</button>`).join('')}</div>`:''}
+      <div class="actividades-grid" id="acts-${s.id}">${cards||`<div class="act-vacio">Próximamente nuevas actividades 🏔<br><span style="font-size:.8rem;opacity:.6">Las actividades aparecerán aquí cuando las agregues desde el admin.</span></div>`}</div>
+    </div>
+  </section>`;
+}
+function filtrarActs(secId,btn){
+  const filtro=btn.dataset.filtro;
+  document.querySelectorAll(`#acts-${secId} .act-card`).forEach(c=>{c.classList.toggle('act-hidden',filtro!=='todos'&&c.dataset.tipo!==filtro);});
+  btn.closest('.actividades-filtros').querySelectorAll('.filtro-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+const SEC_RENDER={nosotros:rNosotros,servicios:rServicios,contacto:rContacto,galeria:rGaleria,testimonios:rTestimonios,cta:rCTA,texto:rTexto,faq:rFAQ,precios:rPrecios,actividades:rActividades};
 
 /* LOAD CONTENT */
 async function loadContent(){
@@ -478,7 +587,7 @@ async function loadContent(){
 
   // Secciones dinámicas
   const secs=(c.secciones||[]).filter(s=>s.visible!==false);
-  document.getElementById('secciones-wrapper').innerHTML=secs.map(s=>(SEC_RENDER[s.tipo]||function(){return '';})(s)).join('');
+  document.getElementById('secciones-wrapper').innerHTML=secs.map(s=>(SEC_RENDER[s.tipo]||function(){return '';})(s,c)).join('');
 
   // Nav links
   const navHtml=secs.map(s=>`<a href="#${s.id}">${s.titulo}</a>`).join('');

@@ -6,10 +6,12 @@
   },
   "fondo": { "tipo": "gradiente", "imagen_url": "", "video_url": "", "overlay": 0.65 },
   "botones": [
-    { "texto": "Explorar aventuras", "url": "#srv1", "estilo": "primary", "icono": "🏔", "icono_pos": "left", "tamano": "md", "forma": "rounded" },
+    { "texto": "Ver actividades", "url": "#act1", "estilo": "primary", "icono": "🏔", "icono_pos": "left", "tamano": "md", "forma": "rounded" },
     { "texto": "Contacto", "url": "#cnt1", "estilo": "outline", "icono": "", "icono_pos": "none", "tamano": "md", "forma": "rounded" }
   ],
   "media": [],
+  "actividades_catalogo": [],
+  "calendario": [],
   "secciones": [
     {
       "id": "nos1", "tipo": "nosotros", "visible": true,
@@ -21,6 +23,12 @@
         { "valor": "50+", "etiqueta": "Rutas exploradas" },
         { "valor": "500+", "etiqueta": "Aventureros" }
       ]
+    },
+    {
+      "id": "act1", "tipo": "actividades", "visible": true,
+      "titulo": "Próximas actividades",
+      "subtitulo": "Elige tu aventura y reserva tu lugar.",
+      "cta_url": "#cnt1"
     },
     {
       "id": "srv1", "tipo": "servicios", "visible": true,

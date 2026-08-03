@@ -335,6 +335,14 @@ button,input,textarea,select{font-family:inherit;}
         <div class="nav-item-l"><span class="nav-ico">📸</span><span class="nav-label">Biblioteca de media</span></div>
       </div>
 
+      <div class="sidebar-section">Actividades</div>
+      <div class="nav-item" id="si-catalogo" onclick="navFixed('catalogo',this)">
+        <div class="nav-item-l"><span class="nav-ico">📋</span><span class="nav-label">Catálogo</span></div>
+      </div>
+      <div class="nav-item" id="si-calendario" onclick="navFixed('calendario',this)">
+        <div class="nav-item-l"><span class="nav-ico">📅</span><span class="nav-label">Calendario</span></div>
+      </div>
+
       <div class="sidebar-footer">
         <a class="sidebar-link" href="../" target="_blank">👁 Ver sitio</a>
       </div>
@@ -400,9 +408,10 @@ button,input,textarea,select{font-family:inherit;}
 <script>
 const OWNER='gacraul27-lgtm',REPO='alturalibre.com',BR='dev';
 let TOKEN='',content={},dirty=0,saving=false;
-let currentView='hero'; // 'hero'|'footer'|'fondo'|'botones'|'media'|'section'
+let currentView='hero';
 let currentSecId=null;
 let sbDragSrc=null,liDragSrc=null;
+let catEditIdx=null,calEditIdx=null;
 
 /* ── FREE BG ASSETS ── */
 const FONDOS_IMAGEN=[
@@ -439,28 +448,33 @@ const BTN_TEMPLATES=[
 
 /* ── SECTION TYPES META ── */
 const SEC_TYPES={
-  nosotros:  {ico:'👥',name:'Quiénes somos',  desc:'Texto y estadísticas del equipo'},
-  servicios: {ico:'⚙️',name:'Servicios',       desc:'Tarjetas de servicios ofrecidos'},
-  contacto:  {ico:'📬',name:'Contacto',         desc:'Información y formulario de contacto'},
-  galeria:   {ico:'🖼',name:'Galería',          desc:'Grid de imágenes fotográficas'},
-  testimonios:{ico:'💬',name:'Testimonios',     desc:'Opiniones de clientes'},
-  cta:       {ico:'📣',name:'Llamada a acción', desc:'Banner con botón prominente'},
-  texto:     {ico:'📝',name:'Bloque de texto',  desc:'Párrafo libre con título'},
-  faq:       {ico:'❓',name:'Preguntas frecuentes',desc:'Lista expandible de Q&A'},
-  precios:   {ico:'💳',name:'Precios',          desc:'Tarjetas de planes o precios'},
+  nosotros:   {ico:'👥',name:'Quiénes somos',     desc:'Texto y estadísticas del equipo'},
+  servicios:  {ico:'⚙️',name:'Servicios',          desc:'Tarjetas de servicios ofrecidos'},
+  contacto:   {ico:'📬',name:'Contacto',            desc:'Información y formulario de contacto'},
+  galeria:    {ico:'🖼',name:'Galería',             desc:'Grid de imágenes fotográficas'},
+  testimonios:{ico:'💬',name:'Testimonios',         desc:'Opiniones de clientes'},
+  cta:        {ico:'📣',name:'Llamada a acción',    desc:'Banner con botón prominente'},
+  texto:      {ico:'📝',name:'Bloque de texto',     desc:'Párrafo libre con título'},
+  faq:        {ico:'❓',name:'Preguntas frecuentes',desc:'Lista expandible de Q&A'},
+  precios:    {ico:'💳',name:'Precios',             desc:'Tarjetas de planes o precios'},
+  actividades:{ico:'🗓',name:'Actividades',         desc:'Calendario de próximas actividades'},
 };
 
 const SEC_DEFAULTS={
-  nosotros:  {titulo:'Nueva sección',texto:'Escribe aquí sobre vosotros...',stats:[]},
-  servicios: {titulo:'Nuestros servicios',items:[]},
-  contacto:  {titulo:'Contáctanos',subtitulo:'',email:'',telefono:'',instagram:''},
-  galeria:   {titulo:'Galería',items:[]},
+  nosotros:   {titulo:'Nueva sección',texto:'Escribe aquí sobre vosotros...',stats:[]},
+  servicios:  {titulo:'Nuestros servicios',items:[]},
+  contacto:   {titulo:'Contáctanos',subtitulo:'',email:'',telefono:'',instagram:''},
+  galeria:    {titulo:'Galería',items:[]},
   testimonios:{titulo:'Lo que dicen',items:[]},
-  cta:       {titulo:'¡Únete!',subtexto:'',boton_texto:'Contáctanos',boton_url:'#',boton_estilo:'primary'},
-  texto:     {titulo:'',cuerpo:''},
-  faq:       {titulo:'Preguntas frecuentes',items:[]},
-  precios:   {titulo:'Nuestros planes',items:[]},
+  cta:        {titulo:'¡Únete!',subtexto:'',boton_texto:'Contáctanos',boton_url:'#',boton_estilo:'primary'},
+  texto:      {titulo:'',cuerpo:''},
+  faq:        {titulo:'Preguntas frecuentes',items:[]},
+  precios:    {titulo:'Nuestros planes',items:[]},
+  actividades:{titulo:'Próximas actividades',subtitulo:'Elige tu aventura y reserva tu lugar.',cta_url:'#cnt1'},
 };
+
+const TIPO_ICONS={hike:'🥾',campamento:'⛺',rapel:'🧗','social-run':'🏃'};
+const TIPO_LABELS={hike:'Hike',campamento:'Campamento',rapel:'Rápel','social-run':'Social Run'};
 
 /* ── LOGIN ── */
 async function doLogin(){
@@ -499,6 +513,8 @@ async function loadContent(){
     if(!content.media)content.media=[];
     if(!content.fondo)content.fondo={tipo:'gradiente',imagen_url:'',video_url:'',overlay:.65};
     if(!content.secciones)content.secciones=[];
+    if(!content.actividades_catalogo)content.actividades_catalogo=[];
+    if(!content.calendario)content.calendario=[];
     renderSidebarSections();
     renderView();
   }catch(e){toast('error','Error','No se pudo cargar el contenido.');}
@@ -615,8 +631,8 @@ function navFixed(view,el){
   collectForm();currentView=view;currentSecId=null;
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   el.classList.add('active');
-  const titles={hero:'Hero principal',footer:'Footer',fondo:'Fondo del hero',botones:'Botones & Diseño',media:'Biblioteca de media'};
-  const descs={hero:'Primera pantalla que ven los visitantes.',footer:'Texto inferior del sitio.',fondo:'Imagen, video o gradiente del fondo del hero.',botones:'Botones CTA con íconos, tamaños y formas.',media:'Gestiona imágenes y videos.'};
+  const titles={hero:'Hero principal',footer:'Footer',fondo:'Fondo del hero',botones:'Botones & Diseño',media:'Biblioteca de media',catalogo:'Catálogo de actividades',calendario:'Calendario de eventos'};
+  const descs={hero:'Primera pantalla que ven los visitantes.',footer:'Texto inferior del sitio.',fondo:'Imagen, video o gradiente del fondo del hero.',botones:'Botones CTA con íconos, tamaños y formas.',media:'Gestiona imágenes y videos.',catalogo:'Define actividades reutilizables: hike, campamento, rápel, social run.',calendario:'Programa fechas y asigna actividades del catálogo.'};
   document.getElementById('bc-title').textContent=titles[view]||view;
   document.getElementById('pane-title').innerHTML=titles[view]||view;
   document.getElementById('pane-desc').textContent=descs[view]||'';
@@ -644,6 +660,8 @@ function renderView(){
   else if(currentView==='fondo')fFondo(b);
   else if(currentView==='botones')fBotones(b);
   else if(currentView==='media')fMedia(b);
+  else if(currentView==='catalogo')fCatalogo(b);
+  else if(currentView==='calendario')fCalendario(b);
   else if(currentView==='section'){
     const sec=content.secciones.find(s=>s.id===currentSecId);
     if(sec)fSection(sec,b);
@@ -822,6 +840,7 @@ function fSection(sec,b){
   else if(tipo==='texto')fSecTexto(sec,b);
   else if(tipo==='faq')fSecFAQ(sec,b);
   else if(tipo==='precios')fSecPrecios(sec,b);
+  else if(tipo==='actividades')fSecActividades(sec,b);
 }
 
 function sIdx(){return content.secciones.findIndex(s=>s.id===currentSecId);}
@@ -969,6 +988,212 @@ function fSecPrecios(sec,b){
     </div>`);
 }
 
+function fSecActividades(sec,b){
+  b.innerHTML=`
+    ${mkF('Título de la sección','sec-titulo','text',sec.titulo,'',60)}
+    ${mkF('Subtítulo','sec-subtitulo','text',sec.subtitulo||'','',120)}
+    ${mkF('URL del botón "Ver más"','sec-cta_url','text',sec.cta_url||'#cnt1','')}
+    <div class="divider"></div>
+    <div style="padding:12px;background:rgba(249,115,22,.05);border:1px solid rgba(249,115,22,.15);border-radius:7px;font-size:.78rem;color:rgba(249,115,22,.7);line-height:1.6">
+      💡 Las actividades y fechas se gestionan en <strong>Catálogo</strong> y <strong>Calendario</strong> en el menú lateral.
+    </div>
+  `;
+}
+
+/* ── CATÁLOGO DE ACTIVIDADES ── */
+function fCatalogo(b){
+  if(!content.actividades_catalogo)content.actividades_catalogo=[];
+  if(catEditIdx!==null){fCatForm(b);return;}
+  b.innerHTML=`
+    <div class="section-subtitle">📋 Catálogo de actividades</div>
+    <div class="fi-hint" style="margin-top:-8px">Define actividades base para reutilizar en el calendario.</div>
+    <button class="btn-add" onclick="openCatForm(-1)">+ Nueva actividad</button>
+    <div id="cat-list" style="display:flex;flex-direction:column;gap:10px;margin-top:4px"></div>
+  `;
+  renderCatList();
+}
+function renderCatList(){
+  const l=document.getElementById('cat-list');if(!l)return;
+  const cat=content.actividades_catalogo||[];
+  if(!cat.length){l.innerHTML='<div class="empty-state">🗓 Sin actividades en el catálogo.<br>Crea una para empezar.</div>';return;}
+  l.innerHTML=cat.map((a,i)=>`
+    <div class="drag-item">
+      <div class="drag-item-header">
+        <span class="drag-num">${TIPO_ICONS[a.tipo]||'🏔'} ${a.nombre||'Sin nombre'}</span>
+        <div style="display:flex;gap:6px">
+          <button class="btn-del" style="border-color:rgba(249,115,22,.25);color:var(--ember)" onclick="openCatForm(${i})">✏ Editar</button>
+          <button class="btn-del" onclick="deleteCatActividad(${i})">× Eliminar</button>
+        </div>
+      </div>
+      ${a.cover_url?`<img src="${a.cover_url}" style="width:100%;height:80px;object-fit:cover;border-radius:5px;margin-bottom:8px" loading="lazy">`:''}
+      <div style="display:flex;gap:5px;flex-wrap:wrap">
+        <span style="font-family:var(--mono);font-size:.52rem;padding:2px 7px;border-radius:10px;background:rgba(249,115,22,.12);color:var(--ember)">${TIPO_LABELS[a.tipo]||a.tipo||'—'}</span>
+        ${a.distancia?`<span style="font-family:var(--mono);font-size:.52rem;padding:2px 7px;border-radius:10px;background:rgba(134,239,172,.06);color:var(--muted)">📍 ${a.distancia}</span>`:''}
+        ${a.tiempo?`<span style="font-family:var(--mono);font-size:.52rem;padding:2px 7px;border-radius:10px;background:rgba(134,239,172,.06);color:var(--muted)">⏱ ${a.tiempo}</span>`:''}
+        ${a.capacidad?`<span style="font-family:var(--mono);font-size:.52rem;padding:2px 7px;border-radius:10px;background:rgba(134,239,172,.06);color:var(--muted)">👥 máx ${a.capacidad}</span>`:''}
+      </div>
+    </div>`).join('');
+}
+function openCatForm(idx){catEditIdx=idx;renderView();}
+function closeCatForm(){catEditIdx=null;renderView();}
+function fCatForm(b){
+  const idx=catEditIdx;
+  const a=idx>=0?(content.actividades_catalogo[idx]||{}):{};
+  const isNew=idx<0;
+  b.innerHTML=`
+    <div class="section-subtitle">${isNew?'Nueva actividad':'Editar actividad'}</div>
+    <button class="btn-add" style="background:rgba(134,239,172,.04);margin-bottom:4px" onclick="closeCatForm()">← Volver al catálogo</button>
+    ${mkF('Nombre de la actividad','cat-nombre','text',a.nombre||'')}
+    <div class="field"><label>Tipo</label>
+      <select class="fi" id="cat-tipo">
+        <option value="hike" ${a.tipo==='hike'?'selected':''}>🥾 Hike</option>
+        <option value="campamento" ${a.tipo==='campamento'?'selected':''}>⛺ Campamento</option>
+        <option value="rapel" ${a.tipo==='rapel'?'selected':''}>🧗 Rápel</option>
+        <option value="social-run" ${a.tipo==='social-run'?'selected':''}>🏃 Social Run</option>
+      </select>
+    </div>
+    ${mkF('URL de cover (imagen)','cat-cover','url',a.cover_url||'','Imagen que aparece en la tarjeta de la actividad.')}
+    ${a.cover_url?`<img src="${a.cover_url}" style="width:100%;height:100px;object-fit:cover;border-radius:6px;margin-top:-10px" loading="lazy">`:''}
+    ${mkF('Descripción','cat-desc','textarea',a.descripcion||'','Qué es la actividad y qué esperar.',400)}
+    ${mkF('Recomendaciones','cat-rec','textarea',a.recomendaciones||'','Qué llevar, calzado, nivel requerido...',400)}
+    <div class="divider"></div>
+    <div class="section-subtitle">Detalles técnicos</div>
+    <div class="row2">
+      ${mkF('Distancia','cat-dist','text',a.distancia||'','Ej: 12 km')}
+      ${mkF('Tiempo estimado','cat-tiempo','text',a.tiempo||'','Ej: 4-5 hrs')}
+    </div>
+    <div class="row2">
+      ${mkF('Capacidad máx.','cat-cap','number',a.capacidad||'')}
+      <div class="field"><label>Dificultad</label>
+        <select class="fi" id="cat-dif">
+          <option value="fácil" ${a.dificultad==='fácil'?'selected':''}>🟢 Fácil</option>
+          <option value="moderada" ${a.dificultad==='moderada'?'selected':''}>🟡 Moderada</option>
+          <option value="difícil" ${a.dificultad==='difícil'?'selected':''}>🔴 Difícil</option>
+          <option value="experto" ${a.dificultad==='experto'?'selected':''}>⚫ Experto</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn-confirm" style="width:100%;padding:12px;border-radius:7px;font-size:.65rem;letter-spacing:.15em;margin-top:4px" onclick="saveCatActividad()">
+      ${isNew?'✓ Crear actividad':'✓ Guardar cambios'}
+    </button>
+  `;
+}
+function saveCatActividad(){
+  const g=id=>{const e=document.getElementById(id);return e?e.value.trim():'';};
+  const a={nombre:g('cat-nombre'),tipo:g('cat-tipo'),cover_url:g('cat-cover'),descripcion:g('cat-desc'),recomendaciones:g('cat-rec'),distancia:g('cat-dist'),tiempo:g('cat-tiempo'),capacidad:g('cat-cap')?Number(g('cat-cap')):null,dificultad:g('cat-dif')};
+  if(!a.nombre){toast('error','Falta el nombre','');return;}
+  if(!content.actividades_catalogo)content.actividades_catalogo=[];
+  const isNew=catEditIdx<0;
+  if(isNew)content.actividades_catalogo.push(a);
+  else content.actividades_catalogo[catEditIdx]=a;
+  mk();closeCatForm();
+  toast('success',isNew?'Actividad creada':'Actividad guardada','');
+}
+function deleteCatActividad(i){
+  if(!confirm('¿Eliminar esta actividad del catálogo?\n\nLos eventos del calendario que la usen quedarán sin referencia.'))return;
+  content.actividades_catalogo.splice(i,1);
+  mk();renderCatList();
+  toast('info','Actividad eliminada','');
+}
+
+/* ── CALENDARIO ── */
+function fCalendario(b){
+  if(!content.calendario)content.calendario=[];
+  if(calEditIdx!==null){fCalForm(b);return;}
+  const hasCat=content.actividades_catalogo&&content.actividades_catalogo.length;
+  b.innerHTML=`
+    <div class="section-subtitle">📅 Calendario de eventos</div>
+    <div class="fi-hint" style="margin-top:-8px">Programa actividades del catálogo en fechas específicas.</div>
+    ${hasCat?`<button class="btn-add" onclick="openCalForm(-1)">+ Programar actividad</button>`:`<div class="empty-state" style="margin-top:0">⚠️ Primero crea actividades en el <strong>Catálogo</strong>.</div>`}
+    <div id="cal-list" style="display:flex;flex-direction:column;gap:10px;margin-top:4px"></div>
+  `;
+  renderCalList();
+}
+function renderCalList(){
+  const l=document.getElementById('cal-list');if(!l)return;
+  const cal=content.calendario||[];
+  if(!cal.length){l.innerHTML='<div class="empty-state">📅 Sin eventos programados aún.</div>';return;}
+  const sorted=cal.map((e,i)=>({...e,_i:i})).sort((a,b)=>new Date(a.fecha)-new Date(b.fecha));
+  const estadoBg={programado:'rgba(249,115,22,.12)',confirmado:'rgba(34,197,94,.12)',cancelado:'rgba(239,68,68,.1)',completo:'rgba(134,239,172,.06)'};
+  const estadoCol={programado:'var(--ember)',confirmado:'#86efac',cancelado:'var(--err)',completo:'var(--muted)'};
+  l.innerHTML=sorted.map(e=>{
+    const act=(content.actividades_catalogo||[]).find(a=>a.nombre===e.actividad_id)||{nombre:e.actividad_id,tipo:''};
+    const i=e._i;
+    return `<div class="drag-item">
+      <div class="drag-item-header">
+        <span class="drag-num">${TIPO_ICONS[act.tipo]||'🏔'} ${act.nombre||e.actividad_id||'—'}</span>
+        <div style="display:flex;gap:6px">
+          <button class="btn-del" style="border-color:rgba(249,115,22,.25);color:var(--ember)" onclick="openCalForm(${i})">✏ Editar</button>
+          <button class="btn-del" onclick="deleteCalEvento(${i})">× Eliminar</button>
+        </div>
+      </div>
+      <div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:4px">
+        <span style="font-family:var(--mono);font-size:.52rem;padding:2px 7px;border-radius:10px;background:${estadoBg[e.estado]||'var(--border)'};color:${estadoCol[e.estado]||'var(--muted)'}">${e.estado||'programado'}</span>
+        <span style="font-family:var(--mono);font-size:.52rem;padding:2px 7px;border-radius:10px;background:rgba(134,239,172,.06);color:var(--muted)">📅 ${e.fecha||'—'}</span>
+        ${e.hora?`<span style="font-family:var(--mono);font-size:.52rem;padding:2px 7px;border-radius:10px;background:rgba(134,239,172,.06);color:var(--muted)">⏰ ${e.hora}</span>`:''}
+        ${e.precio?`<span style="font-family:var(--mono);font-size:.52rem;padding:2px 7px;border-radius:10px;background:rgba(134,239,172,.06);color:var(--muted)">💰 $${e.precio}</span>`:''}
+        ${e.cupos_disponibles!=null?`<span style="font-family:var(--mono);font-size:.52rem;padding:2px 7px;border-radius:10px;background:rgba(134,239,172,.06);color:var(--muted)">👥 ${e.cupos_disponibles} cupos</span>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+function openCalForm(idx){calEditIdx=idx;renderView();}
+function closeCalForm(){calEditIdx=null;renderView();}
+function fCalForm(b){
+  const idx=calEditIdx;
+  const e=idx>=0?(content.calendario[idx]||{}):{};
+  const isNew=idx<0;
+  const cat=content.actividades_catalogo||[];
+  b.innerHTML=`
+    <div class="section-subtitle">${isNew?'Programar actividad':'Editar evento'}</div>
+    <button class="btn-add" style="background:rgba(134,239,172,.04);margin-bottom:4px" onclick="closeCalForm()">← Volver al calendario</button>
+    <div class="field"><label>Actividad</label>
+      <select class="fi" id="cal-actid">
+        <option value="">— Selecciona actividad —</option>
+        ${cat.map(a=>`<option value="${esc(a.nombre)}" ${e.actividad_id===a.nombre?'selected':''}>${TIPO_ICONS[a.tipo]||'🏔'} ${a.nombre}</option>`).join('')}
+      </select>
+    </div>
+    <div class="row2">
+      ${mkF('Fecha','cal-fecha','date',e.fecha||'')}
+      ${mkF('Hora de salida','cal-hora','time',e.hora||'')}
+    </div>
+    <div class="row2">
+      ${mkF('Precio (MXN)','cal-precio','number',e.precio||'')}
+      ${mkF('Cupos disponibles','cal-cupos','number',e.cupos_disponibles!=null?e.cupos_disponibles:'')}
+    </div>
+    ${mkF('Punto de encuentro','cal-punto','text',e.punto_encuentro||'','Ej: Estacionamiento Walmart Cumbres')}
+    <div class="field"><label>Estado</label>
+      <select class="fi" id="cal-estado">
+        <option value="programado" ${!e.estado||e.estado==='programado'?'selected':''}>🟡 Programado</option>
+        <option value="confirmado" ${e.estado==='confirmado'?'selected':''}>🟢 Confirmado</option>
+        <option value="completo" ${e.estado==='completo'?'selected':''}>✅ Completo</option>
+        <option value="cancelado" ${e.estado==='cancelado'?'selected':''}>🔴 Cancelado</option>
+      </select>
+    </div>
+    <button class="btn-confirm" style="width:100%;padding:12px;border-radius:7px;font-size:.65rem;letter-spacing:.15em;margin-top:4px" onclick="saveCalEvento()">
+      ${isNew?'✓ Programar evento':'✓ Guardar cambios'}
+    </button>
+  `;
+}
+function saveCalEvento(){
+  const g=id=>{const e=document.getElementById(id);return e?e.value.trim():'';};
+  const ev={actividad_id:g('cal-actid'),fecha:g('cal-fecha'),hora:g('cal-hora'),precio:g('cal-precio')?Number(g('cal-precio')):null,cupos_disponibles:g('cal-cupos')?Number(g('cal-cupos')):null,punto_encuentro:g('cal-punto'),estado:g('cal-estado')||'programado'};
+  if(!ev.actividad_id){toast('error','Selecciona una actividad','');return;}
+  if(!ev.fecha){toast('error','Ingresa la fecha del evento','');return;}
+  if(!content.calendario)content.calendario=[];
+  const isNew=calEditIdx<0;
+  if(isNew)content.calendario.push(ev);
+  else content.calendario[calEditIdx]=ev;
+  mk();closeCalForm();
+  toast('success',isNew?'Evento programado':'Evento guardado','');
+}
+function deleteCalEvento(i){
+  if(!confirm('¿Eliminar este evento del calendario?'))return;
+  content.calendario.splice(i,1);
+  mk();renderCalList();
+  toast('info','Evento eliminado','');
+}
+
 /* ── ITEM LIST HELPERS ── */
 function renderItemList(key,listId,rowFn){
   const l=document.getElementById(listId);if(!l)return;
@@ -1005,6 +1230,7 @@ function collectForm(){
     if(document.getElementById('sec-boton_texto'))s.boton_texto=g('sec-boton_texto');
     if(document.getElementById('sec-boton_url'))s.boton_url=g('sec-boton_url');
     if(document.getElementById('sec-cuerpo'))s.cuerpo=g('sec-cuerpo');
+    if(document.getElementById('sec-cta_url'))s.cta_url=g('sec-cta_url');
     renderSidebarSections();
   }
 }
@@ -1083,6 +1309,25 @@ function pvSection(sec){
   if(sec.tipo==='texto')return `<div class="pv-section" style="${bgStyle}">${sec.titulo?`<div class="pv-title">${sec.titulo}</div>`:''}<div class="pv-text" style="margin-top:${sec.titulo?'12':'0'}px">${(sec.cuerpo||'').replace(/\n/g,'<br>')}</div></div>`;
   if(sec.tipo==='faq')return `<div class="pv-section" style="${bgStyle}"><div class="pv-tag">FAQ</div><div class="pv-title">${sec.titulo||''}</div><div style="margin-top:14px;display:flex;flex-direction:column;gap:2px">${(sec.items||[]).map(it=>`<div style="border:1px solid rgba(134,239,172,.08);padding:12px 16px"><div style="font-size:.82rem;font-weight:500;color:#fef3c7">${it.pregunta}</div><div style="font-size:.75rem;color:rgba(134,239,172,.55);margin-top:6px">${it.respuesta}</div></div>`).join('')}</div></div>`;
   if(sec.tipo==='precios')return `<div class="pv-section" style="${bgStyle}"><div class="pv-tag">Planes</div><div class="pv-title">${sec.titulo||''}</div><div style="display:grid;grid-template-columns:repeat(${Math.min(sec.items?.length||1,3)},1fr);gap:2px;margin-top:14px">${(sec.items||[]).map(it=>`<div style="padding:20px 16px;border:1px solid ${it.destacado?'rgba(249,115,22,.25)':'rgba(134,239,172,.08)'};background:${it.destacado?'rgba(249,115,22,.05)':'rgba(255,255,255,.01)'}"><div style="font-family:var(--mono);font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:#f97316;margin-bottom:8px">${it.nombre}</div><div style="font-family:var(--disp);font-size:2rem;color:#fef3c7">${it.precio}</div><div style="font-family:var(--mono);font-size:.55rem;color:rgba(134,239,172,.35)">${it.periodo||''}</div></div>`).join('')}</div></div>`;
+  if(sec.tipo==='actividades'){
+    const cat=content.actividades_catalogo||[];
+    const calEvs=(content.calendario||[]).filter(e=>e.estado!=='cancelado').sort((a,b)=>new Date(a.fecha)-new Date(b.fecha)).slice(0,3);
+    return `<div class="pv-section" style="${bgStyle}">
+      <div class="pv-tag">Aventuras</div>
+      <div class="pv-title">${sec.titulo||'Próximas actividades'}</div>
+      <div class="pv-text" style="margin-bottom:14px">${sec.subtitulo||''}</div>
+      ${calEvs.length?`<div style="display:flex;flex-direction:column;gap:6px">${calEvs.map(ev=>{
+        const a=cat.find(c=>c.nombre===ev.actividad_id)||{nombre:ev.actividad_id,tipo:''};
+        return `<div style="border:1px solid rgba(134,239,172,.08);border-radius:4px;overflow:hidden;display:flex">
+          ${a.cover_url?`<img src="${a.cover_url}" style="width:70px;height:60px;object-fit:cover;flex-shrink:0" loading="lazy">`:`<div style="width:70px;height:60px;background:#0a1209;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.4rem">${TIPO_ICONS[a.tipo]||'🏔'}</div>`}
+          <div style="padding:10px 12px;flex:1">
+            <div style="font-size:.8rem;font-weight:600;color:#fef3c7;margin-bottom:3px">${a.nombre||'—'}</div>
+            <div style="font-family:var(--mono);font-size:.5rem;letter-spacing:.1em;color:rgba(134,239,172,.45)">${ev.fecha||''}${ev.precio?' · $'+ev.precio:''}</div>
+          </div>
+        </div>`;}).join('')}</div>`
+      :`<div style="padding:16px;text-align:center;border:1px dashed rgba(134,239,172,.12);border-radius:4px;font-size:.78rem;color:rgba(134,239,172,.3)">Sin actividades programadas aún</div>`}
+    </div>`;
+  }
   return `<div class="pv-section" style="${bgStyle}"><div class="pv-title">${sec.titulo||sec.tipo}</div></div>`;
 }
 
