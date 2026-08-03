@@ -903,6 +903,54 @@ async function confirmarRsv(){
   document.querySelector('.sec-auth')?.scrollIntoView({behavior:'smooth',block:'start'});
 }
 
+/* ─── TEMAS ─── */
+const TEMAS={
+  cumbre:{
+    nombre:'Cumbre',desc:'Bosque nocturno con llama naranja',
+    preview:['#f97316','#86efac','#03050a'],
+    vars:{'--ember':'#f97316','--ember-dim':'rgba(249,115,22,.2)','--moss':'#86efac','--cream':'#fef3c7','--forest-deep':'#03050a','--forest-dark':'#060d10','--forest-mid':'#091a10'}
+  },
+  obsidiana:{
+    nombre:'Obsidiana',desc:'Noche absoluta con acento eléctrico azul',
+    preview:['#3b82f6','#93c5fd','#020409'],
+    vars:{'--ember':'#3b82f6','--ember-dim':'rgba(59,130,246,.2)','--moss':'#93c5fd','--cream':'#e0f2fe','--forest-deep':'#020409','--forest-dark':'#050b18','--forest-mid':'#0a1628'}
+  },
+  glaciar:{
+    nombre:'Glaciar',desc:'Frío alpino, hielo y acero azul cielo',
+    preview:['#0ea5e9','#38bdf8','#020b14'],
+    vars:{'--ember':'#0ea5e9','--ember-dim':'rgba(14,165,233,.2)','--moss':'#38bdf8','--cream':'#f0f9ff','--forest-deep':'#020b14','--forest-dark':'#041525','--forest-mid':'#082035'}
+  },
+  aurora:{
+    nombre:'Aurora',desc:'Cielo de medianoche con luces boreales',
+    preview:['#a855f7','#818cf8','#040216'],
+    vars:{'--ember':'#a855f7','--ember-dim':'rgba(168,85,247,.2)','--moss':'#818cf8','--cream':'#f5f3ff','--forest-deep':'#040216','--forest-dark':'#080525','--forest-mid':'#100a35'}
+  },
+  volcan:{
+    nombre:'Volcán',desc:'Intensidad dramática en rojo y negro',
+    preview:['#ef4444','#fca5a5','#0f0203'],
+    vars:{'--ember':'#ef4444','--ember-dim':'rgba(239,68,68,.2)','--moss':'#fca5a5','--cream':'#fff1f2','--forest-deep':'#0f0203','--forest-dark':'#1a0505','--forest-mid':'#260a0a'}
+  },
+  selva:{
+    nombre:'Selva',desc:'Verde profundo de jungla tropical',
+    preview:['#22c55e','#4ade80','#010f04'],
+    vars:{'--ember':'#22c55e','--ember-dim':'rgba(34,197,94,.2)','--moss':'#4ade80','--cream':'#f0fdf4','--forest-deep':'#010f04','--forest-dark':'#031a08','--forest-mid':'#052910'}
+  },
+  desierto:{
+    nombre:'Desierto',desc:'Arena, terracota y polvo dorado',
+    preview:['#d97706','#fbbf24','#150a01'],
+    vars:{'--ember':'#d97706','--ember-dim':'rgba(217,119,6,.2)','--moss':'#fbbf24','--cream':'#fffbeb','--forest-deep':'#150a01','--forest-dark':'#1f1002','--forest-mid':'#2d1a05'}
+  },
+  cobre:{
+    nombre:'Cobre',desc:'Industrial metálico con brillo mineral',
+    preview:['#b45309','#f59e0b','#0d0905'],
+    vars:{'--ember':'#b45309','--ember-dim':'rgba(180,83,9,.2)','--moss':'#f59e0b','--cream':'#fef3c7','--forest-deep':'#0d0905','--forest-dark':'#180f07','--forest-mid':'#231609'}
+  },
+};
+function aplicarTema(nombre){
+  const t=TEMAS[nombre]||TEMAS.cumbre;
+  Object.entries(t.vars).forEach(([k,v])=>document.documentElement.style.setProperty(k,v));
+}
+
 const SEC_RENDER={nosotros:rNosotros,servicios:rServicios,contacto:rContacto,galeria:rGaleria,testimonios:rTestimonios,cta:rCTA,texto:rTexto,faq:rFAQ,precios:rPrecios,actividades:rActividades,staff:rStaff,login:rLogin};
 
 /* LOAD CONTENT */
@@ -935,6 +983,9 @@ async function loadContent(){
     const inner=b.icono_pos==='right'?`${b.texto}${ico}`:`${ico}${b.texto}`;
     return `<a class="${cls}" href="${b.url||'#'}">${inner}</a>`;
   }).join('');
+
+  // Tema de color
+  aplicarTema(c.tema||'cumbre');
 
   // Secciones dinámicas
   const secs=(c.secciones||[]).filter(s=>s.visible!==false);

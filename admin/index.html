@@ -162,6 +162,18 @@ button,input,textarea,select{font-family:inherit;}
 .btn-template:hover{border-color:rgba(249,115,22,.3);background:rgba(249,115,22,.04);}
 .btn-template-label{font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
 
+/* TEMAS */
+.temas-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.tema-card{position:relative;border:1px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;transition:all .22s;}
+.tema-card:hover{border-color:rgba(249,115,22,.4);transform:translateY(-1px);}
+.tema-card.selected{border-color:var(--ember);box-shadow:0 0 0 2px rgba(249,115,22,.25);}
+.tema-swatches{display:flex;height:54px;}
+.tema-swatch{flex:1;}
+.tema-info{padding:10px 12px;}
+.tema-nombre{font-size:.8rem;font-weight:700;color:var(--text);margin-bottom:3px;}
+.tema-desc{font-size:.7rem;color:var(--muted);line-height:1.35;}
+.tema-badge{position:absolute;top:8px;right:8px;background:var(--ember);color:#000;font-family:var(--mono);font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:10px;font-weight:700;}
+
 /* MEDIA */
 .media-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
 .media-item{position:relative;border-radius:8px;overflow:hidden;border:1px solid var(--border);transition:border-color .2s;}
@@ -203,10 +215,10 @@ button,input,textarea,select{font-family:inherit;}
 .pv-overlay{position:absolute;inset:0;}
 .pv-hero-mtn{position:absolute;bottom:0;left:0;width:100%;pointer-events:none;}
 .pv-star{position:absolute;width:2px;height:2px;border-radius:50%;background:rgba(254,243,199,.7);}
-.pv-eyebrow{font-family:var(--mono);font-size:.55rem;letter-spacing:.3em;text-transform:uppercase;color:#f97316;display:flex;align-items:center;gap:10px;position:relative;z-index:2;}
-.pv-eyebrow::before,.pv-eyebrow::after{content:'';width:18px;height:1px;background:#f97316;opacity:.5;}
+.pv-eyebrow{font-family:var(--mono);font-size:.55rem;letter-spacing:.3em;text-transform:uppercase;color:var(--pv-accent,#f97316);display:flex;align-items:center;gap:10px;position:relative;z-index:2;}
+.pv-eyebrow::before,.pv-eyebrow::after{content:'';width:18px;height:1px;background:var(--pv-accent,#f97316);opacity:.5;}
 .pv-headline{font-family:var(--disp);font-size:clamp(2rem,6vw,3.8rem);line-height:.92;text-transform:uppercase;text-align:center;color:#fef3c7;position:relative;z-index:2;}
-.pv-accent{color:#f97316;filter:drop-shadow(0 0 18px rgba(249,115,22,.5));}
+.pv-accent{color:var(--pv-accent,#f97316);filter:drop-shadow(0 0 18px rgba(249,115,22,.5));}
 .pv-sub{font-size:.82rem;font-weight:300;color:rgba(134,239,172,.65);text-align:center;max-width:300px;line-height:1.7;position:relative;z-index:2;}
 .pv-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;position:relative;z-index:2;}
 .pv-section{padding:36px 28px;}
@@ -328,6 +340,9 @@ button,input,textarea,select{font-family:inherit;}
       </div>
       <div class="nav-item" id="si-botones" onclick="navFixed('botones',this)">
         <div class="nav-item-l"><span class="nav-ico">🔘</span><span class="nav-label">Botones</span></div>
+      </div>
+      <div class="nav-item" id="si-temas" onclick="navFixed('temas',this)">
+        <div class="nav-item-l"><span class="nav-ico">🎨</span><span class="nav-label">Temas de color</span></div>
       </div>
 
       <div class="sidebar-section">Archivos</div>
@@ -479,6 +494,16 @@ const SEC_DEFAULTS={
 
 const TIPO_ICONS={hike:'🥾',campamento:'⛺',rapel:'🧗','social-run':'🏃'};
 const TIPO_LABELS={hike:'Hike',campamento:'Campamento',rapel:'Rápel','social-run':'Social Run'};
+const TEMAS={
+  cumbre:{nombre:'Cumbre',desc:'Bosque nocturno — llama naranja',swatches:['#f97316','#86efac','#03050a']},
+  obsidiana:{nombre:'Obsidiana',desc:'Noche absoluta — acento azul eléctrico',swatches:['#3b82f6','#93c5fd','#020409']},
+  glaciar:{nombre:'Glaciar',desc:'Frío alpino — hielo y acero',swatches:['#0ea5e9','#38bdf8','#020b14']},
+  aurora:{nombre:'Aurora',desc:'Medianoche — luces boreales violetas',swatches:['#a855f7','#818cf8','#040216']},
+  volcan:{nombre:'Volcán',desc:'Intensidad dramática — rojo y negro',swatches:['#ef4444','#fca5a5','#0f0203']},
+  selva:{nombre:'Selva',desc:'Verde profundo de jungla tropical',swatches:['#22c55e','#4ade80','#010f04']},
+  desierto:{nombre:'Desierto',desc:'Arena y polvo — tonos dorados',swatches:['#d97706','#fbbf24','#150a01']},
+  cobre:{nombre:'Cobre',desc:'Industrial metálico — brillo mineral',swatches:['#b45309','#f59e0b','#0d0905']},
+};
 
 /* ── LOGIN ── */
 async function doLogin(){
@@ -519,6 +544,7 @@ async function loadContent(){
     if(!content.secciones)content.secciones=[];
     if(!content.actividades_catalogo)content.actividades_catalogo=[];
     if(!content.calendario)content.calendario=[];
+    if(!content.tema)content.tema='cumbre';
     renderSidebarSections();
     renderView();
   }catch(e){toast('error','Error','No se pudo cargar el contenido.');}
@@ -635,8 +661,8 @@ function navFixed(view,el){
   collectForm();currentView=view;currentSecId=null;
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   el.classList.add('active');
-  const titles={hero:'Hero principal',footer:'Footer',fondo:'Fondo del hero',botones:'Botones & Diseño',media:'Biblioteca de media',catalogo:'Catálogo de actividades',calendario:'Calendario de eventos'};
-  const descs={hero:'Primera pantalla que ven los visitantes.',footer:'Texto inferior del sitio.',fondo:'Imagen, video o gradiente del fondo del hero.',botones:'Botones CTA con íconos, tamaños y formas.',media:'Gestiona imágenes y videos.',catalogo:'Define actividades reutilizables: hike, campamento, rápel, social run.',calendario:'Programa fechas y asigna actividades del catálogo.'};
+  const titles={hero:'Hero principal',footer:'Footer',fondo:'Fondo del hero',botones:'Botones & Diseño',temas:'Temas de color',media:'Biblioteca de media',catalogo:'Catálogo de actividades',calendario:'Calendario de eventos'};
+  const descs={hero:'Primera pantalla que ven los visitantes.',footer:'Texto inferior del sitio.',fondo:'Imagen, video o gradiente del fondo del hero.',botones:'Botones CTA con íconos, tamaños y formas.',temas:'Paleta de colores de todo el sitio.',media:'Gestiona imágenes y videos.',catalogo:'Define actividades reutilizables: hike, campamento, rápel, social run.',calendario:'Programa fechas y asigna actividades del catálogo.'};
   document.getElementById('bc-title').textContent=titles[view]||view;
   document.getElementById('pane-title').innerHTML=titles[view]||view;
   document.getElementById('pane-desc').textContent=descs[view]||'';
@@ -663,6 +689,7 @@ function renderView(){
   else if(currentView==='footer')fFooter(b);
   else if(currentView==='fondo')fFondo(b);
   else if(currentView==='botones')fBotones(b);
+  else if(currentView==='temas')fTemas(b);
   else if(currentView==='media')fMedia(b);
   else if(currentView==='catalogo')fCatalogo(b);
   else if(currentView==='calendario')fCalendario(b);
@@ -685,6 +712,37 @@ function fHero(b){
 /* ── FOOTER FORM ── */
 function fFooter(b){
   b.innerHTML=mkF('Texto del footer','ftr-txt','text',content.footer.texto,'',100);
+}
+
+/* ── TEMAS FORM ── */
+function fTemas(b){
+  const actual=content.tema||'cumbre';
+  b.innerHTML=`
+    <div class="section-subtitle">Paleta de colores del sitio</div>
+    <p style="font-size:.84rem;color:var(--muted);margin:0 0 18px">Elige un tema diseñado por expertos. Se aplica al instante en la vista previa y al publicar.</p>
+    <div class="temas-grid">
+      ${Object.entries(TEMAS).map(([key,t])=>`
+        <div class="tema-card ${key===actual?'selected':''}" onclick="selectTema('${key}')">
+          <div class="tema-swatches">
+            ${t.swatches.map(c=>`<span class="tema-swatch" style="background:${c}"></span>`).join('')}
+          </div>
+          <div class="tema-info">
+            <div class="tema-nombre">${t.nombre}</div>
+            <div class="tema-desc">${t.desc}</div>
+          </div>
+          ${key===actual?'<span class="tema-badge">Activo</span>':''}
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+function selectTema(key){
+  content.tema=key;
+  mk();
+  // Re-render view to update selected state
+  fTemas(document.getElementById('editor-body'));
+  up();
+  toast('success','Tema aplicado',TEMAS[key].nombre+' — guarda para publicar.');
 }
 
 /* ── FONDO FORM ── */
@@ -1316,9 +1374,17 @@ function de(){document.querySelectorAll('.drag-item').forEach(el=>el.classList.r
 function up(){updatePreview();}
 function updatePreview(){
   collectForm();
+  // Apply theme vars to preview frame
+  const frame=document.getElementById('pv-frame');
+  if(frame&&content.tema&&TEMAS[content.tema]){
+    const tvars={'cumbre':{'--pv-accent':'#f97316','--pv-moss':'#86efac','--pv-bg':'#03050a'},'obsidiana':{'--pv-accent':'#3b82f6','--pv-moss':'#93c5fd','--pv-bg':'#020409'},'glaciar':{'--pv-accent':'#0ea5e9','--pv-moss':'#38bdf8','--pv-bg':'#020b14'},'aurora':{'--pv-accent':'#a855f7','--pv-moss':'#818cf8','--pv-bg':'#040216'},'volcan':{'--pv-accent':'#ef4444','--pv-moss':'#fca5a5','--pv-bg':'#0f0203'},'selva':{'--pv-accent':'#22c55e','--pv-moss':'#4ade80','--pv-bg':'#010f04'},'desierto':{'--pv-accent':'#d97706','--pv-moss':'#fbbf24','--pv-bg':'#150a01'},'cobre':{'--pv-accent':'#b45309','--pv-moss':'#f59e0b','--pv-bg':'#0d0905'}};
+    const tv=tvars[content.tema]||tvars.cumbre;
+    Object.entries(tv).forEach(([k,v])=>frame.style.setProperty(k,v));
+  }
   const pv=document.getElementById('pv-content');
   if(currentView==='hero'||currentView==='fondo'||currentView==='botones')pv.innerHTML=pvHero();
   else if(currentView==='footer')pv.innerHTML=pvHero()+pvFooter();
+  else if(currentView==='temas')pv.innerHTML=pvHero();
   else if(currentView==='media')pv.innerHTML=pvMedia();
   else if(currentView==='section'){
     const sec=content.secciones.find(s=>s.id===currentSecId);
@@ -1329,7 +1395,7 @@ function updatePreview(){
 function pvStars(){return [[8,10],[25,20],[15,5],[60,12],[75,8],[85,25],[45,7],[92,15],[38,18],[70,4]].map(([l,t])=>`<div class="pv-star" style="left:${l}%;top:${t}%;opacity:${.3+Math.random()*.5}"></div>`).join('');}
 function pvMtns(){return `<svg class="pv-hero-mtn" viewBox="0 0 800 200" preserveAspectRatio="xMidYMax slice"><polygon points="0,200 0,130 70,70 140,110 230,40 310,85 390,150 470,55 550,100 630,35 720,75 800,50 800,200" fill="#0c1a2e"/><polygon points="0,200 0,155 90,100 170,135 260,80 340,115 430,170 510,95 590,130 670,75 760,110 800,90 800,200" fill="#071a10"/><polygon points="0,200 0,175 100,130 200,155 300,115 380,145 480,175 560,135 650,155 730,125 800,145 800,200" fill="#030c05"/></svg>`;}
 function pvBtnHtml(b){
-  const st={primary:`font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;padding:10px 20px;background:#f97316;color:#000;font-weight:700;border:1px solid #f97316;text-decoration:none;display:inline-block`,outline:`font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;padding:10px 20px;background:transparent;color:#fef3c7;font-weight:500;border:1px solid rgba(254,243,199,.3);text-decoration:none;display:inline-block`,secondary:`font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;padding:10px 20px;background:rgba(134,239,172,.1);color:#86efac;font-weight:500;border:1px solid rgba(134,239,172,.25);text-decoration:none;display:inline-block`};
+  const st={primary:`font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;padding:10px 20px;background:var(--pv-accent,#f97316);color:#000;font-weight:700;border:1px solid var(--pv-accent,#f97316);text-decoration:none;display:inline-block`,outline:`font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;padding:10px 20px;background:transparent;color:#fef3c7;font-weight:500;border:1px solid rgba(254,243,199,.3);text-decoration:none;display:inline-block`,secondary:`font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;padding:10px 20px;background:rgba(134,239,172,.1);color:var(--pv-moss,#86efac);font-weight:500;border:1px solid rgba(134,239,172,.25);text-decoration:none;display:inline-block`};
   const sz={sm:'padding:7px 14px;font-size:.55rem',md:'',lg:'padding:14px 32px;font-size:.72rem'};
   const sh={pill:'border-radius:100px',square:'border-radius:2px',rounded:'border-radius:4px'};
   const style=`${st[b.estilo]||st.primary};${sz[b.tamano]||''};${sh[b.forma]||'border-radius:4px'}`;
