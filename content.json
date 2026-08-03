@@ -43,7 +43,7 @@
       "stats": [
         {
           "valor": "5+",
-          "etiqueta": "aÃ±os de experiencia"
+          "etiqueta": "años de experiencia"
         },
         {
           "valor": "200+",
@@ -99,7 +99,7 @@
       "id": "cnt1",
       "tipo": "contacto",
       "visible": true,
-      "titulo": "📞 Contactanos",
+      "titulo": "Contactanos",
       "subtitulo": "Contactanos y empecemos a planear tu proxima expedir",
       "email": "info@alturalibre.com",
       "telefono": "+52 81 0000 0000",
