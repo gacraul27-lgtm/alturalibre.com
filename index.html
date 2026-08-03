@@ -3,267 +3,589 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Altura Libre — Próximamente</title>
+<title>Altura Libre</title>
 <link rel="icon" href="logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --forest-deep:#0f2415;
-    --forest-mid:#1c3d22;
-    --forest-light:#2f5a37;
-    --cream:#f3ead9;
-    --ember:#d98f4e;
-    --moss:#9dbb96;
-    --ink:#081209;
-  }
+:root {
+  --ember: #f97316;
+  --ember-dim: rgba(249,115,22,0.25);
+  --cream: #fef3c7;
+  --moss: #86efac;
+  --mono: 'JetBrains Mono', monospace;
+  --display: 'Bebas Neue', sans-serif;
+  --sans: 'Inter', sans-serif;
+}
 
-  *{ margin:0; padding:0; box-sizing:border-box; }
-  html,body{ height:100%; }
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html, body { height:100%; overflow:hidden; }
 
-  body{
-    min-height:100vh;
-    font-family:'Inter', sans-serif;
-    color:var(--cream);
-    position:relative;
-    overflow-x:hidden;
-    background:
-      radial-gradient(ellipse 100% 60% at 15% -10%, var(--forest-light) 0%, transparent 55%),
-      radial-gradient(ellipse 90% 70% at 100% 110%, var(--forest-mid) 0%, transparent 60%),
-      var(--forest-deep);
-  }
+body {
+  font-family: var(--sans);
+  background: #020609;
+  color: var(--cream);
+  cursor: none;
+  user-select: none;
+}
 
-  /* Textura de grano sutil */
-  body::before{
-    content:"";
-    position:fixed;
-    inset:0;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
-    pointer-events:none;
-    z-index:1;
-  }
+/* ── CURSOR ── */
+#cur {
+  position:fixed; width:8px; height:8px; border-radius:50%;
+  background:var(--ember); pointer-events:none; z-index:9999;
+  transform:translate(-50%,-50%); mix-blend-mode:screen;
+  transition: width .12s, height .12s;
+}
+#cur-ring {
+  position:fixed; width:36px; height:36px; border-radius:50%;
+  border:1px solid rgba(249,115,22,.35); pointer-events:none; z-index:9998;
+  transform:translate(-50%,-50%); transition:all .07s linear;
+}
+#mouse-glow {
+  position:fixed; width:600px; height:600px; border-radius:50%;
+  background:radial-gradient(circle, rgba(249,115,22,.05) 0%, transparent 70%);
+  pointer-events:none; z-index:2; transform:translate(-50%,-50%);
+  transition:left .35s ease-out, top .35s ease-out;
+}
 
-  .wrap{
-    position:relative;
-    z-index:2;
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    padding:56px 24px;
-  }
+/* ── CANVAS ── */
+#sky { position:fixed; inset:0; z-index:0; }
 
-  /* Ruta punteada de fondo, tipo mapa de senderismo */
-  .trail{
-    position:absolute;
-    inset:0;
-    z-index:1;
-    width:100%;
-    height:100%;
-  }
+/* ── AURORA ── */
+.aurora {
+  position:fixed; inset:0; z-index:1; pointer-events:none; overflow:hidden;
+}
+.ab {
+  position:absolute; left:-20%; width:140%; height:360px;
+  border-radius:50%; filter:blur(70px); opacity:0;
+  animation:aurora-wave 16s ease-in-out infinite;
+}
+.ab:nth-child(1){
+  top:5%;
+  background:radial-gradient(ellipse, rgba(13,148,136,.4) 0%, transparent 65%);
+  animation-delay:0s; animation-duration:18s;
+}
+.ab:nth-child(2){
+  top:20%;
+  background:radial-gradient(ellipse, rgba(30,107,138,.3) 0%, transparent 65%);
+  animation-delay:-7s; animation-duration:22s;
+}
+.ab:nth-child(3){
+  top:2%;
+  background:radial-gradient(ellipse, rgba(21,128,61,.22) 0%, transparent 65%);
+  animation-delay:-13s; animation-duration:20s;
+}
+@keyframes aurora-wave {
+  0%   { opacity:0; transform:translateX(-6%) scaleY(.8) skewX(-3deg); }
+  20%  { opacity:1; }
+  50%  { transform:translateX(6%) scaleY(1.25) skewX(2deg); opacity:.85; }
+  80%  { opacity:1; }
+  100% { opacity:0; transform:translateX(-4%) scaleY(.9) skewX(-2deg); }
+}
 
-  .top-row{
-    display:flex;
-    align-items:center;
-    gap:14px;
-    margin-bottom:38px;
-  }
+/* ── SKY GRADIENT ── */
+.sky-bg {
+  position:fixed; inset:0; z-index:0;
+  background: linear-gradient(
+    to bottom,
+    #020609 0%,
+    #05091a 25%,
+    #080f26 50%,
+    #091a16 75%,
+    #051008 100%
+  );
+}
 
-  .logo{
-    width:56px;
-    height:56px;
-    border-radius:14px;
-    object-fit:cover;
-    box-shadow:0 0 0 1px rgba(243,234,217,0.15);
-    flex-shrink:0;
-  }
+/* ── MOON ── */
+.moon {
+  position:fixed; z-index:3;
+  width:72px; height:72px; border-radius:50%;
+  top:10%; right:14%;
+  background:radial-gradient(circle at 38% 38%, #fffdf0, #d9c68a 60%, #b8a872);
+  box-shadow:
+    0 0 0 1px rgba(254,243,199,.15),
+    0 0 50px rgba(254,243,199,.3),
+    0 0 100px rgba(254,243,199,.15),
+    0 0 180px rgba(254,243,199,.07);
+  animation:moon-breathe 8s ease-in-out infinite;
+}
+.moon::before {
+  content:''; position:absolute; inset:-30px; border-radius:50%;
+  background:radial-gradient(circle, rgba(254,243,199,.07) 0%, transparent 70%);
+}
+@keyframes moon-breathe {
+  0%,100%{ box-shadow:0 0 0 1px rgba(254,243,199,.15),0 0 50px rgba(254,243,199,.3),0 0 100px rgba(254,243,199,.15),0 0 180px rgba(254,243,199,.07); }
+  50%    { box-shadow:0 0 0 1px rgba(254,243,199,.25),0 0 80px rgba(254,243,199,.45),0 0 160px rgba(254,243,199,.25),0 0 260px rgba(254,243,199,.1); }
+}
 
-  .brandmark{
-    display:flex;
-    flex-direction:column;
-    align-items:flex-start;
-    line-height:1;
-    text-align:left;
-  }
+/* ── SHOOTING STARS ── */
+.ss {
+  position:fixed; height:1.5px; border-radius:2px;
+  background:linear-gradient(90deg, rgba(254,243,199,.9), transparent);
+  pointer-events:none; z-index:4; opacity:0;
+  animation: shoot linear infinite;
+}
+@keyframes shoot {
+  0%   { opacity:0; transform:translateX(0) translateY(0); width:0; }
+  4%   { opacity:1; }
+  65%  { opacity:.6; }
+  100% { opacity:0; transform:translateX(280px) translateY(140px); width:160px; }
+}
 
-  .brandmark .name{
-    font-family:'Bebas Neue', sans-serif;
-    font-size:1.5rem;
-    letter-spacing:0.08em;
-  }
+/* ── MOUNTAIN LAYERS ── */
+.mtn { position:fixed; bottom:0; left:0; width:100%; pointer-events:none; z-index:5; will-change:transform; }
 
-  .brandmark .coords{
-    font-family:'JetBrains Mono', monospace;
-    font-size:0.62rem;
-    letter-spacing:0.05em;
-    color:var(--moss);
-    margin-top:4px;
-  }
+/* ── SCAN LINE (light sweep) ── */
+.scan {
+  position:fixed; inset:0; z-index:6; pointer-events:none;
+  background:linear-gradient(to bottom, transparent 0%, rgba(134,239,172,.015) 50%, transparent 100%);
+  animation:scan-sweep 10s ease-in-out infinite;
+}
+@keyframes scan-sweep {
+  0%,100%{ transform:translateY(-100%); opacity:0; }
+  20%    { opacity:1; }
+  80%    { opacity:.5; }
+  90%    { transform:translateY(100%); opacity:0; }
+}
 
-  .content{
-    text-align:center;
-    max-width:720px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:28px;
-  }
+/* ── PARTICLES ── */
+.ptcl {
+  position:fixed; inset:0; z-index:7; pointer-events:none; overflow:hidden;
+}
+.p {
+  position:absolute; border-radius:50%;
+  background:rgba(134,239,172,.55);
+  animation:float-up linear infinite;
+}
+@keyframes float-up {
+  0%   { transform:translateY(100vh) translateX(0); opacity:0; }
+  8%   { opacity:.8; }
+  90%  { opacity:.4; }
+  100% { transform:translateY(-30px) translateX(var(--d)); opacity:0; }
+}
 
-  .eyebrow{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    font-family:'JetBrains Mono', monospace;
-    font-size:0.68rem;
-    letter-spacing:0.28em;
-    text-transform:uppercase;
-    color:var(--ember);
-  }
+/* ── GRAIN ── */
+body::after {
+  content:''; position:fixed; inset:0; z-index:8; pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+  opacity:.6;
+}
 
-  .eyebrow::before, .eyebrow::after{
-    content:"";
-    width:26px;
-    height:1px;
-    background:var(--ember);
-    opacity:0.6;
-  }
+/* ── VIGNETTE ── */
+body::before {
+  content:''; position:fixed; inset:0; z-index:9; pointer-events:none;
+  background:radial-gradient(ellipse at center, transparent 40%, rgba(2,6,9,.7) 100%);
+}
 
-  .headline{
-    font-family:'Bebas Neue', sans-serif;
-    font-weight:400;
-    font-size:clamp(2.6rem, 8vw, 5.2rem);
-    line-height:0.98;
-    letter-spacing:0.01em;
-    text-transform:uppercase;
-    color:var(--cream);
-  }
+/* ── UI ── */
+.ui { position:fixed; inset:0; z-index:10; display:flex; flex-direction:column; }
 
-  .headline .accent{
-    color:var(--ember);
-    position:relative;
-  }
+/* Header */
+.hdr {
+  padding:28px 36px;
+  display:flex; align-items:center; justify-content:space-between;
+  animation:fade-in 1.8s ease both;
+}
+.brand { display:flex; align-items:center; gap:12px; }
+.brand-logo {
+  width:44px; height:44px; border-radius:10px; object-fit:cover;
+  box-shadow:0 0 0 1px rgba(254,243,199,.1), 0 0 24px var(--ember-dim);
+}
+.brand-name {
+  font-family:var(--display); font-size:1.35rem;
+  letter-spacing:.12em; color:var(--cream); opacity:.9;
+}
+.hdr-tag {
+  font-family:var(--mono); font-size:.6rem; letter-spacing:.22em;
+  text-transform:uppercase; color:var(--moss); opacity:.55;
+}
 
-  .subtext{
-    font-size:1.02rem;
-    color:var(--moss);
-    max-width:440px;
-    line-height:1.7;
-  }
+/* Hero */
+.hero {
+  flex:1; display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  padding:0 24px; gap:22px;
+}
 
-  /* Divisor tipo sendero con waypoints */
-  .route{
-    width:280px;
-    display:flex;
-    align-items:center;
-    gap:6px;
-    margin-top:4px;
-  }
+.eyebrow {
+  font-family:var(--mono); font-size:.65rem; letter-spacing:.35em;
+  text-transform:uppercase; color:var(--ember);
+  display:flex; align-items:center; gap:14px;
+  animation:fade-up 1s ease .3s both;
+}
+.eyebrow::before,.eyebrow::after {
+  content:''; width:28px; height:1px; background:var(--ember); opacity:.5;
+}
 
-  .route .line{
-    flex:1;
-    height:1px;
-    background-image:linear-gradient(90deg, var(--moss) 40%, transparent 0%);
-    background-size:8px 1px;
-    opacity:0.5;
-  }
+.headline {
+  font-family:var(--display);
+  font-size:clamp(3.8rem, 11vw, 7.6rem);
+  line-height:.92; letter-spacing:.02em;
+  text-transform:uppercase; text-align:center;
+  perspective:600px;
+}
+.headline .w {
+  display:inline-block;
+  animation:word-in .9s cubic-bezier(.16,1,.3,1) both;
+}
+.headline .w:nth-child(1){ animation-delay:.4s; }
+.headline .w:nth-child(2){ animation-delay:.55s; }
+.headline .w:nth-child(3){ animation-delay:.7s; }
+.headline .w:nth-child(4){ animation-delay:.85s; }
+.headline .w:nth-child(5){ animation-delay:1s; }
 
-  .route .dot{
-    width:6px; height:6px; border-radius:50%;
-    background:var(--moss);
-    flex-shrink:0;
-  }
+.headline .accent {
+  color:var(--ember);
+  position:relative; display:inline-block;
+  filter:drop-shadow(0 0 30px rgba(249,115,22,.5));
+}
+.headline .accent::after {
+  content:attr(data-t); position:absolute; inset:0;
+  color:var(--ember); filter:blur(22px); opacity:.5; pointer-events:none;
+}
 
-  .route .flag{
-    width:12px; height:12px;
-    flex-shrink:0;
-    color:var(--ember);
-  }
+@keyframes word-in {
+  0%  { opacity:0; transform:translateY(50px) rotateX(-25deg); }
+  100%{ opacity:1; transform:translateY(0) rotateX(0); }
+}
 
-  .status{
-    font-family:'JetBrains Mono', monospace;
-    font-size:0.7rem;
-    letter-spacing:0.1em;
-    color:var(--ember);
-    display:flex;
-    align-items:center;
-    gap:8px;
-  }
+.subtext {
+  font-size:1rem; font-weight:300; line-height:1.8;
+  color:rgba(134,239,172,.65); max-width:380px; text-align:center;
+  animation:fade-up 1s ease 1.2s both;
+}
 
-  .status .pulse{
-    width:7px; height:7px; border-radius:50%;
-    background:var(--ember);
-    animation:pulse 1.8s ease-in-out infinite;
-  }
+/* Stats row */
+.stats {
+  display:flex; align-items:center; gap:0;
+  animation:fade-up 1s ease 1.4s both;
+}
+.stat {
+  display:flex; flex-direction:column; align-items:center;
+  gap:4px; padding:0 24px;
+}
+.stat-label {
+  font-family:var(--mono); font-size:.52rem; letter-spacing:.2em;
+  text-transform:uppercase; color:var(--ember); opacity:.65;
+}
+.stat-value {
+  font-family:var(--mono); font-size:1.45rem; font-weight:500;
+  color:var(--cream); line-height:1;
+}
+.stat-unit {
+  font-family:var(--mono); font-size:.52rem; letter-spacing:.1em;
+  color:var(--moss); opacity:.5; text-transform:uppercase;
+}
+.stat-sep {
+  width:1px; height:44px;
+  background:linear-gradient(to bottom, transparent, rgba(134,239,172,.25), transparent);
+}
 
-  @keyframes pulse{
-    0%,100%{ opacity:1; box-shadow:0 0 0 0 rgba(217,143,78,0.5); }
-    50%{ opacity:0.5; box-shadow:0 0 0 6px rgba(217,143,78,0); }
-  }
+/* Status */
+.status {
+  display:flex; align-items:center; gap:9px;
+  animation:fade-up 1s ease 1.6s both;
+}
+.pulse {
+  width:6px; height:6px; border-radius:50%;
+  background:var(--ember);
+  animation:pulse 2.2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,100%{ box-shadow:0 0 0 0 rgba(249,115,22,.5); }
+  50%    { box-shadow:0 0 0 7px rgba(249,115,22,0); }
+}
+.status-txt {
+  font-family:var(--mono); font-size:.62rem;
+  letter-spacing:.2em; text-transform:uppercase; color:var(--ember);
+}
 
-  footer{
-    position:relative;
-    z-index:2;
-    padding-bottom:28px;
-    font-family:'JetBrains Mono', monospace;
-    font-size:0.62rem;
-    letter-spacing:0.15em;
-    color:var(--forest-light);
-    text-transform:uppercase;
-  }
+/* Compass */
+.compass {
+  position:fixed; bottom:36px; right:36px; z-index:11;
+  opacity:.55; animation:fade-in 2s ease 2.2s both;
+}
+.compass svg { width:56px; height:56px; }
+.compass-needle { animation:compass-spin 28s linear infinite; transform-origin:27px 27px; }
+@keyframes compass-spin { to{ transform:rotate(360deg); } }
 
-  @media (max-width:520px){
-    .top-row{ flex-direction:column; text-align:center; }
-    .brandmark{ align-items:center; }
-  }
+/* Coords */
+.coords {
+  position:fixed; bottom:36px; left:36px; z-index:11;
+  font-family:var(--mono); font-size:.58rem; letter-spacing:.15em;
+  color:var(--moss); opacity:.45; line-height:1.9;
+  animation:fade-in 2s ease 2.2s both;
+}
+.coords span { color:rgba(249,115,22,.5); }
 
-  @media (prefers-reduced-motion: reduce){
-    .status .pulse{ animation:none; }
-  }
+@keyframes fade-in { from{opacity:0;} to{opacity:1;} }
+@keyframes fade-up  { from{opacity:0;transform:translateY(22px);} to{opacity:1;transform:translateY(0);} }
+
+@media(max-width:600px){
+  .hdr-tag,.coords,.compass,.stat-sep{ display:none; }
+  .stat{ padding:0 14px; }
+  .headline{ font-size:clamp(3rem,15vw,5rem); }
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{ animation:none!important; transition:none!important; }
+}
 </style>
 </head>
 <body>
 
-  <svg class="trail" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
-    <path d="M -50,780 C 250,700 300,550 550,520 S 850,600 1000,420 S 1250,200 1500,140"
-      stroke="#2f5a37" stroke-width="1.5" stroke-dasharray="2 14" fill="none" opacity="0.55" stroke-linecap="round"/>
-    <path d="M -50,850 C 200,820 380,650 600,680 S 950,750 1100,560 S 1300,350 1550,300"
-      stroke="#2f5a37" stroke-width="1.5" stroke-dasharray="2 14" fill="none" opacity="0.35" stroke-linecap="round"/>
-    <polygon points="0,900 260,540 430,700 620,430 830,640 1020,380 1230,620 1440,480 1440,900" fill="#0c1f11" opacity="0.7"/>
+<div id="cur"></div>
+<div id="cur-ring"></div>
+<div id="mouse-glow"></div>
+
+<canvas id="sky"></canvas>
+
+<div class="sky-bg"></div>
+
+<div class="aurora">
+  <div class="ab"></div>
+  <div class="ab"></div>
+  <div class="ab"></div>
+</div>
+
+<div class="moon"></div>
+
+<!-- Shooting stars -->
+<div class="ss" style="top:13%;left:55%;animation-delay:0s;animation-duration:4.5s;transform:rotate(28deg)"></div>
+<div class="ss" style="top:7%;left:18%;animation-delay:8s;animation-duration:3.8s;transform:rotate(22deg)"></div>
+<div class="ss" style="top:20%;left:72%;animation-delay:15s;animation-duration:5s;transform:rotate(32deg)"></div>
+<div class="ss" style="top:5%;left:38%;animation-delay:23s;animation-duration:4s;transform:rotate(26deg)"></div>
+
+<!-- Mountain layers (SVGs injected by JS for responsiveness) -->
+<svg class="mtn" id="m-far" viewBox="0 0 1440 520" preserveAspectRatio="xMidYMax slice">
+  <defs>
+    <linearGradient id="gf" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#10203e"/>
+      <stop offset="100%" stop-color="#0b1630"/>
+    </linearGradient>
+    <filter id="snow">
+      <feGaussianBlur stdDeviation="2.5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <polygon points="0,520 0,360 90,220 180,310 300,130 400,230 480,380 580,70 660,190 750,300 840,110 940,240 1040,370 1140,90 1240,210 1340,310 1440,160 1440,520" fill="url(#gf)"/>
+  <!-- Snow caps -->
+  <polygon points="300,130 272,192 328,192" fill="rgba(254,243,199,.55)" filter="url(#snow)"/>
+  <polygon points="580,70 550,138 610,138" fill="rgba(254,243,199,.65)" filter="url(#snow)"/>
+  <polygon points="840,110 812,172 868,172" fill="rgba(254,243,199,.55)" filter="url(#snow)"/>
+  <polygon points="1140,90 1112,152 1168,152" fill="rgba(254,243,199,.6)" filter="url(#snow)"/>
+  <!-- Moonlight ridge glow -->
+  <polyline points="0,360 90,220 180,310 300,130 400,230 480,380 580,70 660,190 750,300 840,110 940,240 1040,370 1140,90 1240,210 1340,310 1440,160"
+    fill="none" stroke="rgba(254,243,199,.06)" stroke-width="2.5"/>
+</svg>
+
+<svg class="mtn" id="m-mid" viewBox="0 0 1440 520" preserveAspectRatio="xMidYMax slice">
+  <defs>
+    <linearGradient id="gm" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#091b10"/>
+      <stop offset="100%" stop-color="#050e08"/>
+    </linearGradient>
+  </defs>
+  <polygon points="0,520 0,410 110,290 220,380 360,210 480,330 580,430 700,190 800,310 920,400 1040,250 1140,360 1240,450 1360,300 1440,390 1440,520" fill="url(#gm)"/>
+  <polyline points="0,410 110,290 220,380 360,210 480,330 580,430 700,190 800,310 920,400 1040,250 1140,360 1240,450 1360,300 1440,390"
+    fill="none" stroke="rgba(134,239,172,.05)" stroke-width="1.5"/>
+</svg>
+
+<svg class="mtn" id="m-near" viewBox="0 0 1440 520" preserveAspectRatio="xMidYMax slice">
+  <defs>
+    <linearGradient id="gn" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#030c05"/>
+      <stop offset="100%" stop-color="#020709"/>
+    </linearGradient>
+  </defs>
+  <polygon points="0,520 0,460 110,360 220,430 340,310 460,410 580,470 700,350 820,430 940,370 1060,450 1180,390 1300,450 1440,370 1440,520" fill="url(#gn)"/>
+</svg>
+
+<svg class="mtn" id="m-floor" viewBox="0 0 1440 120" preserveAspectRatio="xMidYMax slice">
+  <rect width="1440" height="120" fill="#020709"/>
+</svg>
+
+<div class="scan"></div>
+<div class="ptcl" id="ptcl"></div>
+
+<!-- UI -->
+<div class="ui">
+  <header class="hdr">
+    <div class="brand">
+      <img class="brand-logo" src="logo.jpg" alt="Altura Libre">
+      <span class="brand-name">ALTURA LIBRE</span>
+    </div>
+    <div class="hdr-tag">25.6866°N · 100.3161°W</div>
+  </header>
+
+  <section class="hero">
+    <div class="eyebrow">Próximamente</div>
+
+    <h1 class="headline">
+      <span class="w">La</span>&nbsp;<span class="w">cima</span><br>
+      <span class="w">te</span>&nbsp;<span class="w"><span class="accent" data-t="espera">espera</span></span>
+    </h1>
+
+    <p class="subtext">Ajustando el equipo, trazando la ruta.<br>La aventura comienza pronto.</p>
+
+    <div class="stats">
+      <div class="stat">
+        <span class="stat-label">Altitud</span>
+        <span class="stat-value" id="alt">0</span>
+        <span class="stat-unit">m.s.n.m.</span>
+      </div>
+      <div class="stat-sep"></div>
+      <div class="stat">
+        <span class="stat-label">Temperatura</span>
+        <span class="stat-value">−4°</span>
+        <span class="stat-unit">Celsius</span>
+      </div>
+      <div class="stat-sep"></div>
+      <div class="stat">
+        <span class="stat-label">Viento</span>
+        <span class="stat-value">18</span>
+        <span class="stat-unit">km/h</span>
+      </div>
+    </div>
+
+    <div class="status">
+      <div class="pulse"></div>
+      <span class="status-txt">Preparando equipo · Basecamp Monterrey</span>
+    </div>
+  </section>
+</div>
+
+<!-- Compass -->
+<div class="compass">
+  <svg viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="27" cy="27" r="25" stroke="rgba(134,239,172,.18)" stroke-width="1"/>
+    <circle cx="27" cy="27" r="19" stroke="rgba(134,239,172,.08)" stroke-width=".5" stroke-dasharray="2 5"/>
+    <g class="compass-needle">
+      <polygon points="27,6 24.5,27 27,30.5 29.5,27" fill="rgba(249,115,22,.85)"/>
+      <polygon points="27,48 24.5,27 27,30.5 29.5,27" fill="rgba(134,239,172,.4)"/>
+      <circle cx="27" cy="27" r="2.2" fill="rgba(254,243,199,.7)"/>
+    </g>
+    <text x="27" y="5.5" text-anchor="middle" font-family="JetBrains Mono" font-size="4.5" fill="rgba(254,243,199,.45)">N</text>
+    <text x="48.5" y="28.5" text-anchor="middle" font-family="JetBrains Mono" font-size="4.5" fill="rgba(134,239,172,.35)">E</text>
+    <text x="27" y="51.5" text-anchor="middle" font-family="JetBrains Mono" font-size="4.5" fill="rgba(134,239,172,.35)">S</text>
+    <text x="5.5" y="28.5" text-anchor="middle" font-family="JetBrains Mono" font-size="4.5" fill="rgba(134,239,172,.35)">O</text>
   </svg>
+</div>
 
-  <div class="wrap">
+<!-- Coordinates -->
+<div class="coords">
+  <div>25°41'11.8"N</div>
+  <div>100°18'57.6"W</div>
+  <div><span>ALT 2,248m</span></div>
+</div>
 
-    <div class="top-row">
-      <img class="logo" src="logo.jpg" alt="Altura Libre">
-      <div class="brandmark">
-        <span class="name">ALTURA LIBRE</span>
-        <span class="coords">25.6866° N, 100.3161° W · BASECAMP</span>
-      </div>
-    </div>
+<script>
+/* ── CURSOR ── */
+const cur = document.getElementById('cur');
+const ring = document.getElementById('cur-ring');
+const mglow = document.getElementById('mouse-glow');
+let mx=0,my=0,rx=0,ry=0;
 
-    <div class="content">
-      <span class="eyebrow">Ruta en preparación</span>
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cur.style.left = mx+'px'; cur.style.top = my+'px';
+  mglow.style.left = mx+'px'; mglow.style.top = my+'px';
 
-      <h1 class="headline">Nos estamos preparando<br>para la <span class="accent">aventura</span></h1>
+  // Mountain parallax
+  const px = (e.clientX/innerWidth - .5);
+  const py = (e.clientY/innerHeight - .5);
+  document.getElementById('m-far').style.transform  = `translateX(${px*-12}px) translateY(${py*-6}px)`;
+  document.getElementById('m-mid').style.transform  = `translateX(${px*-28}px) translateY(${py*-14}px)`;
+  document.getElementById('m-near').style.transform = `translateX(${px*-52}px) translateY(${py*-22}px)`;
+});
 
-      <p class="subtext">Estamos ajustando algunas cuerdas, trazando la ruta para comenzar la aventura.</p>
+(function trailLoop(){
+  rx += (mx-rx)*.1; ry += (my-ry)*.1;
+  ring.style.left=rx+'px'; ring.style.top=ry+'px';
+  requestAnimationFrame(trailLoop);
+})();
 
-      <div class="route">
-        <div class="dot"></div>
-        <div class="line"></div>
-        <div class="dot"></div>
-        <div class="line"></div>
-        <svg class="flag" viewBox="0 0 24 24" fill="currentColor"><path d="M5 3v18h2v-7h9l-2-4 2-4H7V3z"/></svg>
-      </div>
+/* ── STARS ── */
+const cv = document.getElementById('sky');
+const cx = cv.getContext('2d');
+let stars=[];
 
-      <div class="status"><span class="pulse"></span>PREPARANDO EQUIPO</div>
-    </div>
+function resize(){
+  cv.width=innerWidth; cv.height=innerHeight;
+  stars = Array.from({length:260}, ()=>({
+    x: Math.random()*cv.width,
+    y: Math.random()*cv.height*.72,
+    r: Math.random()*1.3+.2,
+    a: Math.random()*.65+.1,
+    spd: Math.random()*.0025+.001,
+    ph: Math.random()*Math.PI*2,
+  }));
+}
 
-  </div>
+function drawStars(t){
+  cx.clearRect(0,0,cv.width,cv.height);
+  stars.forEach(s=>{
+    const a = s.a*(0.55 + 0.45*Math.sin(t*s.spd*1000+s.ph));
+    cx.beginPath();
+    cx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    cx.fillStyle=`rgba(254,243,199,${a})`;
+    cx.fill();
+    if(s.r>1){
+      cx.beginPath();
+      cx.arc(s.x,s.y,s.r*3.5,0,Math.PI*2);
+      cx.fillStyle=`rgba(254,243,199,${a*.07})`;
+      cx.fill();
+    }
+  });
+}
 
-  <footer>Altura Libre · Basecamp Monterrey</footer>
+(function animStars(t){
+  drawStars(t);
+  requestAnimationFrame(animStars);
+})(0);
 
+window.addEventListener('resize', resize);
+resize();
+
+/* ── PARTICLES ── */
+const pc = document.getElementById('ptcl');
+for(let i=0;i<28;i++){
+  const p=document.createElement('div');
+  p.className='p';
+  const sz=Math.random()*2+.4;
+  p.style.cssText=`
+    left:${Math.random()*100}%;bottom:0;
+    width:${sz}px;height:${sz}px;
+    --d:${(Math.random()-.5)*90}px;
+    animation-duration:${Math.random()*14+8}s;
+    animation-delay:${Math.random()*12}s;
+    opacity:0;
+  `;
+  pc.appendChild(p);
+}
+
+/* ── ALTITUDE COUNTER ── */
+const altEl=document.getElementById('alt');
+setTimeout(()=>{
+  let v=0, target=2248;
+  const iv=setInterval(()=>{
+    v+=Math.ceil((target-v)*.09);
+    if(v>=target){ v=target; clearInterval(iv); }
+    altEl.textContent=v.toLocaleString('es-MX');
+  },16);
+},1500);
+
+/* ── HEADLINE hover tilt ── */
+document.querySelector('.headline').addEventListener('mousemove', e=>{
+  const r=e.currentTarget.getBoundingClientRect();
+  const x=((e.clientX-r.left)/r.width-.5)*10;
+  const y=((e.clientY-r.top)/r.height-.5)*-8;
+  e.currentTarget.style.transform=`perspective(600px) rotateY(${x}deg) rotateX(${y}deg)`;
+});
+document.querySelector('.headline').addEventListener('mouseleave',e=>{
+  e.currentTarget.style.transform='';
+  e.currentTarget.style.transition='transform .6s ease';
+});
+</script>
 </body>
 </html>
