@@ -473,6 +473,22 @@ html[data-mode="light"] #cur{mix-blend-mode:multiply;}
 html[data-mode="light"] #cur-ring{border-color:rgba(224,98,0,.25);}
 /* Scrollbar */
 html[data-mode="light"] ::-webkit-scrollbar-thumb{background:rgba(0,0,0,.12);}
+/* Botones en secciones de contenido (no hero) */
+html[data-mode="light"] .btn-outline{border-color:rgba(30,41,59,.2);color:#1e293b;}
+html[data-mode="light"] .btn-secondary{background:rgba(21,128,61,.08);border-color:rgba(21,128,61,.2);}
+/* Badges de staff */
+html[data-mode="light"] .staff-badge.hike{background:rgba(21,128,61,.12);color:#15803d;border-color:rgba(21,128,61,.28);}
+html[data-mode="light"] .staff-badge.social-run{background:rgba(29,78,216,.12);color:#1d4ed8;border-color:rgba(29,78,216,.28);}
+/* Filtros de actividades */
+html[data-mode="light"] .filtro-btn:hover,html[data-mode="light"] .filtro-btn.active{background:rgba(194,65,12,.08);border-color:rgba(194,65,12,.3);color:var(--ember);}
+/* FAQ arrow color */
+html[data-mode="light"] .faq-arrow{color:var(--ember);}
+/* Hora badge en actividades */
+html[data-mode="light"] .act-hora-badge{background:rgba(255,255,255,.82);color:#1e293b;}
+/* Contact form focus */
+html[data-mode="light"] .form-group input:focus,html[data-mode="light"] .form-group textarea:focus{border-color:rgba(194,65,12,.4);}
+/* CTA section */
+html[data-mode="light"] .sec-cta{background:linear-gradient(135deg,rgba(194,65,12,.05) 0%,rgba(21,128,61,.03) 100%);border-top-color:rgba(194,65,12,.1);border-bottom-color:rgba(194,65,12,.1);}
 </style>
 </head>
 <body>
@@ -1076,9 +1092,36 @@ const TEMAS={
     vars:{'--ember':'#b45309','--ember-dim':'rgba(180,83,9,.2)','--moss':'#f59e0b','--cream':'#fef3c7','--forest-deep':'#0d0905','--forest-dark':'#180f07','--forest-mid':'#231609'}
   },
 };
+/* Colores de acento ajustados para modo claro (contraste WCAG AA ≥ 4.5:1 sobre blanco) */
+const TEMAS_LIGHT={
+  cumbre:  {ember:'#c2410c',emberDim:'rgba(194,65,12,.12)',  moss:'#15803d'},
+  obsidiana:{ember:'#3730a3',emberDim:'rgba(55,48,163,.12)',  moss:'#1d4ed8'},
+  glaciar: {ember:'#0369a1',emberDim:'rgba(3,105,161,.12)',   moss:'#0c4a6e'},
+  aurora:  {ember:'#7e22ce',emberDim:'rgba(126,34,206,.12)',  moss:'#4338ca'},
+  volcan:  {ember:'#b91c1c',emberDim:'rgba(185,28,28,.12)',   moss:'#991b1b'},
+  selva:   {ember:'#15803d',emberDim:'rgba(21,128,61,.12)',   moss:'#166534'},
+  desierto:{ember:'#92400e',emberDim:'rgba(146,64,14,.12)',   moss:'#78350f'},
+  cobre:   {ember:'#78350f',emberDim:'rgba(120,53,15,.12)',   moss:'#92400e'},
+};
+let _currentTema='cumbre';
 function aplicarTema(nombre){
+  _currentTema=nombre;
   const t=TEMAS[nombre]||TEMAS.cumbre;
+  const isLight=document.documentElement.getAttribute('data-mode')==='light';
+  /* Siempre aplicar vars del tema primero */
   Object.entries(t.vars).forEach(([k,v])=>document.documentElement.style.setProperty(k,v));
+  /* En modo claro: sobreescribir vars estructurales para legibilidad */
+  if(isLight){
+    const lv=TEMAS_LIGHT[nombre]||TEMAS_LIGHT.cumbre;
+    const s=document.documentElement.style;
+    s.setProperty('--ember',lv.ember);
+    s.setProperty('--ember-dim',lv.emberDim);
+    s.setProperty('--moss',lv.moss);
+    s.setProperty('--cream','#1e293b');
+    s.setProperty('--forest-deep','#f8fafc');
+    s.setProperty('--forest-dark','#f1f5f9');
+    s.setProperty('--forest-mid','#e2e8f0');
+  }
 }
 
 const SEC_RENDER={nosotros:rNosotros,servicios:rServicios,contacto:rContacto,galeria:rGaleria,testimonios:rTestimonios,cta:rCTA,texto:rTexto,faq:rFAQ,precios:rPrecios,actividades:rActividades,staff:rStaff,login:rLogin};
@@ -1150,10 +1193,24 @@ function toggleMode(){
   localStorage.setItem('al_mode',next);
   const btn=document.getElementById('mode-btn');
   if(btn)btn.textContent=next==='dark'?'☀️':'🌙';
+  /* Re-aplicar tema para que las vars se recalculen con el nuevo modo */
+  aplicarTema(_currentTema);
 }
 (function initMode(){
   const m=localStorage.getItem('al_mode')||'dark';
-  if(m==='light')document.documentElement.setAttribute('data-mode','light');
+  if(m==='light'){
+    document.documentElement.setAttribute('data-mode','light');
+    /* Aplicar vars estructurales de inmediato (antes de que loadContent termine)
+       para evitar flash de texto blanco sobre fondo claro */
+    const s=document.documentElement.style;
+    s.setProperty('--cream','#1e293b');
+    s.setProperty('--forest-deep','#f8fafc');
+    s.setProperty('--forest-dark','#f1f5f9');
+    s.setProperty('--forest-mid','#e2e8f0');
+    s.setProperty('--moss','#15803d');
+    s.setProperty('--ember','#c2410c');
+    s.setProperty('--ember-dim','rgba(194,65,12,.12)');
+  }
   window.addEventListener('DOMContentLoaded',()=>{
     const btn=document.getElementById('mode-btn');
     if(btn)btn.textContent=m==='light'?'🌙':'☀️';

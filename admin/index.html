@@ -645,11 +645,31 @@ const ADMIN_TEMAS={
     vars:{'--bg':'#0d0a06','--side':'#130e08','--card':'#1a1408','--card2':'#211a0a','--border':'rgba(245,158,11,.1)','--border2':'rgba(245,158,11,.25)','--ember':'#f59e0b','--moss':'#fcd34d','--cream':'#fffbeb','--text':'rgba(255,251,235,.88)','--muted':'rgba(252,211,77,.45)','--faint':'rgba(252,211,77,.2)'}
   },
 };
+/* Ember oscuro para cada tema en modo claro (contraste ≥ 4.5:1 sobre blanco) */
+const ADMIN_LIGHT_EMBER={bosque:'#c2410c',obsidiana:'#3730a3',carbon:'#c2410c',aurora:'#7e22ce',volcan:'#b91c1c',ambar:'#92400e'};
 function aplicarAdminTema(key){
   const t=ADMIN_TEMAS[key]||ADMIN_TEMAS.bosque;
+  const isLight=document.documentElement.getAttribute('data-admin-mode')==='light';
   const r=document.documentElement;
-  Object.entries(t.vars).forEach(([k,v])=>r.style.setProperty(k,v));
   localStorage.setItem('al_admin_tema',key);
+  if(!isLight){
+    /* Modo oscuro: aplicar todas las vars del tema */
+    Object.entries(t.vars).forEach(([k,v])=>r.style.setProperty(k,v));
+  } else {
+    /* Modo claro: solo el acento cambia por tema; fondo/texto siempre claro */
+    r.style.setProperty('--ember', ADMIN_LIGHT_EMBER[key]||'#c2410c');
+    r.style.setProperty('--bg',    '#f0f4f8');
+    r.style.setProperty('--side',  '#ffffff');
+    r.style.setProperty('--card',  '#ffffff');
+    r.style.setProperty('--card2', '#f5f7fa');
+    r.style.setProperty('--border','rgba(0,0,0,.08)');
+    r.style.setProperty('--border2','rgba(0,0,0,.16)');
+    r.style.setProperty('--moss',  '#15803d');
+    r.style.setProperty('--cream', '#1e293b');
+    r.style.setProperty('--text',  'rgba(15,23,42,.88)');
+    r.style.setProperty('--muted', 'rgba(71,85,105,.65)');
+    r.style.setProperty('--faint', 'rgba(71,85,105,.22)');
+  }
 }
 
 /* ── LOGIN ── */
@@ -1666,6 +1686,8 @@ function toggleAdminMode(){
   localStorage.setItem('al_admin_mode',next);
   const btn=document.getElementById('admin-mode-btn');
   if(btn)btn.textContent=next==='dark'?'☀️':'🌙';
+  /* Re-aplicar tema para recalcular vars con el nuevo modo */
+  aplicarAdminTema(localStorage.getItem('al_admin_tema')||'bosque');
 }
 
 /* ── AUTO LOGIN + ADMIN TEMA + MODO ── */
