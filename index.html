@@ -256,6 +256,75 @@ footer{padding:40px 48px;border-top:1px solid rgba(134,239,172,.07);display:flex
 .p{position:absolute;border-radius:50%;background:rgba(134,239,172,.5);animation:float-up linear infinite;}
 @keyframes float-up{0%{transform:translateY(100vh) translateX(0);opacity:0;}8%{opacity:.7;}90%{opacity:.3;}100%{transform:translateY(-30px) translateX(var(--d));opacity:0;}}
 
+/* AUTH / LOGIN */
+.sec-auth{padding:120px 0;background:linear-gradient(to bottom,var(--forest-deep),#060e0a);}
+.auth-wrap{max-width:560px;margin:60px auto 0;}
+.auth-card{background:rgba(255,255,255,.025);border:1px solid rgba(134,239,172,.08);border-radius:12px;overflow:hidden;}
+.auth-tabs{display:flex;background:rgba(0,0,0,.2);}
+.auth-tab{flex:1;padding:16px;text-align:center;cursor:pointer;font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(134,239,172,.35);transition:all .2s;border:none;background:transparent;border-bottom:2px solid transparent;}
+.auth-tab.active{color:var(--ember);border-bottom-color:var(--ember);background:rgba(249,115,22,.04);}
+.auth-tab:hover:not(.active){color:rgba(134,239,172,.6);}
+.auth-form{padding:32px;}
+.auth-field{display:flex;flex-direction:column;gap:7px;margin-bottom:16px;}
+.auth-label{font-family:var(--mono);font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(134,239,172,.45);}
+.auth-input{background:rgba(0,0,0,.35);border:1px solid rgba(134,239,172,.1);border-radius:6px;color:rgba(254,243,199,.9);padding:12px 14px;font-size:.88rem;font-family:inherit;outline:none;transition:border-color .2s;width:100%;}
+.auth-input:focus{border-color:rgba(249,115,22,.4);box-shadow:0 0 0 3px rgba(249,115,22,.06);}
+.auth-input::placeholder{color:rgba(254,243,199,.15);}
+.auth-input option{background:#0a1209;color:rgba(254,243,199,.9);}
+.auth-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.auth-btn{width:100%;padding:14px;background:var(--ember);color:#000;border:none;border-radius:6px;font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;font-weight:700;cursor:pointer;transition:all .2s;margin-top:4px;}
+.auth-btn:hover{background:#fb923c;transform:translateY(-1px);}
+.auth-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+.auth-msg{padding:10px 14px;border-radius:6px;font-size:.8rem;margin-bottom:14px;display:none;}
+.auth-msg.err{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);color:#fca5a5;}
+.auth-msg.ok{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);color:#86efac;}
+.auth-msg.show{display:block;}
+.auth-verify{padding:48px 32px;text-align:center;}
+.auth-verify-ico{font-size:3.5rem;margin-bottom:16px;}
+.auth-verify-title{font-family:var(--display);font-size:2rem;text-transform:uppercase;color:var(--cream);margin-bottom:12px;}
+.auth-verify-sub{font-size:.9rem;font-weight:300;color:rgba(134,239,172,.5);line-height:1.75;}
+.auth-verify-email{color:var(--ember);font-family:var(--mono);font-size:.82rem;display:block;margin-top:6px;}
+.auth-profile{padding:32px;}
+.profile-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px;gap:12px;}
+.profile-name{font-family:var(--display);font-size:1.8rem;text-transform:uppercase;color:var(--cream);line-height:1;}
+.profile-email-txt{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;color:rgba(134,239,172,.4);margin-top:6px;}
+.profile-chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
+.p-chip{font-family:var(--mono);font-size:.52rem;letter-spacing:.1em;padding:4px 10px;border-radius:10px;background:rgba(134,239,172,.06);border:1px solid rgba(134,239,172,.1);color:rgba(134,239,172,.55);}
+.p-chip.blood{background:rgba(239,68,68,.07);border-color:rgba(239,68,68,.18);color:#fca5a5;}
+.btn-logout{padding:8px 14px;background:transparent;border:1px solid rgba(134,239,172,.12);color:rgba(134,239,172,.35);border-radius:6px;font-family:var(--mono);font-size:.56rem;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0;}
+.btn-logout:hover{border-color:rgba(239,68,68,.3);color:#fca5a5;}
+.reservas-head{font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(134,239,172,.3);margin:20px 0 10px;}
+.rsv-item{display:flex;align-items:center;gap:12px;padding:14px 16px;border:1px solid rgba(134,239,172,.07);border-radius:6px;margin-bottom:8px;transition:border-color .2s;}
+.rsv-item:hover{border-color:rgba(134,239,172,.15);}
+.rsv-ico{font-size:1.2rem;flex-shrink:0;}
+.rsv-info{flex:1;}
+.rsv-nombre{font-size:.88rem;font-weight:500;color:var(--cream);}
+.rsv-meta{font-family:var(--mono);font-size:.55rem;letter-spacing:.08em;color:rgba(134,239,172,.35);margin-top:3px;}
+.rsv-badge{font-family:var(--mono);font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:8px;flex-shrink:0;}
+.rsv-badge.pendiente{background:rgba(234,179,8,.1);color:#fde047;}
+.rsv-badge.confirmada{background:rgba(34,197,94,.1);color:#86efac;}
+.rsv-badge.cancelada{background:rgba(239,68,68,.08);color:#fca5a5;}
+.rsv-overlay{position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:300;display:none;align-items:center;justify-content:center;backdrop-filter:blur(6px);padding:20px;}
+.rsv-overlay.open{display:flex;}
+.rsv-modal{background:#0c1410;border:1px solid rgba(134,239,172,.12);border-radius:12px;padding:32px;max-width:440px;width:100%;box-shadow:0 40px 80px rgba(0,0,0,.7);animation:auth-up .3s ease;}
+@keyframes auth-up{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
+.rsv-modal-tag{font-family:var(--mono);font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ember);margin-bottom:10px;}
+.rsv-modal-title{font-family:var(--display);font-size:1.8rem;text-transform:uppercase;color:var(--cream);margin-bottom:4px;}
+.rsv-modal-rows{margin:20px 0;}
+.rsv-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(134,239,172,.05);font-size:.85rem;color:rgba(254,243,199,.6);}
+.rsv-row:last-child{border-bottom:none;}
+.rsv-row-ico{width:20px;text-align:center;flex-shrink:0;}
+.rsv-modal-actions{display:flex;gap:10px;margin-top:24px;}
+.btn-rsv-cancel{flex:1;padding:12px;background:transparent;border:1px solid rgba(134,239,172,.12);color:rgba(134,239,172,.4);border-radius:6px;font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:all .2s;}
+.btn-rsv-cancel:hover{border-color:rgba(239,68,68,.25);color:#fca5a5;}
+.btn-rsv-confirm{flex:2;padding:12px;background:var(--ember);color:#000;border:none;border-radius:6px;font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;cursor:pointer;transition:all .2s;}
+.btn-rsv-confirm:hover{background:#fb923c;}
+.btn-rsv-confirm:disabled{opacity:.5;cursor:not-allowed;}
+.act-cta-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 18px;background:var(--ember);color:#000;border:none;border-radius:4px;font-family:var(--mono);font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;font-weight:700;cursor:pointer;transition:all .2s;}
+.act-cta-btn:hover{background:#fb923c;transform:translateY(-1px);}
+.act-cta-btn.guest{background:transparent;color:rgba(134,239,172,.5);border:1px solid rgba(134,239,172,.2);}
+.act-cta-btn.guest:hover{border-color:rgba(249,115,22,.3);color:var(--ember);}
+
 /* REVEAL */
 .reveal{opacity:0;transform:translateY(32px);transition:opacity .8s ease,transform .8s ease;}
 .reveal.visible{opacity:1;transform:none;}
@@ -269,7 +338,8 @@ footer{padding:40px 48px;border-top:1px solid rgba(134,239,172,.07);display:flex
   .servicios-grid,.testimonios-grid,.galeria-grid,.staff-grid{grid-template-columns:1fr;}
   .precios-grid{grid-template-columns:1fr;}
   .section-inner{padding:0 20px;}
-  .sec-nosotros,.sec-servicios,.sec-contacto,.sec-galeria,.sec-testimonios,.sec-faq,.sec-precios,.sec-staff{padding:80px 0;}
+  .sec-nosotros,.sec-servicios,.sec-contacto,.sec-galeria,.sec-testimonios,.sec-faq,.sec-precios,.sec-staff,.sec-auth{padding:80px 0;}
+  .auth-row{grid-template-columns:1fr;}
   .sec-cta,.sec-texto{padding:60px 0;}
   footer{flex-direction:column;gap:12px;text-align:center;padding:28px 20px;}
 }
@@ -342,6 +412,25 @@ footer{padding:40px 48px;border-top:1px solid rgba(134,239,172,.07);display:flex
   <div class="footer-txt" id="ftr-txt">Altura Libre · Basecamp Monterrey</div>
 </footer>
 
+<!-- RESERVATION MODAL -->
+<div id="rsv-overlay" class="rsv-overlay" onclick="if(event.target===this)cerrarRsv()">
+  <div class="rsv-modal">
+    <div class="rsv-modal-tag" id="rsv-m-tag">Reservación · Altura Libre</div>
+    <div class="rsv-modal-title" id="rsv-m-title">Actividad</div>
+    <div class="rsv-modal-rows">
+      <div class="rsv-row"><span class="rsv-row-ico">📅</span><span id="rsv-m-fecha">—</span></div>
+      <div class="rsv-row"><span class="rsv-row-ico">🕐</span><span id="rsv-m-hora">—</span></div>
+      <div class="rsv-row"><span class="rsv-row-ico">💰</span><span id="rsv-m-precio">—</span></div>
+      <div class="rsv-row"><span class="rsv-row-ico">📍</span><span id="rsv-m-punto">—</span></div>
+    </div>
+    <div class="rsv-modal-actions">
+      <button class="btn-rsv-cancel" onclick="cerrarRsv()">Cancelar</button>
+      <button class="btn-rsv-confirm" id="btn-rsv-confirm" onclick="confirmarRsv()">✓ Confirmar reservación</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 /* CURSOR */
 const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
@@ -515,10 +604,10 @@ function rActividades(s,c){
   const calendario=(c.calendario||[])
     .filter(e=>e.estado!=='cancelado')
     .sort((a,b)=>new Date(a.fecha)-new Date(b.fecha));
-  const tiposPresentes=[...new Set(calendario.map(e=>{const a=catalogo.find(x=>x.id===e.actividad_id);return a?.tipo;}).filter(Boolean))];
+  const tiposPresentes=[...new Set(calendario.map(e=>{const a=catalogo.find(x=>x.nombre===e.actividad_id);return a?.tipo;}).filter(Boolean))];
   const filtros=['todos',...tiposPresentes];
   const cards=calendario.map(evt=>{
-    const act=catalogo.find(a=>a.id===evt.actividad_id);
+    const act=catalogo.find(a=>a.nombre===evt.actividad_id);
     if(!act)return '';
     const t=TIPO_META[act.tipo]||{ico:'📌',label:act.tipo,cls:'hike'};
     const fecha=new Date((evt.fecha||'2099-01-01')+'T12:00:00');
@@ -530,7 +619,7 @@ function rActividades(s,c){
     const cuposLabel=lleno?'Sin cupos disponibles':bajo?`¡Últimos ${cuposNum} cupos!`:`${cuposNum} cupos disponibles`;
     return `<div class="act-card reveal" data-tipo="${act.tipo}">
       <div class="act-cover">
-        ${act.cover?`<img src="${act.cover}" alt="${act.nombre}" loading="lazy">`:`<div class="act-cover-placeholder">${t.ico}</div>`}
+        ${act.cover_url?`<img src="${act.cover_url}" alt="${act.nombre}" loading="lazy">`:`<div class="act-cover-placeholder">${t.ico}</div>`}
         <div class="act-tipo-badge ${t.cls}">${t.ico} ${t.label}</div>
         <div class="act-fecha-badge"><div class="act-fecha-dia">${dia}</div><div class="act-fecha-mes">${mes}</div></div>
         ${evt.hora?`<div class="act-hora-badge">🕐 ${evt.hora}</div>`:''}
@@ -549,7 +638,14 @@ function rActividades(s,c){
             <div class="act-precio">${evt.precio||''}</div>
             <div class="act-cupos ${lleno?'lleno':bajo?'bajo':''}">${cuposLabel}</div>
           </div>
-          ${!lleno?`<a class="act-cta" href="${s.cta_url||'#'}">Reservar lugar</a>`:`<span class="act-agotado">AGOTADO</span>`}
+          ${!lleno?`<button class="act-cta-btn"
+            data-nombre="${(act.nombre||'').replace(/"/g,'&quot;')}"
+            data-tipo="${act.tipo||''}"
+            data-fecha="${evt.fecha||''}"
+            data-hora="${evt.hora||''}"
+            data-precio="${evt.precio||''}"
+            data-punto="${(evt.punto_encuentro||'').replace(/"/g,'&quot;')}"
+            onclick="abrirRsv(this)">📅 Reservar lugar</button>`:`<span class="act-agotado">AGOTADO</span>`}
         </div>
       </div>
     </div>`;
@@ -591,7 +687,223 @@ function rStaff(s){
     </div>
   </section>`;
 }
-const SEC_RENDER={nosotros:rNosotros,servicios:rServicios,contacto:rContacto,galeria:rGaleria,testimonios:rTestimonios,cta:rCTA,texto:rTexto,faq:rFAQ,precios:rPrecios,actividades:rActividades,staff:rStaff};
+/* ─── LOGIN / REGISTRO ─── */
+function rLogin(s){
+  return `<section id="${s.id}" class="sec-auth">
+    <div class="section-inner">
+      <div class="section-tag reveal">Mi cuenta</div>
+      <div class="section-title reveal">${s.titulo||'Únete a la aventura'}</div>
+      ${s.subtitulo?`<p style="margin-top:16px;font-size:.95rem;font-weight:300;color:rgba(134,239,172,.5);max-width:500px;line-height:1.75" class="reveal">${s.subtitulo}</p>`:''}
+      <div class="auth-wrap">
+        <div class="auth-card" id="auth-form-block">
+          <div class="auth-tabs">
+            <button class="auth-tab active" id="tab-li" onclick="authTab('li')">Iniciar sesión</button>
+            <button class="auth-tab" id="tab-rg" onclick="authTab('rg')">Registrarse</button>
+          </div>
+          <div class="auth-form" id="auth-li">
+            <div class="auth-msg err" id="li-err"></div>
+            <div class="auth-field"><label class="auth-label">Correo electrónico</label>
+              <input class="auth-input" id="li-email" type="email" placeholder="tu@email.com" autocomplete="email" onkeydown="if(event.key==='Enter')doLogin()"></div>
+            <div class="auth-field"><label class="auth-label">Contraseña</label>
+              <input class="auth-input" id="li-pass" type="password" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"></div>
+            <button class="auth-btn" id="btn-li" onclick="doLogin()">Entrar →</button>
+          </div>
+          <div class="auth-form" id="auth-rg" style="display:none">
+            <div class="auth-msg err" id="rg-err"></div>
+            <div class="auth-field"><label class="auth-label">Nombre completo</label>
+              <input class="auth-input" id="rg-nombre" type="text" placeholder="Ana García Martínez" autocomplete="name"></div>
+            <div class="auth-row">
+              <div class="auth-field"><label class="auth-label">Correo electrónico</label>
+                <input class="auth-input" id="rg-email" type="email" placeholder="tu@email.com"></div>
+              <div class="auth-field"><label class="auth-label">Fecha de nacimiento</label>
+                <input class="auth-input" id="rg-nac" type="date"></div>
+            </div>
+            <div class="auth-row">
+              <div class="auth-field"><label class="auth-label">Teléfono</label>
+                <input class="auth-input" id="rg-tel" type="tel" placeholder="+52 81 0000 0000"></div>
+              <div class="auth-field"><label class="auth-label">Celular</label>
+                <input class="auth-input" id="rg-cel" type="tel" placeholder="+52 81 0000 0000"></div>
+            </div>
+            <div class="auth-row">
+              <div class="auth-field"><label class="auth-label">Contacto emergencia</label>
+                <input class="auth-input" id="rg-emg" type="tel" placeholder="+52 81 0000 0000"></div>
+              <div class="auth-field"><label class="auth-label">Tipo de sangre</label>
+                <select class="auth-input" id="rg-sangre">
+                  <option value="">— Selecciona —</option>
+                  <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
+                  <option>AB+</option><option>AB-</option><option>O+</option><option>O-</option>
+                </select></div>
+            </div>
+            <div class="auth-field"><label class="auth-label">Contraseña (mín. 8 caracteres)</label>
+              <input class="auth-input" id="rg-pass" type="password" placeholder="••••••••" autocomplete="new-password"></div>
+            <button class="auth-btn" id="btn-rg" onclick="doRegister()">Crear cuenta →</button>
+          </div>
+        </div>
+        <div class="auth-card" id="auth-verify-block" style="display:none">
+          <div class="auth-verify">
+            <div class="auth-verify-ico">📧</div>
+            <div class="auth-verify-title">Verifica tu correo</div>
+            <p class="auth-verify-sub">Enviamos un enlace de activación a<span class="auth-verify-email" id="verify-show"></span>Haz clic en el enlace para activar tu cuenta y acceder al calendario.</p>
+          </div>
+        </div>
+        <div id="auth-profile-block" style="display:none">
+          <div class="auth-card">
+            <div class="auth-profile">
+              <div class="profile-top">
+                <div>
+                  <div class="profile-name" id="pf-name">—</div>
+                  <div class="profile-email-txt" id="pf-email"></div>
+                  <div class="profile-chips" id="pf-chips"></div>
+                </div>
+                <button class="btn-logout" onclick="doLogout()">Cerrar sesión</button>
+              </div>
+              <div class="reservas-head">Mis reservaciones</div>
+              <div id="mis-rsv"><p style="color:rgba(134,239,172,.25);font-size:.82rem">Cargando...</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>`;
+}
+
+/* ─── SUPABASE AUTH ─── */
+// ① Ve a supabase.com → New project
+// ② Project Settings → API → copia los valores de abajo
+const SB_URL='SUPABASE_URL';       // ← pega tu Project URL aquí
+const SB_KEY='SUPABASE_ANON_KEY';  // ← pega tu anon/public key aquí
+let sb=null,sbUser=null,rsvPending=null;
+
+function authInit(){
+  if(!window.supabase||SB_URL==='SUPABASE_URL')return;
+  sb=window.supabase.createClient(SB_URL,SB_KEY);
+  sb.auth.onAuthStateChange((_,session)=>{sbUser=session?.user||null;renderAuthState();if(sbUser)loadMisRsv();});
+  sb.auth.getSession().then(({data:{session}})=>{sbUser=session?.user||null;renderAuthState();if(sbUser)loadMisRsv();});
+}
+
+function renderAuthState(){
+  const fb=document.getElementById('auth-form-block');
+  const vb=document.getElementById('auth-verify-block');
+  const pb=document.getElementById('auth-profile-block');
+  if(!fb)return;
+  if(sbUser){
+    fb.style.display='none';vb.style.display='none';pb.style.display='block';
+    const m=sbUser.user_metadata||{};
+    const el=id=>document.getElementById(id);
+    if(el('pf-name'))el('pf-name').textContent=m.nombre_completo||sbUser.email.split('@')[0];
+    if(el('pf-email'))el('pf-email').textContent=sbUser.email;
+    if(el('pf-chips'))el('pf-chips').innerHTML=[
+      m.tipo_sangre?`<span class="p-chip blood">🩸 ${m.tipo_sangre}</span>`:'',
+      m.fecha_nacimiento?`<span class="p-chip">📅 ${m.fecha_nacimiento}</span>`:'',
+      m.celular?`<span class="p-chip">📱 ${m.celular}</span>`:'',
+      m.contacto_emergencia?`<span class="p-chip">🆘 ${m.contacto_emergencia}</span>`:'',
+    ].join('');
+    document.querySelectorAll('.act-cta-btn').forEach(b=>{b.textContent='📅 Reservar lugar';b.classList.remove('guest');});
+  } else {
+    fb.style.display='block';vb.style.display='none';pb.style.display='none';
+    document.querySelectorAll('.act-cta-btn').forEach(b=>{b.innerHTML='🔐 Iniciar sesión';b.classList.add('guest');});
+  }
+}
+
+function authTab(t){
+  ['li','rg'].forEach(x=>{
+    document.getElementById('auth-'+x).style.display=x===t?'block':'none';
+    document.getElementById('tab-'+x).classList.toggle('active',x===t);
+  });
+}
+
+function authMsg(id,type,msg){const el=document.getElementById(id);if(!el)return;el.textContent=msg;el.className='auth-msg '+type+' show';}
+function authMsgClear(id){const el=document.getElementById(id);if(el)el.classList.remove('show');}
+
+async function doLogin(){
+  if(!sb){authMsg('li-err','err','Servicio no configurado aún.');return;}
+  authMsgClear('li-err');
+  const email=document.getElementById('li-email')?.value.trim();
+  const pass=document.getElementById('li-pass')?.value;
+  if(!email||!pass){authMsg('li-err','err','Ingresa tu correo y contraseña.');return;}
+  const btn=document.getElementById('btn-li');btn.disabled=true;btn.textContent='Entrando...';
+  const{error}=await sb.auth.signInWithPassword({email,password:pass});
+  btn.disabled=false;btn.textContent='Entrar →';
+  if(error)authMsg('li-err','err',error.message.includes('Invalid')?'Correo o contraseña incorrectos.':error.message);
+}
+
+async function doRegister(){
+  if(!sb){authMsg('rg-err','err','Servicio no configurado aún.');return;}
+  authMsgClear('rg-err');
+  const v=id=>document.getElementById(id)?.value.trim()||'';
+  const nombre=v('rg-nombre'),email=v('rg-email'),nac=v('rg-nac'),
+        tel=v('rg-tel'),cel=v('rg-cel'),emg=v('rg-emg'),
+        sangre=v('rg-sangre'),pass=document.getElementById('rg-pass')?.value||'';
+  if(!nombre){authMsg('rg-err','err','El nombre completo es obligatorio.');return;}
+  if(!email){authMsg('rg-err','err','El correo electrónico es obligatorio.');return;}
+  if(!sangre){authMsg('rg-err','err','Selecciona tu tipo de sangre.');return;}
+  if(pass.length<8){authMsg('rg-err','err','La contraseña debe tener al menos 8 caracteres.');return;}
+  const btn=document.getElementById('btn-rg');btn.disabled=true;btn.textContent='Creando cuenta...';
+  const{error}=await sb.auth.signUp({
+    email,password:pass,
+    options:{
+      data:{nombre_completo:nombre,telefono:tel,celular:cel,fecha_nacimiento:nac,contacto_emergencia:emg,tipo_sangre:sangre},
+      emailRedirectTo:window.location.origin+window.location.pathname
+    }
+  });
+  btn.disabled=false;btn.textContent='Crear cuenta →';
+  if(error){authMsg('rg-err','err',error.message);return;}
+  document.getElementById('auth-form-block').style.display='none';
+  document.getElementById('auth-verify-block').style.display='block';
+  const vs=document.getElementById('verify-show');if(vs)vs.textContent=email;
+}
+
+async function doLogout(){if(sb)await sb.auth.signOut();}
+
+async function loadMisRsv(){
+  if(!sb||!sbUser)return;
+  const wrap=document.getElementById('mis-rsv');if(!wrap)return;
+  const{data,error}=await sb.from('reservaciones').select('*').eq('user_id',sbUser.id).order('created_at',{ascending:false});
+  if(error||!data?.length){wrap.innerHTML='<p style="color:rgba(134,239,172,.25);font-size:.82rem;padding:8px 0">Sin reservaciones aún. ¡Explora el calendario!</p>';return;}
+  const tIco={hike:'🥾',campamento:'⛺',rapel:'🧗','social-run':'🏃'};
+  wrap.innerHTML=data.map(r=>`<div class="rsv-item">
+    <div class="rsv-ico">${tIco[r.tipo_actividad]||'🏔'}</div>
+    <div class="rsv-info"><div class="rsv-nombre">${r.actividad_nombre}</div>
+      <div class="rsv-meta">${r.fecha_evento||''}${r.precio?' · $'+r.precio+' MXN':''}</div></div>
+    <span class="rsv-badge ${r.estado||'pendiente'}">${r.estado||'pendiente'}</span>
+  </div>`).join('');
+}
+
+function abrirRsv(btn){
+  if(!sbUser){
+    document.querySelector('.sec-auth')?.scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+  rsvPending={
+    nombre:btn.dataset.nombre,tipo:btn.dataset.tipo,
+    fecha:btn.dataset.fecha,hora:btn.dataset.hora,
+    precio:btn.dataset.precio,punto_encuentro:btn.dataset.punto
+  };
+  const m=document.getElementById('rsv-overlay');if(!m)return;
+  document.getElementById('rsv-m-tag').textContent=(rsvPending.tipo||'Actividad')+' · Altura Libre';
+  document.getElementById('rsv-m-title').textContent=rsvPending.nombre;
+  document.getElementById('rsv-m-fecha').textContent=rsvPending.fecha||'Por confirmar';
+  document.getElementById('rsv-m-hora').textContent=rsvPending.hora||'Por confirmar';
+  document.getElementById('rsv-m-precio').textContent=rsvPending.precio?'$'+rsvPending.precio+' MXN':'Por confirmar';
+  document.getElementById('rsv-m-punto').textContent=rsvPending.punto_encuentro||'Por confirmar';
+  m.classList.add('open');
+}
+function cerrarRsv(){document.getElementById('rsv-overlay')?.classList.remove('open');rsvPending=null;}
+async function confirmarRsv(){
+  if(!sb||!sbUser||!rsvPending)return;
+  const btn=document.getElementById('btn-rsv-confirm');
+  btn.disabled=true;btn.textContent='Reservando...';
+  const{error}=await sb.from('reservaciones').insert({
+    user_id:sbUser.id,actividad_nombre:rsvPending.nombre,tipo_actividad:rsvPending.tipo,
+    fecha_evento:rsvPending.fecha||null,precio:rsvPending.precio?Number(rsvPending.precio):null,estado:'pendiente'
+  });
+  btn.disabled=false;btn.textContent='✓ Confirmar reservación';
+  if(error){alert('Error al reservar: '+error.message);return;}
+  cerrarRsv();loadMisRsv();
+  document.querySelector('.sec-auth')?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+const SEC_RENDER={nosotros:rNosotros,servicios:rServicios,contacto:rContacto,galeria:rGaleria,testimonios:rTestimonios,cta:rCTA,texto:rTexto,faq:rFAQ,precios:rPrecios,actividades:rActividades,staff:rStaff,login:rLogin};
 
 /* LOAD CONTENT */
 async function loadContent(){
@@ -640,6 +952,7 @@ async function loadContent(){
   document.querySelectorAll('.faq-q').forEach(q=>{q.addEventListener('click',()=>q.parentElement.classList.toggle('open'));});
 
   initReveal();
+  authInit();
 }
 
 /* REVEAL ON SCROLL */
