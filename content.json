@@ -2,13 +2,19 @@
   "hero": {
     "linea1": "La cima",
     "linea2": "te espera",
-    "subtexto": "Expediciones y aventuras en montaña desde Monterrey, Nuevo León.",
-    "cta": "Explorar aventuras"
+    "subtexto": "Expediciones y aventuras en montaña desde Monterrey, Nuevo León."
+  },
+  "fondo": {
+    "tipo": "gradiente",
+    "imagen_url": "",
+    "video_url": "",
+    "overlay": 0.65
   },
   "botones": [
-    { "texto": "Explorar aventuras", "url": "#servicios", "estilo": "primary" },
-    { "texto": "Contacto", "url": "#contacto", "estilo": "outline" }
+    { "texto": "Explorar aventuras", "url": "#servicios", "estilo": "primary", "icono": "🏔", "icono_pos": "left", "tamano": "md", "forma": "rounded" },
+    { "texto": "Contacto", "url": "#contacto", "estilo": "outline", "icono": "", "icono_pos": "none", "tamano": "md", "forma": "rounded" }
   ],
+  "media": [],
   "nosotros": {
     "titulo": "Quiénes somos",
     "texto": "Somos un equipo apasionado por la montaña con más de 5 años llevando a aventureros a descubrir los paisajes más impresionantes del noreste de México.",
