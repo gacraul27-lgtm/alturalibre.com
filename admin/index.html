@@ -417,6 +417,10 @@ button,input,textarea,select{font-family:inherit;}
         <div class="nav-item-left"><span class="nav-ico">📬</span> Contacto</div>
         <div class="nav-check warn" id="chk-contacto">!</div>
       </div>
+      <div class="nav-item" data-section="botones" onclick="nav('botones',this)">
+        <div class="nav-item-left"><span class="nav-ico">🔘</span> Botones</div>
+        <div class="nav-check warn" id="chk-botones">!</div>
+      </div>
       <div class="nav-item" data-section="footer" onclick="nav('footer',this)">
         <div class="nav-item-left"><span class="nav-ico">📋</span> Footer</div>
         <div class="nav-check ok" id="chk-footer">✓</div>
@@ -506,6 +510,7 @@ const sections={
   nosotros: {title:'Quiénes somos',        desc:'Presentación del equipo y estadísticas.'},
   servicios:{title:'Nuestros servicios',   desc:'Tarjetas de servicios que ofrece Altura Libre.'},
   contacto: {title:'Contacto',             desc:'Información de contacto y datos de la empresa.'},
+  botones:  {title:'Botones',              desc:'Administra los botones CTA del hero. Puedes agregar, editar y reordenarlos.'},
   footer:   {title:'Footer',               desc:'Texto inferior del sitio.'},
 };
 let currentSection='hero';
@@ -605,7 +610,7 @@ function nav(sec,el){
 /* ── FORMS ─────────────────────── */
 function renderSection(s){
   const body=document.getElementById('editor-body');
-  const fns={hero:renderHeroForm,nosotros:renderNosotrosForm,servicios:renderServiciosForm,contacto:renderContactoForm,footer:renderFooterForm};
+  const fns={hero:renderHeroForm,nosotros:renderNosotrosForm,servicios:renderServiciosForm,contacto:renderContactoForm,botones:renderBotonesForm,footer:renderFooterForm};
   body.innerHTML='';
   fns[s]&&fns[s](body);
   updatePreview();
@@ -716,6 +721,67 @@ function renderContactoForm(body){
   `;
 }
 
+function renderBotonesForm(body){
+  if(!content.botones) content.botones=[];
+  body.innerHTML=`
+    <div class="field"><label>Botones del Hero</label>
+      <div class="fi-hint" style="margin-top:0">Aparecen debajo del subtexto del hero. Arrastra para reordenar.</div>
+    </div>
+    <div class="drag-list" id="btn-list"></div>
+    <button class="btn-add" onclick="addBoton()">+ Agregar botón</button>
+  `;
+  renderBotonesList();
+}
+
+function renderBotonesList(){
+  const list=document.getElementById('btn-list');
+  if(!list)return;
+  const estilos=['primary','outline','secondary'];
+  const estiloLabels={primary:'Primario (naranja)',outline:'Outline (borde)',secondary:'Secundario (verde)'};
+  list.innerHTML=(content.botones||[]).map((b,i)=>`
+    <div class="drag-item" draggable="true" data-idx="${i}" data-list="botones"
+      ondragstart="dragStart(event,'botones')" ondragover="dragOver(event)" ondrop="dragDrop(event,'botones')" ondragend="dragEnd()">
+      <div class="drag-item-header">
+        <span class="drag-handle" title="Arrastrar">⠿</span>
+        <span class="drag-num">Botón ${i+1}</span>
+        <button class="btn-del" onclick="removeBoton(${i})">Eliminar</button>
+      </div>
+      <div class="row2">
+        <div class="field"><label>Texto</label>
+          <input class="fi" type="text" value="${esc(b.texto)}" placeholder="Explorar aventuras"
+            oninput="content.botones[${i}].texto=this.value;markDirty();updatePreview()"></div>
+        <div class="field"><label>URL / Enlace</label>
+          <input class="fi" type="text" value="${esc(b.url)}" placeholder="#servicios"
+            oninput="content.botones[${i}].url=this.value;markDirty();updatePreview()"></div>
+      </div>
+      <div class="field" style="margin-top:10px"><label>Estilo visual</label>
+        <select class="fi" onchange="content.botones[${i}].estilo=this.value;markDirty();updatePreview()">
+          ${estilos.map(e=>`<option value="${e}" ${b.estilo===e?'selected':''}>${estiloLabels[e]}</option>`).join('')}
+        </select>
+      </div>
+      <div class="btn-preview-wrap" style="margin-top:14px;display:flex;gap:10px;align-items:center">
+        <span style="font-family:var(--mono);font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)">Preview:</span>
+        ${btnHtml(b)}
+      </div>
+    </div>`).join('');
+}
+
+function btnHtml(b){
+  const styles={
+    primary:`display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;padding:10px 22px;background:#f97316;color:#000;font-weight:600;border-radius:4px;border:1px solid #f97316;text-decoration:none`,
+    outline:`display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;padding:10px 22px;background:transparent;color:#fef3c7;font-weight:500;border-radius:4px;border:1px solid rgba(254,243,199,.3);text-decoration:none`,
+    secondary:`display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;padding:10px 22px;background:rgba(134,239,172,.1);color:#86efac;font-weight:500;border-radius:4px;border:1px solid rgba(134,239,172,.25);text-decoration:none`,
+  };
+  return `<a href="#" style="${styles[b.estilo]||styles.primary}" onclick="return false">${b.texto||'Botón'}</a>`;
+}
+
+function addBoton(){
+  if(!content.botones) content.botones=[];
+  content.botones.push({texto:'Nuevo botón',url:'#',estilo:'outline'});
+  renderBotonesList();markDirty();updatePreview();
+}
+function removeBoton(i){content.botones.splice(i,1);renderBotonesList();markDirty();updatePreview();}
+
 function renderFooterForm(body){
   body.innerHTML=`
     ${mkField('Texto del footer','ftr-txt','text',content.footer.texto,'',100)}
@@ -767,6 +833,7 @@ function updateChecks(){
   chk('nosotros', content.nosotros?.titulo&&content.nosotros?.texto&&content.nosotros?.stats?.length);
   chk('servicios', content.servicios?.titulo&&content.servicios?.items?.length);
   chk('contacto', content.contacto?.email&&content.contacto?.telefono);
+  chk('botones', content.botones?.length>0 && content.botones.every(b=>b.texto&&b.url));
   chk('footer', !!content.footer?.texto);
 }
 
@@ -774,7 +841,7 @@ function updateChecks(){
 function updatePreview(){
   collectForm();updateChecks();
   const pv=document.getElementById('preview-content');
-  const renders={hero:pvHero,nosotros:pvNosotros,servicios:pvServicios,contacto:pvContacto,footer:pvFooter};
+  const renders={hero:pvHero,nosotros:pvNosotros,servicios:pvServicios,contacto:pvContacto,botones:pvBotones,footer:pvFooter};
   pv.innerHTML=(renders[currentSection]&&renders[currentSection]())||'';
 }
 
@@ -836,6 +903,30 @@ function pvContacto(){
   </div>`;
 }
 
+function pvBotones(){
+  const btns=(content.botones||[]);
+  const clsMap={
+    primary:`font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;padding:12px 28px;background:#f97316;color:#000;font-weight:700;border-radius:4px;border:1px solid #f97316;text-decoration:none;display:inline-block`,
+    outline:`font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;padding:12px 28px;background:transparent;color:#fef3c7;font-weight:500;border-radius:4px;border:1px solid rgba(254,243,199,.3);text-decoration:none;display:inline-block`,
+    secondary:`font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;padding:12px 28px;background:rgba(134,239,172,.1);color:#86efac;font-weight:500;border-radius:4px;border:1px solid rgba(134,239,172,.25);text-decoration:none;display:inline-block`,
+  };
+  const btnEls=btns.map(b=>`<a href="#" style="${clsMap[b.estilo]||clsMap.primary}" onclick="return false">${b.texto||'Botón'}</a>`).join('');
+  return `<div class="pv-hero" style="min-height:360px">
+    ${stars()}
+    <svg class="pv-hero-mtn" viewBox="0 0 800 200" preserveAspectRatio="xMidYMax slice">
+      <polygon points="0,200 0,130 70,70 140,110 230,40 310,85 390,150 470,55 550,100 630,35 720,75 800,50 800,200" fill="#0c1a2e"/>
+      <polygon points="0,200 0,155 90,100 170,135 260,80 340,115 430,170 510,95 590,130 670,75 760,110 800,90 800,200" fill="#071a10"/>
+      <polygon points="0,200 0,175 100,130 200,155 300,115 380,145 480,175 560,135 650,155 730,125 800,145 800,200" fill="#030c05"/>
+    </svg>
+    <div class="pv-eyebrow">Vista previa de botones</div>
+    <div class="pv-headline" style="font-size:1.8rem">La cima <span class="accent">te espera</span></div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;position:relative;z-index:2;margin-top:8px">
+      ${btnEls||'<span style="color:rgba(134,239,172,.3);font-size:.8rem">No hay botones todavía</span>'}
+    </div>
+    <div style="position:relative;z-index:2;margin-top:16px;font-family:\'JetBrains Mono\',monospace;font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(134,239,172,.3)">${btns.length} botón${btns.length!==1?'es':''} configurado${btns.length!==1?'s':''}</div>
+  </div>`;
+}
+
 function pvFooter(){
   return `<div class="pv-section" style="background:#040a06;padding:20px 32px">
     <div class="pv-tag" style="margin-bottom:16px">Vista del footer</div>
@@ -868,6 +959,7 @@ function dragDrop(e,list){
   const to=parseInt(target.dataset.idx);
   if(list==='stats'){const arr=content.nosotros.stats;arr.splice(to,0,arr.splice(from,1)[0]);renderStats();}
   if(list==='servicios'){const arr=content.servicios.items;arr.splice(to,0,arr.splice(from,1)[0]);renderServiciosList();}
+  if(list==='botones'){const arr=content.botones;arr.splice(to,0,arr.splice(from,1)[0]);renderBotonesList();}
   markDirty();updatePreview();
 }
 function dragEnd(){

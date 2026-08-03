@@ -5,6 +5,10 @@
     "subtexto": "Expediciones y aventuras en montaña desde Monterrey, Nuevo León.",
     "cta": "Explorar aventuras"
   },
+  "botones": [
+    { "texto": "Explorar aventuras", "url": "#servicios", "estilo": "primary" },
+    { "texto": "Contacto", "url": "#contacto", "estilo": "outline" }
+  ],
   "nosotros": {
     "titulo": "Quiénes somos",
     "texto": "Somos un equipo apasionado por la montaña con más de 5 años llevando a aventureros a descubrir los paisajes más impresionantes del noreste de México.",
