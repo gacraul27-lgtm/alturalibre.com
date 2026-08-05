@@ -1762,12 +1762,18 @@ function fUsuarios(b){
 async function cargarUsuarios(){
   const sb=initAdminSb();
   const el=document.getElementById('usuarios-lista');
-  if(!sb){el.innerHTML='<p style="color:#fca5a5;font-size:.8rem">⚠ Ingresa un Service Role Key válido.</p>';return;}
+  if(!sb){el.innerHTML='<p style="color:#fca5a5;font-size:.8rem">⚠ Supabase no disponible.</p>';return;}
   el.innerHTML='<p style="color:var(--muted);font-size:.8rem">Cargando…</p>';
-  const[{data:perfs},{data:rsvs}]=await Promise.all([
+  try{
+  const[{data:perfs,error:e1},{data:rsvs,error:e2}]=await Promise.all([
     sb.from('profiles').select('*').order('created_at',{ascending:false}),
     sb.from('reservaciones').select('*').order('fecha_evento',{ascending:false})
   ]);
+  if(e1||e2){
+    const msg=(e1||e2).message||JSON.stringify(e1||e2);
+    el.innerHTML=`<p style="color:#fca5a5;font-size:.78rem">⚠ Error Supabase: ${msg}</p><p style="color:var(--muted);font-size:.7rem;margin-top:6px">La clave de servicio puede estar incorrecta o el acceso a las tablas está restringido.</p>`;
+    return;
+  }
   if(!perfs?.length){el.innerHTML='<p style="color:var(--muted);font-size:.8rem">Sin usuarios registrados aún.</p>';return;}
   const nivelN=n=>{if(n>=15)return'🏔 Guía';if(n>=8)return'⛰ Alpinista';if(n>=3)return'🧗 Montañista';return'🥾 Explorador';};
   el.innerHTML=perfs.map(p=>{
@@ -1800,6 +1806,9 @@ async function cargarUsuarios(){
       </div>`:''}
     </div>`;
   }).join('');
+  }catch(err){
+    if(el)el.innerHTML=`<p style="color:#fca5a5;font-size:.78rem">⚠ Error: ${err.message}</p>`;
+  }
 }
 
 async function marcarAsistencia(rsvId,userId){
