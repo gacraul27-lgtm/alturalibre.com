@@ -786,7 +786,9 @@ async function doSave(commitMsg){
   try{
     const fr=await gh(`/repos/${OWNER}/${REPO}/contents/content.json?ref=${BR}`);
     const fd=await fr.json();
-    const enc=btoa(unescape(encodeURIComponent(JSON.stringify(content,null,2))));
+    const jsonStr=JSON.stringify(content,null,2);
+    const utf8=new TextEncoder().encode(jsonStr);
+    const enc=btoa(Array.from(utf8,b=>String.fromCharCode(b)).join(''));
     const r=await gh(`/repos/${OWNER}/${REPO}/contents/content.json`,'PUT',{
       message:commitMsg,content:enc,sha:fd.sha,branch:BR
     });
