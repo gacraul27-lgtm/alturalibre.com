@@ -888,8 +888,8 @@ function navFixed(view,el){
   collectForm();currentView=view;currentSecId=null;
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   el.classList.add('active');
-  const titles={hero:'Hero principal',footer:'Footer',fondo:'Fondo del hero',botones:'Botones & Diseño',temas:'Temas de color',media:'Biblioteca de media',catalogo:'Catálogo de actividades',calendario:'Calendario de eventos'};
-  const descs={hero:'Primera pantalla que ven los visitantes.',footer:'Texto inferior del sitio.',fondo:'Imagen, video o gradiente del fondo del hero.',botones:'Botones CTA con íconos, tamaños y formas.',temas:'Paleta de colores de todo el sitio.',media:'Gestiona imágenes y videos.',catalogo:'Define actividades reutilizables: hike, campamento, rápel, social run.',calendario:'Programa fechas y asigna actividades del catálogo.'};
+  const titles={hero:'Hero principal',footer:'Footer',fondo:'Fondo del hero',botones:'Botones & Diseño',temas:'Temas de color',media:'Biblioteca de media',catalogo:'Catálogo de actividades',calendario:'Calendario de eventos',usuarios:'Perfiles y reservas',asistencia:'Tomar asistencia'};
+  const descs={hero:'Primera pantalla que ven los visitantes.',footer:'Texto inferior del sitio.',fondo:'Imagen, video o gradiente del fondo del hero.',botones:'Botones CTA con íconos, tamaños y formas.',temas:'Paleta de colores de todo el sitio.',media:'Gestiona imágenes y videos.',catalogo:'Define actividades reutilizables: hike, campamento, rápel, social run.',calendario:'Programa fechas y asigna actividades del catálogo.',usuarios:'Consulta perfiles y reservaciones de aventureros.',asistencia:'Confirma asistencia via código QR del aventurero.'};
   document.getElementById('bc-title').textContent=titles[view]||view;
   document.getElementById('pane-title').innerHTML=titles[view]||view;
   document.getElementById('pane-desc').textContent=descs[view]||'';
@@ -1743,24 +1743,20 @@ function pvSection(sec){
 /* ── AVENTUREROS: PERFILES Y ASISTENCIA ── */
 let sbAdmin=null;
 const SB_URL_A='https://smdfrouqumpechbevqix.supabase.co';
-
-function getSbServiceKey(){return localStorage.getItem('al_sb_service')||'';}
+const SB_SVC_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNtZGZyb3VxdW1wZWNoYmV2cWl4Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4NTc1NTk1NiwiZXhwIjoyMTAxMzMxOTU2fQ.xkYTs';
 
 function initAdminSb(){
-  const key=getSbServiceKey();
-  if(!key||!window.supabase)return null;
-  if(!sbAdmin)sbAdmin=window.supabase.createClient(SB_URL_A,key);
+  if(!window.supabase)return null;
+  if(!sbAdmin)sbAdmin=window.supabase.createClient(SB_URL_A,SB_SVC_KEY);
   return sbAdmin;
 }
 
 function fUsuarios(b){
   b.innerHTML=`
     <div class="form-section-title">Aventureros Registrados</div>
-    <p style="font-size:.78rem;color:var(--muted);margin-bottom:14px;line-height:1.6">Para ver perfiles y reservaciones necesitas el <b>Supabase Service Role Key</b> (no el anon key).<br>Encuéntralo en: Project Settings → API → <em>service_role secret</em>.</p>
-    <div class="field"><label class="field-label">Service Role Key de Supabase</label>
-      <input class="fi" id="sb-svc-key" type="password" placeholder="eyJhbGci…" value="${getSbServiceKey()}" oninput="localStorage.setItem('al_sb_service',this.value);sbAdmin=null"></div>
-    <button class="btn-save" onclick="cargarUsuarios()">🔍 Cargar aventureros</button>
-    <div id="usuarios-lista" style="margin-top:18px"></div>`;
+    <button class="btn-save" onclick="cargarUsuarios()">🔍 Actualizar lista</button>
+    <div id="usuarios-lista" style="margin-top:18px"><p style="color:var(--muted);font-size:.8rem">Cargando…</p></div>`;
+  cargarUsuarios();
 }
 
 async function cargarUsuarios(){
