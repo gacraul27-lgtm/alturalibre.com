@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>Admin · Altura Libre</title>
 <link rel="icon" href="../logo.jpg">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -764,9 +767,13 @@ async function loadContent(){
   try{
     const r=await gh(`/repos/${OWNER}/${REPO}/contents/content.json?ref=${BR}`);
     const d=await r.json();
-    const raw=atob(d.content.replace(/\n/g,''));
-    const bytes=Uint8Array.from(raw,c=>c.charCodeAt(0));
-    content=JSON.parse(new TextDecoder('utf-8').decode(bytes));
+    const b64=d.content.replace(/\s/g,'');
+    const binary=atob(b64);
+    const bytes=new Uint8Array(binary.length);
+    for(let i=0;i<binary.length;i++)bytes[i]=binary.charCodeAt(i);
+    const jsonStr=new TextDecoder('utf-8').decode(bytes);
+    console.log('[Admin] subtexto decoded:',jsonStr.slice(jsonStr.indexOf('subtexto'),jsonStr.indexOf('subtexto')+60));
+    content=JSON.parse(jsonStr);
     if(!content.botones)content.botones=[];
     if(!content.media)content.media=[];
     if(!content.fondo)content.fondo={tipo:'gradiente',imagen_url:'',video_url:'',overlay:.65};
