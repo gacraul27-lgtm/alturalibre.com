@@ -39,11 +39,11 @@
       "tipo": "nosotros",
       "visible": true,
       "titulo": "Quienes somos",
-      "texto": "Somos un equipo apasionado por la montaña con mas de 5 Años llevando a aventureros a descubrir los paisajes mas impresionantes del noreste de Mexico.",
+      "texto": "Somos un equipo apasionado por la montaÃ±a con mas de 5 AÃ±os llevando a aventureros a descubrir los paisajes mas impresionantes del noreste de Mexico.",
       "stats": [
         {
           "valor": "5+",
-          "etiqueta": "años de experiencia"
+          "etiqueta": "aÃ±os de experiencia"
         },
         {
           "valor": "200+",
@@ -74,24 +74,24 @@
       "titulo": "Nuestros servicios",
       "items": [
         {
-          "emoji": "🏔️",
+          "emoji": "ðï¸",
           "titulo": "Senderismo",
           "descripcion": "Rutas guiadas para todos los niveles en las sierras del noreste."
         },
         {
-          "emoji": "🪢",
-          "titulo": "Rápel",
-          "descripcion": "Paredes naturales y técnicas con equipo certificado y ganas expertos."
+          "emoji": "ðª¢",
+          "titulo": "RÃ¡pel",
+          "descripcion": "Paredes naturales y tÃ©cnicas con equipo certificado y ganas expertos."
         },
         {
-          "emoji": "⛺️",
+          "emoji": "âºï¸",
           "titulo": "Campamentos",
-          "descripcion": "Noches bajo las estrellas en los puntos mÃ¡s remotos y hermosos."
+          "descripcion": "Noches bajo las estrellas en los puntos mÃÂ¡s remotos y hermosos."
         },
         {
-          "emoji": "⭐️",
+          "emoji": "â­ï¸",
           "titulo": "Expediciones",
-          "descripcion": "Rutas de varios días para los que buscan la aventura completa."
+          "descripcion": "Rutas de varios dÃ­as para los que buscan la aventura completa."
         }
       ]
     },
@@ -115,7 +115,7 @@
     }
   ],
   "footer": {
-    "texto": "Altura Libre ÃÂÃÂ· Basecamp Monterrey"
+    "texto": "Altura Libre ÃÂÃÂÃÂÃÂ· Basecamp Monterrey"
   },
   "tema": "desierto"
 }
