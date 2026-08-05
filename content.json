@@ -74,22 +74,22 @@
       "titulo": "Nuestros servicios",
       "items": [
         {
-          "emoji": "ðï¸",
+          "emoji": "🏔️",
           "titulo": "Senderismo",
           "descripcion": "Rutas guiadas para todos los niveles en las sierras del noreste."
         },
         {
-          "emoji": "ðª¢",
+          "emoji": "🪢",
           "titulo": "Rápel",
           "descripcion": "Paredes naturales y técnicas con equipo certificado y ganas expertos."
         },
         {
-          "emoji": "âºï¸",
+          "emoji": "⛺️",
           "titulo": "Campamentos",
           "descripcion": "Noches bajo las estrellas en los puntos más remotos y hermosos."
         },
         {
-          "emoji": "â­ï¸",
+          "emoji": "⭐️",
           "titulo": "Expediciones",
           "descripcion": "Rutas de varios días para los que buscan la aventura completa."
         }
