@@ -778,26 +778,35 @@ async function loadContent(){
 }
 
 /* ── SAVE ── */
-async function saveChanges(){
-  if(saving)return;
+async function doSave(commitMsg){
+  if(saving)return false;
   collectForm();saving=true;
-  const btn=document.getElementById('btn-save');
-  btn.textContent='💾 Guardando...';btn.disabled=true;
   try{
     const fr=await gh(`/repos/${OWNER}/${REPO}/contents/content.json?ref=${BR}`);
     const fd=await fr.json();
     const enc=btoa(unescape(encodeURIComponent(JSON.stringify(content,null,2))));
     const r=await gh(`/repos/${OWNER}/${REPO}/contents/content.json`,'PUT',{
-      message:'Actualizar contenido del sitio',content:enc,sha:fd.sha,branch:BR
+      message:commitMsg,content:enc,sha:fd.sha,branch:BR
     });
-    if(r.ok){
-      dirty=0;updateBadge();
-      const n=new Date();
-      document.getElementById('saved-at').textContent=`Guardado ${n.getHours()}:${String(n.getMinutes()).padStart(2,'0')}`;
-      toast('success','Cambios guardados','El contenido se actualizó en GitHub.');
-    }else{const ed=await r.json().catch(()=>({}));toast('error',`Error ${r.status}`,ed.message||'Sin detalle');}
-  }catch(e){toast('error','Error de red',e.message);}
-  saving=false;btn.textContent='💾 Guardar';btn.disabled=false;
+    if(r.ok){dirty=0;updateBadge();return true;}
+    const ed=await r.json().catch(()=>({}));
+    toast('error',`Error ${r.status}`,ed.message||'Sin detalle');
+    return false;
+  }catch(e){toast('error','Error de red',e.message);return false;}
+  finally{saving=false;}
+}
+
+async function saveChanges(){
+  if(saving)return;
+  const btn=document.getElementById('btn-save');
+  btn.textContent='💾 Guardando...';btn.disabled=true;
+  const ok=await doSave('Actualizar contenido del sitio');
+  if(ok){
+    const n=new Date();
+    document.getElementById('saved-at').textContent=`Guardado ${n.getHours()}:${String(n.getMinutes()).padStart(2,'0')}`;
+    toast('success','Cambios guardados','El contenido se actualizó en GitHub.');
+  }
+  btn.textContent='💾 Guardar';btn.disabled=false;
 }
 
 /* ── LAUNCH ── */
@@ -805,22 +814,8 @@ function openModal(){document.getElementById('modal').classList.add('open');}
 function closeModal(){document.getElementById('modal').classList.remove('open');}
 async function launchSite(){
   closeModal();
-  const ol=document.getElementById('launch-overlay');ol.classList.add('show');
-  document.getElementById('launch-status').textContent='Publicando sitio...';
-  try{
-    collectForm();
-    const fr=await gh(`/repos/${OWNER}/${REPO}/contents/content.json?ref=main`);
-    const fd=await fr.json();
-    const enc=btoa(unescape(encodeURIComponent(JSON.stringify(content,null,2))));
-    const r=await gh(`/repos/${OWNER}/${REPO}/contents/content.json`,'PUT',{
-      message:'🚀 Lanzar sitio',content:enc,sha:fd.sha,branch:'main'
-    });
-    if(r.ok){
-      dirty=0;updateBadge();
-      document.getElementById('launch-status').textContent='¡Publicado! GitHub Pages desplegará en 1-2 min.';
-      setTimeout(()=>{ol.classList.remove('show');toast('success','¡Sitio publicado! 🚀','En 1-2 minutos estará live.');},2200);
-    }else{const ed=await r.json().catch(()=>({}));ol.classList.remove('show');toast('error',`Error ${r.status}`,ed.message||'Sin detalle');}
-  }catch(e){ol.classList.remove('show');toast('error','Error de red',e.message);}
+  const ok=await doSave('🚀 Lanzar sitio');
+  if(ok)toast('success','¡Sitio publicado! 🚀','En 1-2 minutos estará live en GitHub Pages.');
 }
 
 /* ── SIDEBAR SECTIONS ── */
