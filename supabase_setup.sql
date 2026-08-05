@@ -25,8 +25,12 @@ CREATE TABLE IF NOT EXISTS public.reservaciones (
   fecha_evento     DATE,
   precio           DECIMAL(10,2),
   estado           TEXT DEFAULT 'pendiente' CHECK (estado IN ('pendiente','confirmada','cancelada')),
+  asistio          BOOLEAN DEFAULT FALSE,
   created_at       TIMESTAMPTZ DEFAULT NOW()
 );
+
+-- Migración (si la tabla ya existe):
+-- ALTER TABLE public.reservaciones ADD COLUMN IF NOT EXISTS asistio BOOLEAN DEFAULT FALSE;
 
 -- 3. Row Level Security (RLS)
 ALTER TABLE public.profiles      ENABLE ROW LEVEL SECURITY;

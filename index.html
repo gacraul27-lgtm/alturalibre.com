@@ -274,50 +274,116 @@ footer{padding:40px 48px;border-top:1px solid rgba(134,239,172,.07);display:flex
 @keyframes float-up{0%{transform:translateY(100vh) translateX(0);opacity:0;}8%{opacity:.7;}90%{opacity:.3;}100%{transform:translateY(-30px) translateX(var(--d));opacity:0;}}
 
 /* AUTH / LOGIN */
-.sec-auth{padding:120px 0;background:linear-gradient(to bottom,var(--forest-deep),#060e0a);}
-.auth-wrap{max-width:560px;margin:60px auto 0;}
-.auth-card{background:rgba(255,255,255,.025);border:1px solid rgba(134,239,172,.08);border-radius:12px;overflow:hidden;}
-.auth-tabs{display:flex;background:rgba(0,0,0,.2);}
-.auth-tab{flex:1;padding:16px;text-align:center;cursor:pointer;font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(134,239,172,.35);transition:all .2s;border:none;background:transparent;border-bottom:2px solid transparent;}
+/* ── SECCIÓN MI CUENTA – SPLIT LAYOUT ── */
+.sec-auth{padding:0!important;min-height:90vh;display:flex;}
+.auth-split{display:grid;grid-template-columns:40% 1fr;width:100%;min-height:90vh;}
+/* Panel izquierdo: marca */
+.auth-brand{background:linear-gradient(160deg,#020d05 0%,#061410 50%,#020d05 100%);padding:72px 52px;display:flex;align-items:center;position:relative;overflow:hidden;border-right:1px solid rgba(134,239,172,.07);}
+.auth-brand::before{content:'⛰';position:absolute;right:-15px;bottom:20px;font-size:14rem;opacity:.042;line-height:1;pointer-events:none;user-select:none;}
+.ab-in{position:relative;z-index:2;width:100%;}
+.ab-logo{font-family:var(--mono);font-size:.56rem;letter-spacing:.35em;text-transform:uppercase;color:var(--ember);margin-bottom:36px;display:flex;align-items:center;gap:10px;}
+.ab-logo::before{content:'';width:20px;height:1px;background:var(--ember);}
+.ab-title{font-family:var(--display);font-size:clamp(2rem,3vw,2.8rem);line-height:.93;text-transform:uppercase;letter-spacing:.03em;color:var(--cream);margin-bottom:32px;}
+.ab-title .hi{color:var(--ember);}
+.ab-feats{display:flex;flex-direction:column;gap:10px;margin-bottom:36px;}
+.ab-feat{display:flex;align-items:center;gap:11px;font-size:.8rem;font-weight:300;color:rgba(254,243,199,.48);line-height:1.4;}
+.ab-feat::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--moss);flex-shrink:0;}
+.ab-bottom{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding-top:24px;border-top:1px solid rgba(134,239,172,.07);}
+.ab-st-v{font-family:var(--display);font-size:1.55rem;color:var(--ember);line-height:1;}
+.ab-st-l{font-family:var(--mono);font-size:.46rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(134,239,172,.28);margin-top:4px;}
+/* Panel derecho: form / dashboard */
+.auth-panel{padding:52px 60px;display:flex;flex-direction:column;justify-content:center;background:var(--forest-deep);overflow-y:auto;max-height:100vh;}
+.auth-panel-title{font-family:var(--display);font-size:1.85rem;text-transform:uppercase;letter-spacing:.04em;color:var(--cream);margin:5px 0 8px;}
+.auth-panel-sub{font-size:.84rem;font-weight:300;color:rgba(134,239,172,.38);line-height:1.75;margin-bottom:22px;}
+/* Formulario */
+.auth-wrap{margin-top:0;}
+.auth-card{background:rgba(255,255,255,.022);border:1px solid rgba(134,239,172,.09);border-radius:10px;overflow:hidden;}
+.auth-tabs{display:flex;background:rgba(0,0,0,.22);}
+.auth-tab{flex:1;padding:14px;text-align:center;cursor:pointer;font-family:var(--mono);font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(134,239,172,.32);transition:all .2s;border:none;background:transparent;border-bottom:2px solid transparent;}
 .auth-tab.active{color:var(--ember);border-bottom-color:var(--ember);background:rgba(249,115,22,.04);}
-.auth-tab:hover:not(.active){color:rgba(134,239,172,.6);}
-.auth-form{padding:32px;}
-.auth-field{display:flex;flex-direction:column;gap:7px;margin-bottom:16px;}
-.auth-label{font-family:var(--mono);font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(134,239,172,.45);}
-.auth-input{background:rgba(0,0,0,.35);border:1px solid rgba(134,239,172,.1);border-radius:6px;color:rgba(254,243,199,.9);padding:12px 14px;font-size:.88rem;font-family:inherit;outline:none;transition:border-color .2s;width:100%;}
+.auth-tab:hover:not(.active){color:rgba(134,239,172,.58);}
+.auth-form{padding:26px 30px;}
+.auth-field{display:flex;flex-direction:column;gap:7px;margin-bottom:13px;}
+.auth-label{font-family:var(--mono);font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(134,239,172,.4);}
+.auth-input{background:rgba(0,0,0,.35);border:1px solid rgba(134,239,172,.1);border-radius:6px;color:rgba(254,243,199,.9);padding:11px 13px;font-size:.86rem;font-family:inherit;outline:none;transition:border-color .2s;width:100%;}
 .auth-input:focus{border-color:rgba(249,115,22,.4);box-shadow:0 0 0 3px rgba(249,115,22,.06);}
-.auth-input::placeholder{color:rgba(254,243,199,.15);}
+.auth-input::placeholder{color:rgba(254,243,199,.14);}
 .auth-input option{background:#0a1209;color:rgba(254,243,199,.9);}
 .auth-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.auth-btn{width:100%;padding:14px;background:var(--ember);color:#000;border:none;border-radius:6px;font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;font-weight:700;cursor:pointer;transition:all .2s;margin-top:4px;}
+.auth-btn{width:100%;padding:13px;background:var(--ember);color:#000;border:none;border-radius:6px;font-family:var(--mono);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;font-weight:700;cursor:pointer;transition:all .2s;margin-top:4px;}
 .auth-btn:hover{background:#fb923c;transform:translateY(-1px);}
 .auth-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
-.auth-msg{padding:10px 14px;border-radius:6px;font-size:.8rem;margin-bottom:14px;display:none;}
+.auth-msg{padding:9px 13px;border-radius:6px;font-size:.78rem;margin-bottom:12px;display:none;}
 .auth-msg.err{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);color:#fca5a5;}
 .auth-msg.ok{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);color:#86efac;}
 .auth-msg.show{display:block;}
-.auth-verify{padding:48px 32px;text-align:center;}
-.auth-verify-ico{font-size:3.5rem;margin-bottom:16px;}
-.auth-verify-title{font-family:var(--display);font-size:2rem;text-transform:uppercase;color:var(--cream);margin-bottom:12px;}
-.auth-verify-sub{font-size:.9rem;font-weight:300;color:rgba(134,239,172,.5);line-height:1.75;}
-.auth-verify-email{color:var(--ember);font-family:var(--mono);font-size:.82rem;display:block;margin-top:6px;}
-.auth-profile{padding:32px;}
-.profile-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px;gap:12px;}
-.profile-name{font-family:var(--display);font-size:1.8rem;text-transform:uppercase;color:var(--cream);line-height:1;}
-.profile-email-txt{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;color:rgba(134,239,172,.4);margin-top:6px;}
-.profile-chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
-.p-chip{font-family:var(--mono);font-size:.52rem;letter-spacing:.1em;padding:4px 10px;border-radius:10px;background:rgba(134,239,172,.06);border:1px solid rgba(134,239,172,.1);color:rgba(134,239,172,.55);}
-.p-chip.blood{background:rgba(239,68,68,.07);border-color:rgba(239,68,68,.18);color:#fca5a5;}
-.btn-logout{padding:8px 14px;background:transparent;border:1px solid rgba(134,239,172,.12);color:rgba(134,239,172,.35);border-radius:6px;font-family:var(--mono);font-size:.56rem;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0;}
+/* Verificación */
+.auth-verify{padding:44px 30px;text-align:center;}
+.auth-verify-ico{font-size:3.5rem;margin-bottom:14px;}
+.auth-verify-title{font-family:var(--display);font-size:1.9rem;text-transform:uppercase;color:var(--cream);margin-bottom:10px;}
+.auth-verify-sub{font-size:.88rem;font-weight:300;color:rgba(134,239,172,.48);line-height:1.75;}
+.auth-verify-email{color:var(--ember);font-family:var(--mono);font-size:.8rem;display:block;margin-top:6px;}
+/* DASHBOARD TABS */
+.dash-tabs{display:flex;gap:3px;margin-bottom:20px;background:rgba(0,0,0,.28);border-radius:10px;padding:4px;}
+.dash-tab{flex:1;padding:9px 6px;border:none;background:transparent;color:rgba(134,239,172,.3);font-family:var(--mono);font-size:.52rem;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;border-radius:7px;transition:all .2s;white-space:nowrap;}
+.dash-tab.active{background:var(--ember);color:#000;font-weight:700;}
+.dash-tab:hover:not(.active){background:rgba(134,239,172,.06);color:rgba(134,239,172,.62);}
+.dash-panel{animation:auth-up .3s ease;}
+/* PERFIL */
+.pf-hd{display:flex;align-items:flex-start;gap:15px;margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid rgba(134,239,172,.07);}
+.pf-av{width:62px;height:62px;border-radius:50%;background:linear-gradient(135deg,var(--ember),#fb923c);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:1.35rem;color:#000;flex-shrink:0;letter-spacing:.05em;font-weight:700;}
+.pf-meta{flex:1;min-width:0;}
+.pf-nm{font-family:var(--display);font-size:1.3rem;text-transform:uppercase;letter-spacing:.04em;color:var(--cream);line-height:1;word-break:break-word;}
+.pf-em{font-family:var(--mono);font-size:.5rem;letter-spacing:.1em;color:rgba(134,239,172,.32);margin-top:5px;}
+.pf-nlv{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:10px;margin-top:6px;font-family:var(--mono);font-size:.48rem;letter-spacing:.1em;text-transform:uppercase;border:1px solid;}
+.nl-exp{background:rgba(134,239,172,.07);color:#86efac;border-color:rgba(134,239,172,.15);}
+.nl-mon{background:rgba(59,130,246,.07);color:#93c5fd;border-color:rgba(59,130,246,.15);}
+.nl-alp{background:rgba(168,85,247,.07);color:#c084fc;border-color:rgba(168,85,247,.15);}
+.nl-gui{background:rgba(249,115,22,.09);color:var(--ember);border-color:rgba(249,115,22,.22);}
+.pf-prg{margin-bottom:15px;}
+.pf-prg-row{display:flex;justify-content:space-between;margin-bottom:5px;}
+.pf-prg-lbl,.pf-prg-val{font-family:var(--mono);font-size:.44rem;letter-spacing:.1em;text-transform:uppercase;}
+.pf-prg-lbl{color:rgba(134,239,172,.26);}
+.pf-prg-val{color:var(--ember);}
+.pf-bar{height:3px;background:rgba(134,239,172,.08);border-radius:2px;overflow:hidden;}
+.pf-bar-fill{height:100%;background:linear-gradient(90deg,var(--ember),#fb923c);border-radius:2px;transition:width 1.2s ease;}
+.pf-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+.pf-cell{padding:11px 13px;background:rgba(255,255,255,.016);border:1px solid rgba(134,239,172,.06);border-radius:7px;}
+.pf-cell-l{font-family:var(--mono);font-size:.44rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(134,239,172,.26);margin-bottom:3px;}
+.pf-cell-v{font-size:.8rem;color:rgba(254,243,199,.66);font-weight:300;}
+.pf-foot{display:flex;justify-content:flex-end;margin-top:14px;padding-top:14px;border-top:1px solid rgba(134,239,172,.06);}
+/* RESERVACIÓN CARD CON QR */
+.rsv-card{border:1px solid rgba(134,239,172,.08);border-radius:10px;overflow:hidden;margin-bottom:11px;transition:border-color .2s;}
+.rsv-card:hover{border-color:rgba(134,239,172,.18);}
+.rsv-card-hd{display:flex;align-items:center;gap:11px;padding:13px 15px;background:rgba(255,255,255,.016);}
+.rsv-card-ic{font-size:1.3rem;flex-shrink:0;}
+.rsv-card-inf{flex:1;min-width:0;}
+.rsv-card-nm{font-size:.88rem;font-weight:500;color:var(--cream);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.rsv-card-mt{font-family:var(--mono);font-size:.5rem;letter-spacing:.07em;color:rgba(134,239,172,.36);margin-top:2px;}
+.rsv-card-bd{display:grid;grid-template-columns:1fr 100px;gap:14px;padding:13px 15px;border-top:1px solid rgba(134,239,172,.05);}
+.rsv-dets{display:flex;flex-direction:column;gap:5px;justify-content:center;}
+.rsv-det-r{display:flex;align-items:center;gap:7px;font-size:.76rem;color:rgba(254,243,199,.42);}
+.rsv-det-r b{color:rgba(254,243,199,.7);font-weight:400;}
+.rsv-qrw{display:flex;flex-direction:column;align-items:center;gap:5px;}
+.rsv-qrb{width:90px;height:90px;background:#fff;border-radius:6px;padding:5px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;}
+.rsv-qrb img,.rsv-qrb canvas{width:80px!important;height:80px!important;display:block;}
+.rsv-qrl{font-family:var(--mono);font-size:.43rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(134,239,172,.25);text-align:center;}
+.rsv-dl{padding:4px 9px;background:transparent;border:1px solid rgba(134,239,172,.12);border-radius:4px;color:rgba(134,239,172,.38);font-family:var(--mono);font-size:.44rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .2s;}
+.rsv-dl:hover{border-color:rgba(249,115,22,.3);color:var(--ember);}
+/* HISTORIAL */
+.hist-stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:16px;}
+.hist-st{padding:12px;background:rgba(134,239,172,.02);border:1px solid rgba(134,239,172,.07);border-radius:8px;text-align:center;}
+.hist-st-v{font-family:var(--display);font-size:1.45rem;color:var(--ember);}
+.hist-st-l{font-family:var(--mono);font-size:.44rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(134,239,172,.27);margin-top:3px;}
+.hist-it{display:flex;align-items:center;gap:9px;padding:10px 12px;border:1px solid rgba(134,239,172,.06);border-radius:7px;margin-bottom:6px;}
+.hist-it-ic{font-size:1.15rem;flex-shrink:0;}
+.hist-it-inf{flex:1;}
+.hist-it-nm{font-size:.83rem;font-weight:400;color:rgba(254,243,199,.6);}
+.hist-it-mt{font-family:var(--mono);font-size:.48rem;letter-spacing:.07em;color:rgba(134,239,172,.26);margin-top:2px;}
+/* ELEMENTOS RETENIDOS DEL SISTEMA ANTERIOR */
+.btn-logout{padding:7px 13px;background:transparent;border:1px solid rgba(134,239,172,.12);color:rgba(134,239,172,.33);border-radius:6px;font-family:var(--mono);font-size:.54rem;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0;}
 .btn-logout:hover{border-color:rgba(239,68,68,.3);color:#fca5a5;}
-.reservas-head{font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(134,239,172,.3);margin:20px 0 10px;}
-.rsv-item{display:flex;align-items:center;gap:12px;padding:14px 16px;border:1px solid rgba(134,239,172,.07);border-radius:6px;margin-bottom:8px;transition:border-color .2s;}
-.rsv-item:hover{border-color:rgba(134,239,172,.15);}
-.rsv-ico{font-size:1.2rem;flex-shrink:0;}
-.rsv-info{flex:1;}
-.rsv-nombre{font-size:.88rem;font-weight:500;color:var(--cream);}
-.rsv-meta{font-family:var(--mono);font-size:.55rem;letter-spacing:.08em;color:rgba(134,239,172,.35);margin-top:3px;}
-.rsv-badge{font-family:var(--mono);font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:8px;flex-shrink:0;}
+.rsv-badge{font-family:var(--mono);font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:8px;flex-shrink:0;}
 .rsv-badge.pendiente{background:rgba(234,179,8,.1);color:#fde047;}
 .rsv-badge.confirmada{background:rgba(34,197,94,.1);color:#86efac;}
 .rsv-badge.cancelada{background:rgba(239,68,68,.08);color:#fca5a5;}
@@ -355,7 +421,14 @@ footer{padding:40px 48px;border-top:1px solid rgba(134,239,172,.07);display:flex
   .servicios-grid,.testimonios-grid,.galeria-grid,.staff-grid{grid-template-columns:1fr;}
   .precios-grid{grid-template-columns:1fr;}
   .section-inner{padding:0 20px;}
-  .sec-nosotros,.sec-servicios,.sec-contacto,.sec-galeria,.sec-testimonios,.sec-faq,.sec-precios,.sec-staff,.sec-auth{padding:80px 0;}
+  .sec-nosotros,.sec-servicios,.sec-contacto,.sec-galeria,.sec-testimonios,.sec-faq,.sec-precios,.sec-staff{padding:80px 0;}
+  .sec-auth{padding:0!important;}
+  .auth-split{grid-template-columns:1fr;}
+  .auth-brand{display:none;}
+  .auth-panel{padding:36px 22px;max-height:none;}
+  .rsv-card-bd{grid-template-columns:1fr;}
+  .rsv-qrw{flex-direction:row;justify-content:flex-start;}
+  .pf-grid{grid-template-columns:1fr;}
   .auth-row{grid-template-columns:1fr;}
   .sec-cta,.sec-texto{padding:60px 0;}
   footer{flex-direction:column;gap:12px;text-align:center;padding:28px 20px;}
@@ -499,7 +572,27 @@ html[data-mode="light"] .act-fecha-mes{color:#166534;}
 html[data-mode="light"] .act-vacio{color:rgba(30,41,59,.3);border-color:rgba(0,0,0,.08);}
 html[data-mode="light"] .filtro-btn{border-color:rgba(0,0,0,.1);color:rgba(30,41,59,.45);}
 /* Auth */
-html[data-mode="light"] .sec-auth{background:linear-gradient(to bottom,#f8fafc,#f0fdf4);}
+html[data-mode="light"] .auth-brand{background:linear-gradient(160deg,#1a3a26 0%,#1e4d30 50%,#1a3a26 100%);}
+html[data-mode="light"] .auth-panel{background:#f8fafc;}
+html[data-mode="light"] .auth-panel-title{color:#1e293b;}
+html[data-mode="light"] .auth-panel-sub{color:rgba(30,41,59,.42);}
+html[data-mode="light"] .dash-tabs{background:rgba(0,0,0,.05);}
+html[data-mode="light"] .dash-tab{color:rgba(30,41,59,.32);}
+html[data-mode="light"] .pf-cell{background:#fff;border-color:rgba(0,0,0,.07);}
+html[data-mode="light"] .pf-cell-l{color:rgba(30,41,59,.32);}
+html[data-mode="light"] .pf-cell-v{color:rgba(30,41,59,.72);}
+html[data-mode="light"] .pf-nm{color:#1e293b;}
+html[data-mode="light"] .pf-em{color:rgba(30,41,59,.32);}
+html[data-mode="light"] .pf-bar{background:rgba(0,0,0,.07);}
+html[data-mode="light"] .rsv-card{border-color:rgba(0,0,0,.08);}
+html[data-mode="light"] .rsv-card-hd{background:rgba(0,0,0,.02);}
+html[data-mode="light"] .rsv-card-nm{color:#1e293b;}
+html[data-mode="light"] .rsv-card-mt{color:rgba(30,41,59,.36);}
+html[data-mode="light"] .rsv-det-r{color:rgba(30,41,59,.42);}
+html[data-mode="light"] .rsv-det-r b{color:rgba(30,41,59,.7);}
+html[data-mode="light"] .hist-st{background:#fff;border-color:rgba(0,0,0,.07);}
+html[data-mode="light"] .hist-it{border-color:rgba(0,0,0,.07);}
+html[data-mode="light"] .hist-it-nm{color:rgba(30,41,59,.62);}
 html[data-mode="light"] .auth-card{background:#fff;border-color:rgba(0,0,0,.08);}
 html[data-mode="light"] .auth-tabs{background:#f1f5f9;}
 html[data-mode="light"] .auth-tab{color:rgba(30,41,59,.4);}
@@ -665,6 +758,7 @@ html[data-mode="light"] .hero-bg-overlay{background:rgba(15,30,60,.28)!important
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
 /* CURSOR */
 const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
@@ -929,77 +1023,100 @@ function rStaff(s){
 /* ─── LOGIN / REGISTRO ─── */
 function rLogin(s){
   return `<section id="${s.id}" class="sec-auth">
-    <div class="section-inner">
-      <div class="section-tag reveal">Mi cuenta</div>
-      <div class="section-title reveal">${s.titulo||'Únete a la aventura'}</div>
-      ${s.subtitulo?`<p style="margin-top:16px;font-size:.95rem;font-weight:300;color:rgba(134,239,172,.5);max-width:500px;line-height:1.75" class="reveal">${s.subtitulo}</p>`:''}
-      <div class="auth-wrap">
-        <div class="auth-card" id="auth-form-block">
-          <div class="auth-tabs">
-            <button class="auth-tab active" id="tab-li" onclick="authTab('li')">Iniciar sesión</button>
-            <button class="auth-tab" id="tab-rg" onclick="authTab('rg')">Registrarse</button>
+    <div class="auth-split">
+      <!-- Panel de marca izquierdo -->
+      <div class="auth-brand">
+        <div class="ab-in">
+          <div class="ab-logo">⛰ Altura Libre</div>
+          <h2 class="ab-title">Tu próxima<br><span class="hi">cumbre</span><br>comienza aquí</h2>
+          <div class="ab-feats">
+            <div class="ab-feat">Reserva actividades en segundos</div>
+            <div class="ab-feat">Código QR de acceso por evento</div>
+            <div class="ab-feat">Historial completo de expediciones</div>
+            <div class="ab-feat">Datos de emergencia siempre seguros</div>
+            <div class="ab-feat">Sistema de niveles de aventurero</div>
           </div>
-          <div class="auth-form" id="auth-li">
-            <div class="auth-msg err" id="li-err"></div>
-            <div class="auth-field"><label class="auth-label">Correo electrónico</label>
-              <input class="auth-input" id="li-email" type="email" placeholder="tu@email.com" autocomplete="email" onkeydown="if(event.key==='Enter')doLogin()"></div>
-            <div class="auth-field"><label class="auth-label">Contraseña</label>
-              <input class="auth-input" id="li-pass" type="password" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"></div>
-            <button class="auth-btn" id="btn-li" onclick="doLogin()">Entrar →</button>
-          </div>
-          <div class="auth-form" id="auth-rg" style="display:none">
-            <div class="auth-msg err" id="rg-err"></div>
-            <div class="auth-field"><label class="auth-label">Nombre completo</label>
-              <input class="auth-input" id="rg-nombre" type="text" placeholder="Ana García Martínez" autocomplete="name"></div>
-            <div class="auth-row">
-              <div class="auth-field"><label class="auth-label">Correo electrónico</label>
-                <input class="auth-input" id="rg-email" type="email" placeholder="tu@email.com"></div>
-              <div class="auth-field"><label class="auth-label">Fecha de nacimiento</label>
-                <input class="auth-input" id="rg-nac" type="date"></div>
-            </div>
-            <div class="auth-row">
-              <div class="auth-field"><label class="auth-label">Teléfono</label>
-                <input class="auth-input" id="rg-tel" type="tel" placeholder="+52 81 0000 0000"></div>
-              <div class="auth-field"><label class="auth-label">Celular</label>
-                <input class="auth-input" id="rg-cel" type="tel" placeholder="+52 81 0000 0000"></div>
-            </div>
-            <div class="auth-row">
-              <div class="auth-field"><label class="auth-label">Contacto emergencia</label>
-                <input class="auth-input" id="rg-emg" type="tel" placeholder="+52 81 0000 0000"></div>
-              <div class="auth-field"><label class="auth-label">Tipo de sangre</label>
-                <select class="auth-input" id="rg-sangre">
-                  <option value="">— Selecciona —</option>
-                  <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
-                  <option>AB+</option><option>AB-</option><option>O+</option><option>O-</option>
-                </select></div>
-            </div>
-            <div class="auth-field"><label class="auth-label">Contraseña (mín. 8 caracteres)</label>
-              <input class="auth-input" id="rg-pass" type="password" placeholder="••••••••" autocomplete="new-password"></div>
-            <button class="auth-btn" id="btn-rg" onclick="doRegister()">Crear cuenta →</button>
+          <div class="ab-bottom">
+            <div><div class="ab-st-v">500+</div><div class="ab-st-l">Aventureros</div></div>
+            <div><div class="ab-st-v">50+</div><div class="ab-st-l">Rutas</div></div>
+            <div><div class="ab-st-v">5★</div><div class="ab-st-l">Rating</div></div>
           </div>
         </div>
-        <div class="auth-card" id="auth-verify-block" style="display:none">
-          <div class="auth-verify">
-            <div class="auth-verify-ico">📧</div>
-            <div class="auth-verify-title">Verifica tu correo</div>
-            <p class="auth-verify-sub">Enviamos un enlace de activación a<span class="auth-verify-email" id="verify-show"></span>Haz clic en el enlace para activar tu cuenta y acceder al calendario.</p>
+      </div>
+      <!-- Panel de contenido derecho -->
+      <div class="auth-panel">
+        <!-- Formulario (no logueado) -->
+        <div id="auth-form-block">
+          <div style="margin-bottom:22px">
+            <div class="section-tag">Mi cuenta</div>
+            <div class="auth-panel-title">${s.titulo||'Únete a la aventura'}</div>
+            ${s.subtitulo?`<p class="auth-panel-sub">${s.subtitulo}</p>`:''}
           </div>
-        </div>
-        <div id="auth-profile-block" style="display:none">
           <div class="auth-card">
-            <div class="auth-profile">
-              <div class="profile-top">
-                <div>
-                  <div class="profile-name" id="pf-name">—</div>
-                  <div class="profile-email-txt" id="pf-email"></div>
-                  <div class="profile-chips" id="pf-chips"></div>
-                </div>
-                <button class="btn-logout" onclick="doLogout()">Cerrar sesión</button>
+            <div class="auth-tabs">
+              <button class="auth-tab active" id="tab-li" onclick="authTab('li')">Iniciar sesión</button>
+              <button class="auth-tab" id="tab-rg" onclick="authTab('rg')">Registrarse</button>
+            </div>
+            <div class="auth-form" id="auth-li">
+              <div class="auth-msg err" id="li-err"></div>
+              <div class="auth-field"><label class="auth-label">Correo electrónico</label>
+                <input class="auth-input" id="li-email" type="email" placeholder="tu@email.com" autocomplete="email" onkeydown="if(event.key==='Enter')doLogin()"></div>
+              <div class="auth-field"><label class="auth-label">Contraseña</label>
+                <input class="auth-input" id="li-pass" type="password" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"></div>
+              <button class="auth-btn" id="btn-li" onclick="doLogin()">Entrar →</button>
+            </div>
+            <div class="auth-form" id="auth-rg" style="display:none">
+              <div class="auth-msg err" id="rg-err"></div>
+              <div class="auth-field"><label class="auth-label">Nombre completo</label>
+                <input class="auth-input" id="rg-nombre" type="text" placeholder="Ana García Martínez" autocomplete="name"></div>
+              <div class="auth-row">
+                <div class="auth-field"><label class="auth-label">Correo</label>
+                  <input class="auth-input" id="rg-email" type="email" placeholder="tu@email.com"></div>
+                <div class="auth-field"><label class="auth-label">Fecha de nacimiento</label>
+                  <input class="auth-input" id="rg-nac" type="date"></div>
               </div>
-              <div class="reservas-head">Mis reservaciones</div>
-              <div id="mis-rsv"><p style="color:rgba(134,239,172,.25);font-size:.82rem">Cargando...</p></div>
+              <div class="auth-row">
+                <div class="auth-field"><label class="auth-label">Teléfono</label>
+                  <input class="auth-input" id="rg-tel" type="tel" placeholder="+52 81 0000 0000"></div>
+                <div class="auth-field"><label class="auth-label">Celular</label>
+                  <input class="auth-input" id="rg-cel" type="tel" placeholder="+52 81 0000 0000"></div>
+              </div>
+              <div class="auth-row">
+                <div class="auth-field"><label class="auth-label">Contacto emergencia</label>
+                  <input class="auth-input" id="rg-emg" type="tel" placeholder="+52 81 0000 0000"></div>
+                <div class="auth-field"><label class="auth-label">Tipo de sangre</label>
+                  <select class="auth-input" id="rg-sangre">
+                    <option value="">— Selecciona —</option>
+                    <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
+                    <option>AB+</option><option>AB-</option><option>O+</option><option>O-</option>
+                  </select></div>
+              </div>
+              <div class="auth-field"><label class="auth-label">Contraseña (mín. 8 caracteres)</label>
+                <input class="auth-input" id="rg-pass" type="password" placeholder="••••••••" autocomplete="new-password"></div>
+              <button class="auth-btn" id="btn-rg" onclick="doRegister()">Crear cuenta →</button>
             </div>
           </div>
+        </div>
+        <!-- Verificación de correo -->
+        <div id="auth-verify-block" style="display:none">
+          <div class="auth-card">
+            <div class="auth-verify">
+              <div class="auth-verify-ico">📧</div>
+              <div class="auth-verify-title">Verifica tu correo</div>
+              <p class="auth-verify-sub">Enviamos un enlace de activación a<span class="auth-verify-email" id="verify-show"></span>Haz clic en el enlace para activar tu cuenta.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Dashboard (logueado) -->
+        <div id="auth-profile-block" style="display:none">
+          <div class="dash-tabs">
+            <button class="dash-tab active" data-tab="perfil" onclick="dashTab('perfil')">👤 Mi Perfil</button>
+            <button class="dash-tab" data-tab="actividades" onclick="dashTab('actividades')">📅 Actividades</button>
+            <button class="dash-tab" data-tab="historial" onclick="dashTab('historial')">📊 Historial</button>
+          </div>
+          <div class="dash-panel" id="dash-perfil"><p style="color:rgba(134,239,172,.25);font-size:.82rem">Cargando perfil…</p></div>
+          <div class="dash-panel" id="dash-actividades" style="display:none"><p style="color:rgba(134,239,172,.25);font-size:.82rem">Cargando actividades…</p></div>
+          <div class="dash-panel" id="dash-historial" style="display:none"><p style="color:rgba(134,239,172,.25);font-size:.82rem">Cargando historial…</p></div>
         </div>
       </div>
     </div>
@@ -1027,21 +1144,145 @@ function renderAuthState(){
   if(!fb)return;
   if(sbUser){
     fb.style.display='none';vb.style.display='none';pb.style.display='block';
-    const m=sbUser.user_metadata||{};
-    const el=id=>document.getElementById(id);
-    if(el('pf-name'))el('pf-name').textContent=m.nombre_completo||sbUser.email.split('@')[0];
-    if(el('pf-email'))el('pf-email').textContent=sbUser.email;
-    if(el('pf-chips'))el('pf-chips').innerHTML=[
-      m.tipo_sangre?`<span class="p-chip blood">🩸 ${m.tipo_sangre}</span>`:'',
-      m.fecha_nacimiento?`<span class="p-chip">📅 ${m.fecha_nacimiento}</span>`:'',
-      m.celular?`<span class="p-chip">📱 ${m.celular}</span>`:'',
-      m.contacto_emergencia?`<span class="p-chip">🆘 ${m.contacto_emergencia}</span>`:'',
-    ].join('');
     document.querySelectorAll('.act-cta-btn').forEach(b=>{b.textContent='📅 Reservar lugar';b.classList.remove('guest');});
   } else {
     fb.style.display='block';vb.style.display='none';pb.style.display='none';
     document.querySelectorAll('.act-cta-btn').forEach(b=>{b.innerHTML='🔐 Iniciar sesión';b.classList.add('guest');});
   }
+}
+
+/* ── DASHBOARD ── */
+let _rsvData=[];
+const TIPO_ICO={hike:'🥾',campamento:'⛺',rapel:'🧗','social-run':'🏃',expedicion:'⛰'};
+
+function dashTab(tab){
+  document.querySelectorAll('.dash-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));
+  ['perfil','actividades','historial'].forEach(p=>{
+    const el=document.getElementById('dash-'+p);
+    if(el)el.style.display=p===tab?'block':'none';
+  });
+}
+
+function initiales(nombre){
+  const w=(nombre||'').trim().split(' ').filter(Boolean);
+  return w.length>=2?(w[0][0]+w[w.length-1][0]).toUpperCase():nombre?nombre[0].toUpperCase():'?';
+}
+
+function nivelInfo(n){
+  if(n>=15)return{name:'Guía',cls:'nl-gui',ico:'🏔',next:null,prev:15};
+  if(n>=8) return{name:'Alpinista',cls:'nl-alp',ico:'⛰',next:15,prev:8};
+  if(n>=3) return{name:'Montañista',cls:'nl-mon',ico:'🧗',next:8,prev:3};
+  return{name:'Explorador',cls:'nl-exp',ico:'🥾',next:3,prev:0};
+}
+
+function renderPerfil(user,rsv){
+  const m=user.user_metadata||{};
+  const lvl=nivelInfo(rsv.filter(r=>r.asistio).length);
+  const completadas=rsv.filter(r=>r.asistio).length;
+  const pct=lvl.next?Math.min(((completadas-lvl.prev)/(lvl.next-lvl.prev))*100,100):100;
+  const nextNames={'nl-exp':'MONTAÑISTA','nl-mon':'ALPINISTA','nl-alp':'GUÍA','nl-gui':''};
+  const nextName=nextNames[lvl.cls]||'';
+  const campos=[
+    ['📧 Correo',user.email],
+    m.fecha_nacimiento&&['🎂 Nacimiento',m.fecha_nacimiento],
+    m.telefono&&['📞 Teléfono',m.telefono],
+    m.celular&&['📱 Celular',m.celular],
+    m.tipo_sangre&&['🩸 Tipo sangre',m.tipo_sangre],
+    m.contacto_emergencia&&['🆘 Emergencia',m.contacto_emergencia],
+  ].filter(Boolean);
+  return `<div class="pf-hd">
+    <div class="pf-av">${initiales(m.nombre_completo||user.email)}</div>
+    <div class="pf-meta">
+      <div class="pf-nm">${m.nombre_completo||user.email.split('@')[0]}</div>
+      <div class="pf-em">${user.email}</div>
+      <span class="pf-nlv ${lvl.cls}">${lvl.ico} ${lvl.name}</span>
+    </div>
+    <button class="btn-logout" onclick="doLogout()">Salir →</button>
+  </div>
+  ${lvl.next?`<div class="pf-prg"><div class="pf-prg-row"><span class="pf-prg-lbl">Progreso a ${nextName}</span><span class="pf-prg-val">${completadas}/${lvl.next}</span></div><div class="pf-bar"><div class="pf-bar-fill" style="width:${pct}%"></div></div></div>`:'<div style="padding:6px 0 14px;font-family:var(--mono);font-size:.5rem;letter-spacing:.12em;color:var(--ember)">🏆 Nivel máximo alcanzado</div>'}
+  <div class="pf-grid">${campos.map(([l,v])=>`<div class="pf-cell"><div class="pf-cell-l">${l}</div><div class="pf-cell-v">${v}</div></div>`).join('')}</div>`;
+}
+
+function renderActividades(rsv){
+  const hoy=new Date();hoy.setHours(0,0,0,0);
+  const prox=rsv.filter(r=>r.estado!=='cancelada'&&(!r.fecha_evento||new Date(r.fecha_evento)>=hoy));
+  if(!prox.length)return `<div style="padding:40px 20px;text-align:center;color:rgba(134,239,172,.22);font-size:.85rem;line-height:1.9">No tienes actividades próximas.<br>¡Explora el calendario y reserva!</div>`;
+  return prox.map(r=>`<div class="rsv-card" data-rid="${r.id}">
+    <div class="rsv-card-hd">
+      <div class="rsv-card-ic">${TIPO_ICO[r.tipo_actividad]||'🏔'}</div>
+      <div class="rsv-card-inf">
+        <div class="rsv-card-nm">${r.actividad_nombre}</div>
+        <div class="rsv-card-mt">${r.fecha_evento||'Fecha por confirmar'}${r.precio?' · $'+r.precio+' MXN':''}</div>
+      </div>
+      <span class="rsv-badge ${r.estado||'pendiente'}">${r.estado||'pendiente'}</span>
+    </div>
+    <div class="rsv-card-bd">
+      <div class="rsv-dets">
+        <div class="rsv-det-r">🆔 <b>ID:</b>&nbsp;${r.id.slice(0,8).toUpperCase()}…</div>
+        ${r.tipo_actividad?`<div class="rsv-det-r">🏷 <b>Tipo:</b>&nbsp;${r.tipo_actividad}</div>`:''}
+        <div class="rsv-det-r" style="color:${r.asistio?'#86efac':'rgba(234,179,8,.7)'}">
+          ${r.asistio?'✅ Asistencia confirmada':'⏳ Pendiente de asistencia'}
+        </div>
+        <button class="rsv-dl" onclick="downloadQR('${r.id}','${r.actividad_nombre}')">⬇ Guardar QR</button>
+      </div>
+      <div class="rsv-qrw">
+        <div class="rsv-qrb" id="qr-${r.id}"></div>
+        <div class="rsv-qrl">Pase de entrada</div>
+      </div>
+    </div>
+  </div>`).join('');
+}
+
+function renderHistorial(rsv){
+  const hoy=new Date();hoy.setHours(0,0,0,0);
+  const past=rsv.filter(r=>r.fecha_evento&&new Date(r.fecha_evento)<hoy);
+  const completadas=rsv.filter(r=>r.asistio).length;
+  const canceladas=rsv.filter(r=>r.estado==='cancelada').length;
+  return `<div class="hist-stats-row">
+    <div class="hist-st"><div class="hist-st-v">${rsv.length}</div><div class="hist-st-l">Reservaciones</div></div>
+    <div class="hist-st"><div class="hist-st-v">${completadas}</div><div class="hist-st-l">Completadas</div></div>
+    <div class="hist-st"><div class="hist-st-v">${canceladas}</div><div class="hist-st-l">Canceladas</div></div>
+  </div>
+  ${past.length?past.map(r=>`<div class="hist-it">
+    <div class="hist-it-ic">${TIPO_ICO[r.tipo_actividad]||'🏔'}</div>
+    <div class="hist-it-inf">
+      <div class="hist-it-nm">${r.actividad_nombre}</div>
+      <div class="hist-it-mt">${r.fecha_evento||''}${r.precio?' · $'+r.precio:''}</div>
+    </div>
+    <span style="font-size:1.1rem">${r.asistio?'✅':r.estado==='cancelada'?'❌':'—'}</span>
+  </div>`).join(''):`<div style="padding:30px 0;text-align:center;color:rgba(134,239,172,.2);font-size:.84rem">Tu historial aparecerá aquí después de tus primeras expediciones.</div>`}`;
+}
+
+function renderDashboard(user,rsv){
+  const pfEl=document.getElementById('dash-perfil');
+  const actEl=document.getElementById('dash-actividades');
+  const histEl=document.getElementById('dash-historial');
+  if(pfEl)pfEl.innerHTML=renderPerfil(user,rsv);
+  if(actEl)actEl.innerHTML=renderActividades(rsv);
+  if(histEl)histEl.innerHTML=renderHistorial(rsv);
+  setTimeout(()=>generarQRs(rsv),150);
+}
+
+function generarQRs(rsv){
+  if(typeof QRCode==='undefined')return;
+  rsv.forEach(r=>{
+    const el=document.getElementById('qr-'+r.id);
+    if(!el||el.children.length)return;
+    try{new QRCode(el,{text:`ALTURALIBRE:${r.id}`,width:80,height:80,colorDark:'#000000',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});}
+    catch(e){}
+  });
+}
+
+function downloadQR(rid,nombre){
+  const el=document.getElementById('qr-'+rid);
+  if(!el)return;
+  const canvas=el.querySelector('canvas')||el.querySelector('img');
+  if(!canvas)return;
+  const link=document.createElement('a');
+  if(canvas.tagName==='CANVAS'){link.href=canvas.toDataURL('image/png');}
+  else{link.href=canvas.src;}
+  link.download=`QR-${nombre.replace(/\s+/g,'-')}.png`;
+  link.click();
 }
 
 function authTab(t){
@@ -1096,16 +1337,9 @@ async function doLogout(){if(sb)await sb.auth.signOut();}
 
 async function loadMisRsv(){
   if(!sb||!sbUser)return;
-  const wrap=document.getElementById('mis-rsv');if(!wrap)return;
-  const{data,error}=await sb.from('reservaciones').select('*').eq('user_id',sbUser.id).order('created_at',{ascending:false});
-  if(error||!data?.length){wrap.innerHTML='<p style="color:rgba(134,239,172,.25);font-size:.82rem;padding:8px 0">Sin reservaciones aún. ¡Explora el calendario!</p>';return;}
-  const tIco={hike:'🥾',campamento:'⛺',rapel:'🧗','social-run':'🏃'};
-  wrap.innerHTML=data.map(r=>`<div class="rsv-item">
-    <div class="rsv-ico">${tIco[r.tipo_actividad]||'🏔'}</div>
-    <div class="rsv-info"><div class="rsv-nombre">${r.actividad_nombre}</div>
-      <div class="rsv-meta">${r.fecha_evento||''}${r.precio?' · $'+r.precio+' MXN':''}</div></div>
-    <span class="rsv-badge ${r.estado||'pendiente'}">${r.estado||'pendiente'}</span>
-  </div>`).join('');
+  const{data}=await sb.from('reservaciones').select('*').eq('user_id',sbUser.id).order('fecha_evento',{ascending:true});
+  _rsvData=data||[];
+  renderDashboard(sbUser,_rsvData);
 }
 
 function abrirRsv(btn){

@@ -481,6 +481,14 @@ html[data-admin-mode="light"] .changes-badge{background:rgba(180,83,9,.1);border
         <div class="nav-item-l"><span class="nav-ico">📅</span><span class="nav-label">Calendario</span></div>
       </div>
 
+      <div class="sidebar-section">Aventureros</div>
+      <div class="nav-item" id="si-usuarios" onclick="navFixed('usuarios',this)">
+        <div class="nav-item-l"><span class="nav-ico">👥</span><span class="nav-label">Perfiles y reservas</span></div>
+      </div>
+      <div class="nav-item" id="si-asistencia" onclick="navFixed('asistencia',this)">
+        <div class="nav-item-l"><span class="nav-ico">✅</span><span class="nav-label">Tomar asistencia</span></div>
+      </div>
+
       <div class="sidebar-footer">
         <a class="sidebar-link" href="../" target="_blank">👁 Ver sitio</a>
       </div>
@@ -543,6 +551,7 @@ html[data-admin-mode="light"] .changes-badge{background:rgba(180,83,9,.1);border
 <div id="launch-overlay"><div class="launch-emoji">🚀</div><div class="launch-text" id="launch-status">Publicando sitio...</div></div>
 <div id="toast"><div class="toast-ico" id="t-ico"></div><div><div class="toast-title" id="t-title"></div><div class="toast-body" id="t-body"></div></div></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const OWNER='gacraul27-lgtm',REPO='alturalibre.com',BR='dev';
 let TOKEN='',content={},dirty=0,saving=false;
@@ -911,6 +920,8 @@ function renderView(){
   else if(currentView==='media')fMedia(b);
   else if(currentView==='catalogo')fCatalogo(b);
   else if(currentView==='calendario')fCalendario(b);
+  else if(currentView==='usuarios')fUsuarios(b);
+  else if(currentView==='asistencia')fAsistencia(b);
   else if(currentView==='section'){
     const sec=content.secciones.find(s=>s.id===currentSecId);
     if(sec)fSection(sec,b);
@@ -1727,6 +1738,117 @@ function pvSection(sec){
     </div>`;
   }
   return `<div class="pv-section" style="${bgStyle}"><div class="pv-title">${sec.titulo||sec.tipo}</div></div>`;
+}
+
+/* ── AVENTUREROS: PERFILES Y ASISTENCIA ── */
+let sbAdmin=null;
+const SB_URL_A='https://smdfrouqumpechbevqix.supabase.co';
+
+function getSbServiceKey(){return localStorage.getItem('al_sb_service')||'';}
+
+function initAdminSb(){
+  const key=getSbServiceKey();
+  if(!key||!window.supabase)return null;
+  if(!sbAdmin)sbAdmin=window.supabase.createClient(SB_URL_A,key);
+  return sbAdmin;
+}
+
+function fUsuarios(b){
+  b.innerHTML=`
+    <div class="form-section-title">Aventureros Registrados</div>
+    <p style="font-size:.78rem;color:var(--muted);margin-bottom:14px;line-height:1.6">Para ver perfiles y reservaciones necesitas el <b>Supabase Service Role Key</b> (no el anon key).<br>Encuéntralo en: Project Settings → API → <em>service_role secret</em>.</p>
+    <div class="field"><label class="field-label">Service Role Key de Supabase</label>
+      <input class="fi" id="sb-svc-key" type="password" placeholder="eyJhbGci…" value="${getSbServiceKey()}" oninput="localStorage.setItem('al_sb_service',this.value);sbAdmin=null"></div>
+    <button class="btn-save" onclick="cargarUsuarios()">🔍 Cargar aventureros</button>
+    <div id="usuarios-lista" style="margin-top:18px"></div>`;
+}
+
+async function cargarUsuarios(){
+  const sb=initAdminSb();
+  const el=document.getElementById('usuarios-lista');
+  if(!sb){el.innerHTML='<p style="color:#fca5a5;font-size:.8rem">⚠ Ingresa un Service Role Key válido.</p>';return;}
+  el.innerHTML='<p style="color:var(--muted);font-size:.8rem">Cargando…</p>';
+  const[{data:perfs},{data:rsvs}]=await Promise.all([
+    sb.from('profiles').select('*').order('created_at',{ascending:false}),
+    sb.from('reservaciones').select('*').order('fecha_evento',{ascending:false})
+  ]);
+  if(!perfs?.length){el.innerHTML='<p style="color:var(--muted);font-size:.8rem">Sin usuarios registrados aún.</p>';return;}
+  const nivelN=n=>{if(n>=15)return'🏔 Guía';if(n>=8)return'⛰ Alpinista';if(n>=3)return'🧗 Montañista';return'🥾 Explorador';};
+  el.innerHTML=perfs.map(p=>{
+    const prsvs=(rsvs||[]).filter(r=>r.user_id===p.id);
+    const completadas=prsvs.filter(r=>r.asistio).length;
+    return `<div class="drag-item" style="margin-bottom:10px">
+      <div style="display:flex;align-items:flex-start;gap:12px">
+        <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--ember),rgba(249,115,22,.4));display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:700;flex-shrink:0">${(p.nombre_completo||'?')[0].toUpperCase()}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:.88rem;font-weight:500;color:var(--cream);margin-bottom:2px">${p.nombre_completo||'—'}</div>
+          <div style="font-family:var(--mono);font-size:.52rem;letter-spacing:.08em;color:var(--muted)">${p.id.slice(0,8)}</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">
+            ${p.tipo_sangre?`<span style="font-family:var(--mono);font-size:.48rem;padding:2px 7px;border-radius:8px;background:rgba(239,68,68,.1);color:#fca5a5;border:1px solid rgba(239,68,68,.18)">🩸 ${p.tipo_sangre}</span>`:''}
+            ${p.contacto_emergencia?`<span style="font-family:var(--mono);font-size:.48rem;padding:2px 7px;border-radius:8px;background:rgba(134,239,172,.06);color:var(--moss);border:1px solid rgba(134,239,172,.1)">🆘 ${p.contacto_emergencia}</span>`:''}
+            <span style="font-family:var(--mono);font-size:.48rem;padding:2px 7px;border-radius:8px;background:rgba(249,115,22,.08);color:var(--ember);border:1px solid rgba(249,115,22,.15)">${nivelN(completadas)}</span>
+          </div>
+        </div>
+        <div style="text-align:right;flex-shrink:0">
+          <div style="font-family:var(--mono);font-size:.52rem;color:var(--muted)">${prsvs.length} reserv.</div>
+          <div style="font-family:var(--mono);font-size:.52rem;color:#86efac">${completadas} complet.</div>
+        </div>
+      </div>
+      ${prsvs.length?`<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">
+        ${prsvs.slice(0,3).map(r=>`<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid rgba(134,239,172,.04)">
+          <span style="font-size:.85rem">${r.asistio?'✅':r.estado==='cancelada'?'❌':'⏳'}</span>
+          <div style="flex:1"><div style="font-size:.78rem;color:var(--cream)">${r.actividad_nombre}</div><div style="font-family:var(--mono);font-size:.48rem;color:var(--muted)">${r.fecha_evento||'s/f'}${r.precio?' · $'+r.precio:''}</div></div>
+          ${!r.asistio&&r.estado!=='cancelada'?`<button onclick="marcarAsistencia('${r.id}','${p.id}')" style="padding:3px 8px;background:rgba(134,239,172,.1);border:1px solid rgba(134,239,172,.2);border-radius:4px;color:var(--moss);font-family:var(--mono);font-size:.48rem;cursor:pointer">Confirmar</button>`:''}
+        </div>`).join('')}
+        ${prsvs.length>3?`<div style="font-family:var(--mono);font-size:.48rem;color:var(--muted);padding:4px 0">+${prsvs.length-3} más…</div>`:''}
+      </div>`:''}
+    </div>`;
+  }).join('');
+}
+
+async function marcarAsistencia(rsvId,userId){
+  const sb=initAdminSb();if(!sb)return;
+  const{error}=await sb.from('reservaciones').update({asistio:true}).eq('id',rsvId);
+  if(!error){toast('success','Asistencia confirmada','La reservación fue marcada como presente.');cargarUsuarios();}
+  else toast('error','Error',error.message);
+}
+
+function fAsistencia(b){
+  b.innerHTML=`
+    <div class="form-section-title">Tomar Asistencia por QR</div>
+    <p style="font-size:.78rem;color:var(--muted);margin-bottom:16px;line-height:1.6">
+      Pide al aventurero que muestre su código QR desde la sección "Mi Cuenta" del sitio.<br>
+      Escanéalo con tu cámara — obtendrás un texto con el formato <code style="background:rgba(134,239,172,.08);padding:1px 6px;border-radius:3px;font-size:.72rem">ALTURALIBRE:UUID</code>.<br>
+      Pega o escribe el ID de reservación abajo para confirmar la asistencia.
+    </p>
+    <div class="field"><label class="field-label">ID de reservación (del QR o manual)</label>
+      <input class="fi" id="asist-input" type="text" placeholder="ALTURALIBRE:xxxxxxxx-… o solo el UUID">
+    </div>
+    <button class="btn-save" onclick="confirmarAsistenciaQR()">✅ Confirmar asistencia</button>
+    <div id="asist-result" style="margin-top:16px"></div>`;
+}
+
+async function confirmarAsistenciaQR(){
+  const sb=initAdminSb();
+  const el=document.getElementById('asist-result');
+  const raw=(document.getElementById('asist-input')?.value||'').trim();
+  const rid=raw.startsWith('ALTURALIBRE:')?raw.split(':')[1]:raw;
+  if(!rid){el.innerHTML='<p style="color:#fca5a5;font-size:.8rem">Ingresa un ID de reservación.</p>';return;}
+  if(!sb){el.innerHTML='<p style="color:#fca5a5;font-size:.8rem">⚠ Configura el Service Role Key en "Perfiles y reservas" primero.</p>';return;}
+  el.innerHTML='<p style="color:var(--muted);font-size:.8rem">Buscando…</p>';
+  const{data,error}=await sb.from('reservaciones').select('*,profiles(nombre_completo)').eq('id',rid).single();
+  if(error||!data){el.innerHTML='<p style="color:#fca5a5;font-size:.8rem">❌ Reservación no encontrada. Verifica el ID.</p>';return;}
+  if(data.asistio){el.innerHTML=`<div style="padding:14px;border:1px solid rgba(134,239,172,.15);border-radius:8px;background:rgba(134,239,172,.04)"><div style="font-size:.85rem;color:#86efac;margin-bottom:4px">✅ Ya marcado como presente</div><div style="font-size:.78rem;color:var(--muted)">${data.actividad_nombre} — ${data.fecha_evento||'s/f'}</div></div>`;return;}
+  const{error:ue}=await sb.from('reservaciones').update({asistio:true}).eq('id',rid);
+  if(ue){el.innerHTML=`<p style="color:#fca5a5;font-size:.8rem">Error: ${ue.message}</p>`;return;}
+  const nombre=data.profiles?.nombre_completo||data.user_id.slice(0,8);
+  el.innerHTML=`<div style="padding:16px;border:1px solid rgba(249,115,22,.2);border-radius:8px;background:rgba(249,115,22,.05)">
+    <div style="font-family:var(--mono);font-size:.55rem;letter-spacing:.15em;color:var(--ember);margin-bottom:8px">ASISTENCIA CONFIRMADA</div>
+    <div style="font-size:.92rem;font-weight:600;color:var(--cream);margin-bottom:4px">${nombre}</div>
+    <div style="font-size:.8rem;color:var(--muted)">${data.actividad_nombre}</div>
+    <div style="font-family:var(--mono);font-size:.6rem;color:var(--muted);margin-top:4px">${data.fecha_evento||'s/f'}</div>
+  </div>`;
+  document.getElementById('asist-input').value='';
 }
 
 /* ── DEVICE ── */
