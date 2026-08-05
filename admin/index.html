@@ -764,7 +764,9 @@ async function loadContent(){
   try{
     const r=await gh(`/repos/${OWNER}/${REPO}/contents/content.json?ref=${BR}`);
     const d=await r.json();
-    content=JSON.parse(atob(d.content.replace(/\n/g,'')));
+    const raw=atob(d.content.replace(/\n/g,''));
+    const bytes=Uint8Array.from(raw,c=>c.charCodeAt(0));
+    content=JSON.parse(new TextDecoder('utf-8').decode(bytes));
     if(!content.botones)content.botones=[];
     if(!content.media)content.media=[];
     if(!content.fondo)content.fondo={tipo:'gradiente',imagen_url:'',video_url:'',overlay:.65};
