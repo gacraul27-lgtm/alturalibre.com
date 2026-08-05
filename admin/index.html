@@ -553,7 +553,7 @@ html[data-admin-mode="light"] .changes-badge{background:rgba(180,83,9,.1);border
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const OWNER='gacraul27-lgtm',REPO='alturalibre.com',BR='dev';
+const OWNER='gacraul27-lgtm',REPO='alturalibre.com',BR='main';
 let TOKEN='',content={},dirty=0,saving=false;
 let currentView='hero';
 let currentSecId=null;
@@ -808,14 +808,19 @@ async function launchSite(){
   const ol=document.getElementById('launch-overlay');ol.classList.add('show');
   document.getElementById('launch-status').textContent='Publicando sitio...';
   try{
-    const r=await gh(`/repos/${OWNER}/${REPO}/merges`,'POST',{
-      base:'main',head:BR,commit_message:'🚀 Lanzar sitio: merge dev → main'
+    collectForm();
+    const fr=await gh(`/repos/${OWNER}/${REPO}/contents/content.json?ref=main`);
+    const fd=await fr.json();
+    const enc=btoa(unescape(encodeURIComponent(JSON.stringify(content,null,2))));
+    const r=await gh(`/repos/${OWNER}/${REPO}/contents/content.json`,'PUT',{
+      message:'🚀 Lanzar sitio',content:enc,sha:fd.sha,branch:'main'
     });
-    if([200,201,204].includes(r.status)){
-      document.getElementById('launch-status').textContent='¡Publicado! Cloudflare desplegará en 1-2 min.';
+    if(r.ok){
+      dirty=0;updateBadge();
+      document.getElementById('launch-status').textContent='¡Publicado! GitHub Pages desplegará en 1-2 min.';
       setTimeout(()=>{ol.classList.remove('show');toast('success','¡Sitio publicado! 🚀','En 1-2 minutos estará live.');},2200);
-    }else{ol.classList.remove('show');toast('error','Error','Verifica permisos del token.');}
-  }catch(e){ol.classList.remove('show');toast('error','Error de red','');}
+    }else{ol.classList.remove('show');toast('error','Error al publicar','Verifica permisos del token.');}
+  }catch(e){ol.classList.remove('show');toast('error','Error de red','Verifica tu conexión.');}
 }
 
 /* ── SIDEBAR SECTIONS ── */
