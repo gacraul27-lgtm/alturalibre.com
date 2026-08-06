@@ -189,129 +189,165 @@ select.fi option{background:#0a1a12;color:var(--cream);}
 }
 .otp-inputs input:focus{border-color:var(--border-hi);background:rgba(255,255,255,.07);}
 
-/* ── DASHBOARD ── */
-.dash-header{
-  background:linear-gradient(135deg,rgba(249,115,22,.08),rgba(74,222,128,.04));
-  border:1px solid var(--border);border-radius:var(--radius);
-  padding:24px;margin-bottom:20px;display:flex;align-items:center;gap:16px;
-}
-.dash-avatar{
-  width:56px;height:56px;border-radius:50%;flex-shrink:0;
-  background:linear-gradient(135deg,var(--ember-dim),var(--moss-dim));
-  border:2px solid rgba(249,115,22,.3);
-  display:flex;align-items:center;justify-content:center;
-  font-size:1.4rem;font-weight:700;color:var(--ember);
-}
-.dash-name{font-size:1.05rem;font-weight:600;color:var(--cream);}
-.dash-email{font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;color:var(--muted);margin-top:2px;}
-
 /* Level badge */
-.level-badge{
-  display:inline-flex;align-items:center;gap:5px;
-  padding:3px 10px;border-radius:20px;
-  font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;
-  margin-top:6px;
-}
+.level-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;margin-top:4px;}
 .nl-exp{background:rgba(148,163,184,.1);border:1px solid rgba(148,163,184,.2);color:#94a3b8;}
 .nl-mon{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.2);color:#4ade80;}
 .nl-alp{background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.2);color:#f97316;}
 .nl-gui{background:rgba(250,204,21,.1);border:1px solid rgba(250,204,21,.2);color:#facc15;}
 
-.level-bar-wrap{margin-top:8px;}
-.level-bar-track{height:4px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden;}
-.level-bar-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--ember),var(--moss));transition:width .6s ease;}
-.level-bar-label{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.52rem;color:var(--muted);margin-top:4px;}
-
-/* Dash tabs */
-.dash-tabs{display:flex;gap:4px;background:rgba(255,255,255,.04);border-radius:10px;padding:3px;margin-bottom:20px;}
-.dash-tab{
-  flex:1;padding:9px 6px;border:none;background:none;
-  color:var(--muted);font-size:.75rem;font-family:var(--sans);font-weight:500;
-  cursor:pointer;border-radius:7px;transition:var(--transition);white-space:nowrap;
-}
-.dash-tab.active{background:rgba(255,255,255,.07);color:var(--cream);}
-
-/* Dashboard panels */
-.dash-panel{display:none;}
-.dash-panel.active{display:block;}
-
-/* Profile grid */
-.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
-.profile-field{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px;}
-.pf-label{font-family:var(--mono);font-size:.52rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
-.pf-value{font-size:.85rem;color:var(--cream);}
-.pf-value.empty{color:rgba(240,253,244,.25);font-style:italic;}
-
-/* Reservation cards */
-.rsv-card{
-  background:var(--card);border:1px solid var(--border);
-  border-radius:var(--radius);padding:18px;margin-bottom:12px;
-  transition:border-color var(--transition);
-}
-.rsv-card:hover{border-color:var(--border-hi);}
-.rsv-card-top{display:flex;align-items:flex-start;gap:12px;}
-.rsv-ico{
-  width:40px;height:40px;border-radius:10px;flex-shrink:0;
-  background:var(--ember-dim);border:1px solid rgba(249,115,22,.2);
-  display:flex;align-items:center;justify-content:center;font-size:1.1rem;
-}
-.rsv-name{font-size:.9rem;font-weight:600;color:var(--cream);}
-.rsv-meta{font-family:var(--mono);font-size:.58rem;letter-spacing:.06em;color:var(--muted);margin-top:3px;}
-.rsv-badge{
-  display:inline-flex;align-items:center;gap:4px;
-  padding:2px 8px;border-radius:20px;
-  font-family:var(--mono);font-size:.55rem;letter-spacing:.08em;margin-top:6px;
-}
+.rsv-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:20px;font-family:var(--mono);font-size:.55rem;letter-spacing:.08em;margin-top:6px;}
 .badge-pend{background:rgba(234,179,8,.08);border:1px solid rgba(234,179,8,.2);color:#fbbf24;}
 .badge-conf{background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);color:#4ade80;}
 .badge-canc{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);color:#f87171;}
 .badge-asist{background:rgba(74,222,128,.15);border:1px solid rgba(74,222,128,.3);color:#4ade80;}
-
-/* QR */
-.qr-section{margin-top:14px;padding-top:14px;border-top:1px solid var(--border);display:flex;align-items:center;gap:16px;}
-.qr-box{
-  width:84px;height:84px;flex-shrink:0;
-  background:#fff;border-radius:8px;padding:4px;
-  display:flex;align-items:center;justify-content:center;overflow:hidden;
-}
-.qr-box img,.qr-box canvas{width:76px!important;height:76px!important;}
-.qr-info{flex:1;}
-.qr-label{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--moss);margin-bottom:4px;}
-.qr-id{font-family:var(--mono);font-size:.58rem;color:var(--muted);word-break:break-all;margin-bottom:8px;}
-.btn-qr-dl{
-  padding:6px 12px;background:var(--moss-dim);border:1px solid rgba(74,222,128,.2);
-  border-radius:6px;color:var(--moss);font-family:var(--mono);font-size:.58rem;
-  cursor:pointer;transition:var(--transition);
-}
-.btn-qr-dl:hover{background:rgba(74,222,128,.18);}
-
-/* Historial stats */
-.hist-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;}
-.hist-stat{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;}
-.hist-stat-v{font-family:var(--mono);font-size:1.6rem;font-weight:700;color:var(--cream);}
-.hist-stat-l{font-family:var(--mono);font-size:.52rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:4px;}
-
 .empty-state{text-align:center;padding:40px 20px;color:var(--muted);}
 .empty-ico{font-size:2.5rem;margin-bottom:12px;display:block;opacity:.5;}
 .empty-text{font-size:.85rem;line-height:1.6;}
 
-/* Logout */
-.btn-logout{
-  width:100%;padding:11px;margin-top:16px;
-  background:transparent;border:1px solid rgba(239,68,68,.15);border-radius:10px;
-  color:rgba(239,68,68,.6);font-family:var(--sans);font-size:.82rem;cursor:pointer;transition:var(--transition);
-}
-.btn-logout:hover{border-color:rgba(239,68,68,.3);color:#f87171;background:rgba(239,68,68,.04);}
+/* ── FULL APP DASHBOARD ── */
+body.in-dash{overflow:hidden;}
+body.in-dash .brand{display:none;}
+body.in-dash .auth-panel{padding:0;justify-content:flex-start;align-items:stretch;overflow:hidden;}
+body.in-dash .auth-card{max-width:none;width:100%;display:flex;height:100vh;overflow:hidden;}
+
+/* Sidebar */
+.db-side{width:240px;flex-shrink:0;background:#061009;border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;}
+.db-side-top{padding:22px 18px 16px;border-bottom:1px solid var(--border);}
+.db-brand{display:flex;align-items:center;gap:9px;margin-bottom:18px;}
+.db-brand-ico{width:30px;height:30px;border-radius:8px;flex-shrink:0;background:linear-gradient(135deg,rgba(249,115,22,.25),rgba(74,222,128,.15));border:1px solid rgba(249,115,22,.3);display:flex;align-items:center;justify-content:center;font-size:.85rem;}
+.db-brand-name{font-family:var(--mono);font-size:.6rem;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);}
+.db-user{display:flex;align-items:center;gap:11px;margin-bottom:12px;}
+.db-avatar{width:42px;height:42px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,rgba(249,115,22,.3),rgba(74,222,128,.2));border:2px solid rgba(249,115,22,.35);display:flex;align-items:center;justify-content:center;font-size:.95rem;font-weight:700;color:var(--ember);}
+.db-user-name{font-size:.86rem;font-weight:600;color:var(--cream);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.db-user-sub{font-family:var(--mono);font-size:.5rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px;}
+.db-level-track{height:3px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden;margin:8px 0 4px;}
+.db-level-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--ember),var(--moss));transition:width .6s ease;}
+.db-level-info{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.48rem;color:rgba(240,253,244,.3);}
+
+/* Nav */
+.db-nav{flex:1;padding:10px;overflow-y:auto;display:flex;flex-direction:column;gap:1px;}
+.db-nav-sep{font-family:var(--mono);font-size:.46rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(240,253,244,.18);padding:12px 8px 4px;}
+.db-nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid transparent;background:none;color:var(--muted);font-family:var(--sans);font-size:.82rem;font-weight:500;cursor:pointer;border-radius:10px;transition:var(--transition);text-align:left;width:100%;}
+.db-nav-item:hover{background:rgba(255,255,255,.04);color:var(--cream);}
+.db-nav-item.active{background:rgba(249,115,22,.08);color:var(--ember);border-color:rgba(249,115,22,.12);}
+.db-nav-ico{font-size:.95rem;width:20px;text-align:center;flex-shrink:0;}
+.db-nav-badge{margin-left:auto;background:rgba(249,115,22,.15);border:1px solid rgba(249,115,22,.2);color:var(--ember);font-family:var(--mono);font-size:.48rem;padding:1px 6px;border-radius:10px;}
+
+.db-side-bottom{padding:14px 10px;border-top:1px solid var(--border);}
+.db-logout{width:100%;padding:10px 12px;background:transparent;border:1px solid rgba(239,68,68,.12);border-radius:10px;color:rgba(239,68,68,.5);font-family:var(--sans);font-size:.78rem;cursor:pointer;transition:var(--transition);text-align:left;display:flex;align-items:center;gap:8px;}
+.db-logout:hover{border-color:rgba(239,68,68,.3);color:#f87171;background:rgba(239,68,68,.04);}
+
+/* Main area */
+.db-main{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);}
+.db-topbar{padding:14px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:rgba(6,16,9,.85);backdrop-filter:blur(12px);flex-shrink:0;}
+.db-topbar-title{font-size:1.05rem;font-weight:600;color:var(--cream);}
+.db-topbar-sub{font-family:var(--mono);font-size:.55rem;letter-spacing:.08em;color:var(--muted);margin-top:2px;}
+.db-back-site{padding:6px 13px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:8px;color:var(--muted);font-family:var(--mono);font-size:.56rem;letter-spacing:.08em;text-decoration:none;transition:var(--transition);}
+.db-back-site:hover{border-color:var(--border-hi);color:var(--cream);}
+.db-content{flex:1;overflow-y:auto;padding:24px;}
+.db-content::-webkit-scrollbar{width:4px;}
+.db-content::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
+.db-section{display:none;}
+.db-section.active{display:block;}
+
+/* Welcome hero */
+.db-welcome{background:linear-gradient(135deg,rgba(249,115,22,.07),rgba(74,222,128,.03));border:1px solid rgba(249,115,22,.12);border-radius:16px;padding:22px 24px;margin-bottom:22px;display:flex;align-items:center;gap:18px;}
+.db-welcome-av{width:58px;height:58px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,rgba(249,115,22,.3),rgba(74,222,128,.2));border:2px solid rgba(249,115,22,.4);display:flex;align-items:center;justify-content:center;font-size:1.35rem;font-weight:700;color:var(--ember);}
+.db-welcome-greeting{font-size:1.2rem;font-weight:700;color:var(--cream);line-height:1.2;}
+.db-welcome-sub{font-size:.8rem;color:var(--muted);margin-top:4px;}
+
+/* Stats row */
+.db-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:22px;}
+.db-stat{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 18px;transition:border-color var(--transition);}
+.db-stat:hover{border-color:var(--border-hi);}
+.db-stat-ico{font-size:1.2rem;margin-bottom:8px;}
+.db-stat-v{font-family:var(--mono);font-size:1.7rem;font-weight:700;color:var(--cream);line-height:1;}
+.db-stat-l{font-family:var(--mono);font-size:.5rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:5px;}
+
+.db-row-title{font-size:.88rem;font-weight:600;color:var(--cream);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;}
+.db-row-title a{font-family:var(--mono);font-size:.52rem;letter-spacing:.1em;color:var(--moss);text-decoration:none;opacity:.7;}
+.db-row-title a:hover{opacity:1;}
+
+/* Activity catalog */
+.act-filters{display:flex;gap:7px;margin-bottom:18px;flex-wrap:wrap;}
+.act-fb{padding:6px 13px;border:1px solid var(--border);border-radius:20px;background:none;color:var(--muted);font-family:var(--sans);font-size:.76rem;cursor:pointer;transition:var(--transition);}
+.act-fb:hover{border-color:var(--border-hi);color:var(--cream);}
+.act-fb.active{background:rgba(249,115,22,.1);border-color:rgba(249,115,22,.3);color:var(--ember);}
+.act-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px;}
+.act-card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all var(--transition);}
+.act-card:hover{border-color:var(--border-hi);transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.35);}
+.act-hero{height:88px;display:flex;align-items:center;justify-content:center;font-size:2.4rem;}
+.act-body{padding:14px 15px;}
+.act-tipo{font-family:var(--mono);font-size:.5rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
+.act-name{font-size:.88rem;font-weight:600;color:var(--cream);margin-bottom:8px;line-height:1.3;}
+.act-chips{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px;}
+.chip{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:9px;font-family:var(--mono);font-size:.48rem;letter-spacing:.04em;}
+.cl{background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.15);color:#4ade80;}
+.cm{background:rgba(234,179,8,.07);border:1px solid rgba(234,179,8,.15);color:#fbbf24;}
+.ch{background:rgba(249,115,22,.07);border:1px solid rgba(249,115,22,.15);color:#f97316;}
+.cd{background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--muted);}
+.cf{background:rgba(99,102,241,.07);border:1px solid rgba(99,102,241,.15);color:#a5b4fc;}
+.act-btn{width:100%;padding:9px;border:none;border-radius:9px;font-family:var(--sans);font-size:.77rem;font-weight:600;cursor:pointer;transition:var(--transition);background:linear-gradient(135deg,rgba(249,115,22,.9),rgba(249,115,22,.7));color:#fff;}
+.act-btn:hover{background:linear-gradient(135deg,#f97316,rgba(249,115,22,.9));}
+
+/* Reservas */
+.rsv-list{display:flex;flex-direction:column;gap:12px;}
+.rsv-item{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;display:flex;gap:14px;align-items:flex-start;transition:border-color var(--transition);}
+.rsv-item:hover{border-color:var(--border-hi);}
+.rsv-ico2{width:46px;height:46px;border-radius:11px;flex-shrink:0;background:var(--ember-dim);border:1px solid rgba(249,115,22,.2);display:flex;align-items:center;justify-content:center;font-size:1.25rem;}
+.rsv-info{flex:1;min-width:0;}
+.rsv-iname{font-size:.92rem;font-weight:600;color:var(--cream);margin-bottom:3px;}
+.rsv-imeta{font-family:var(--mono);font-size:.56rem;letter-spacing:.05em;color:var(--muted);margin-bottom:7px;}
+.rsv-qr-wrap{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:5px;}
+.rsv-qr-box{width:70px;height:70px;background:#fff;border-radius:8px;padding:3px;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.rsv-qr-box canvas,.rsv-qr-box img{width:64px!important;height:64px!important;}
+.rsv-qr-dl{padding:4px 9px;background:var(--moss-dim);border:1px solid rgba(74,222,128,.2);border-radius:6px;color:var(--moss);font-family:var(--mono);font-size:.48rem;cursor:pointer;transition:var(--transition);white-space:nowrap;}
+.rsv-qr-dl:hover{background:rgba(74,222,128,.18);}
+
+/* Historial */
+.hist-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:22px;}
+.hist-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center;}
+.hist-v{font-family:var(--mono);font-size:1.9rem;font-weight:700;color:var(--cream);line-height:1;}
+.hist-l{font-family:var(--mono);font-size:.49rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-top:6px;}
+
+/* Perfil */
+.perf-header{background:linear-gradient(135deg,rgba(249,115,22,.06),rgba(74,222,128,.03));border:1px solid rgba(249,115,22,.12);border-radius:16px;padding:22px;margin-bottom:18px;display:flex;align-items:center;gap:16px;}
+.perf-av{width:68px;height:68px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,rgba(249,115,22,.35),rgba(74,222,128,.2));border:3px solid rgba(249,115,22,.4);display:flex;align-items:center;justify-content:center;font-size:1.7rem;font-weight:700;color:var(--ember);}
+.perf-name{font-size:1.15rem;font-weight:700;color:var(--cream);}
+.perf-email{font-family:var(--mono);font-size:.58rem;color:var(--muted);margin-top:3px;}
+.perf-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.perf-field{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 15px;}
+.perf-label{font-family:var(--mono);font-size:.49rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
+.perf-val{font-size:.86rem;color:var(--cream);}
+.perf-val.empty{color:rgba(240,253,244,.25);font-style:italic;}
 
 /* ── RESPONSIVE ── */
 @media(max-width:768px){
-  body{flex-direction:column;overflow:auto;}
-  html,body{height:auto;}
+  body:not(.in-dash){flex-direction:column;overflow:auto;}
+  html,body:not(.in-dash){height:auto;}
   .brand{width:100%;min-width:unset;padding:32px 24px 24px;min-height:unset;}
   #mtn-canvas,#star-canvas,.aurora-wrap{display:none;}
   .features{display:none;}
   .brand-headline{font-size:1.8rem;}
   .auth-panel{padding:32px 20px;min-height:100vh;justify-content:flex-start;}
+  body.in-dash .auth-card{flex-direction:column;}
+  .db-side{width:100%;height:auto;border-right:none;border-bottom:1px solid var(--border);}
+  .db-side-top{padding:14px 16px;}
+  .db-nav{flex-direction:row;padding:6px 10px;gap:3px;overflow-x:auto;}
+  .db-nav-sep{display:none;}
+  .db-nav-item span:last-child:not(.db-nav-ico){display:none;}
+  .db-nav-item{padding:8px 10px;}
+  .db-side-bottom{padding:8px 10px;}
+  .db-content{padding:16px;}
+  .db-stats,.hist-grid{grid-template-columns:1fr 1fr;}
+  .act-grid{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:480px){
+  .db-stats,.hist-grid{grid-template-columns:1fr;}
+  .act-grid{grid-template-columns:1fr;}
+  .perf-grid{grid-template-columns:1fr;}
+  .rsv-item{flex-wrap:wrap;}
 }
 
 /* Animations */
@@ -470,30 +506,59 @@ select.fi option{background:#0a1a12;color:var(--cream);}
 
     <!-- DASHBOARD BLOCK -->
     <div id="block-dashboard" style="display:none" class="fade-up">
-      <div class="dash-header">
-        <div class="dash-avatar" id="d-avatar">?</div>
-        <div style="flex:1;min-width:0">
-          <div class="dash-name" id="d-name">—</div>
-          <div class="dash-email" id="d-email">—</div>
-          <div id="d-level-badge" class="level-badge nl-exp">🥾 Explorador</div>
-          <div class="level-bar-wrap" id="d-bar-wrap">
-            <div class="level-bar-track"><div class="level-bar-fill" id="d-bar" style="width:0%"></div></div>
-            <div class="level-bar-label"><span id="d-bar-l">0 actividades</span><span id="d-bar-r">3 para subir</span></div>
+
+      <!-- ── SIDEBAR ── -->
+      <aside class="db-side">
+        <div class="db-side-top">
+          <div class="db-brand">
+            <div class="db-brand-ico">⛰</div>
+            <span class="db-brand-name">Altura Libre</span>
           </div>
+          <div class="db-user">
+            <div class="db-avatar" id="d-avatar">?</div>
+            <div style="min-width:0">
+              <div class="db-user-name" id="d-name">—</div>
+              <div class="db-user-sub" id="d-email">—</div>
+            </div>
+          </div>
+          <div id="d-level-badge" class="level-badge nl-exp" style="margin:0 0 6px">🥾 Explorador</div>
+          <div class="db-level-track"><div class="db-level-fill" id="d-bar" style="width:0%"></div></div>
+          <div class="db-level-info"><span id="d-bar-l">0 actividades</span><span id="d-bar-r">3 para subir</span></div>
         </div>
-      </div>
 
-      <div class="dash-tabs">
-        <button class="dash-tab active" onclick="dashTab('perfil',this)">👤 Perfil</button>
-        <button class="dash-tab" onclick="dashTab('actividades',this)">📅 Actividades</button>
-        <button class="dash-tab" onclick="dashTab('historial',this)">📊 Historial</button>
-      </div>
+        <nav class="db-nav">
+          <div class="db-nav-sep">Principal</div>
+          <button class="db-nav-item active" onclick="dbSection('inicio',this)"><span class="db-nav-ico">⊞</span><span>Inicio</span></button>
+          <button class="db-nav-item" onclick="dbSection('explorar',this)"><span class="db-nav-ico">🗺</span><span>Explorar</span></button>
+          <div class="db-nav-sep">Mi cuenta</div>
+          <button class="db-nav-item" onclick="dbSection('reservas',this)"><span class="db-nav-ico">📅</span><span>Mis Reservas</span><span class="db-nav-badge" id="nav-rsv-badge" style="display:none">0</span></button>
+          <button class="db-nav-item" onclick="dbSection('historial',this)"><span class="db-nav-ico">📊</span><span>Historial</span></button>
+          <button class="db-nav-item" onclick="dbSection('perfil',this)"><span class="db-nav-ico">👤</span><span>Mi Perfil</span></button>
+        </nav>
 
-      <div class="dash-panel active" id="dp-perfil"></div>
-      <div class="dash-panel" id="dp-actividades"></div>
-      <div class="dash-panel" id="dp-historial"></div>
+        <div class="db-side-bottom">
+          <button class="db-logout" onclick="doLogout()">↩ &nbsp;Cerrar sesión</button>
+        </div>
+      </aside>
 
-      <button class="btn-logout" onclick="doLogout()">Cerrar sesión</button>
+      <!-- ── MAIN ── -->
+      <main class="db-main">
+        <div class="db-topbar">
+          <div>
+            <div class="db-topbar-title" id="db-topbar-title">Inicio</div>
+            <div class="db-topbar-sub" id="db-topbar-sub">Panel de aventurero</div>
+          </div>
+          <a href="/" class="db-back-site">← Sitio web</a>
+        </div>
+        <div class="db-content">
+          <div class="db-section active" id="ds-inicio"></div>
+          <div class="db-section" id="ds-explorar"></div>
+          <div class="db-section" id="ds-reservas"></div>
+          <div class="db-section" id="ds-historial"></div>
+          <div class="db-section" id="ds-perfil"></div>
+        </div>
+      </main>
+
     </div>
 
   </div>
@@ -506,8 +571,6 @@ const SB_ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJl
 const sb=window.supabase.createClient(SB_URL,SB_ANON);
 
 let sbUser=null,rsvData=[];
-
-const TIPO_ICO={hike:'🥾',campamento:'⛺',rapel:'🧗','social-run':'🏃',expedicion:'⛰'};
 
 /* ── MOUNTAIN CANVAS ── */
 (function(){
@@ -579,7 +642,8 @@ function showBlock(id){
     const el=document.getElementById('block-'+b);
     if(el)el.style.display=b===id?'':'none';
   });
-  window.scrollTo(0,0);
+  document.body.classList.toggle('in-dash',id==='dashboard');
+  if(id!=='dashboard')window.scrollTo(0,0);
 }
 
 function switchTab(tab){
@@ -662,141 +726,253 @@ function showForgot(){showBlock('forgot');}
 async function doLogout(){
   await sb.auth.signOut();
   sbUser=null;rsvData=[];
+  document.body.classList.remove('in-dash');
   showBlock('login');
 }
 
 /* ── LEVEL SYSTEM ── */
+const TIPO_ICO={hike:'🥾',campamento:'⛺',rapel:'🧗','social-run':'🏃',expedicion:'⛰'};
+
 function nivelInfo(n){
   if(n>=15)return{name:'Guía',cls:'nl-gui',ico:'🏔',next:null,prev:15};
   if(n>=8) return{name:'Alpinista',cls:'nl-alp',ico:'⛰',next:15,prev:8};
   if(n>=3) return{name:'Montañista',cls:'nl-mon',ico:'🧗',next:8,prev:3};
   return{name:'Explorador',cls:'nl-exp',ico:'🥾',next:3,prev:0};
 }
+function nextLevelName(ni){
+  if(ni.next===3)return'Montañista';if(ni.next===8)return'Alpinista';if(ni.next===15)return'Guía';return'';
+}
+function initials(s){return(s||'?').split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();}
+function greeting(){const h=new Date().getHours();return h<12?'Buenos días':h<18?'Buenas tardes':'Buenas noches';}
 
-/* ── DASHBOARD ── */
-function dashTab(tab,btn){
-  document.querySelectorAll('.dash-panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.dash-tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById('dp-'+tab).classList.add('active');
-  if(btn)btn.classList.add('active');
-  if(tab==='actividades')generateQRs();
+/* ── DEMO ACTIVITIES ── */
+const DEMO_ACTS=[
+  {id:'a1',tipo:'hike',nombre:'Cerro de la Silla',dificultad:'m',precio:0,fecha:'Sábados',spots:20,emoji:'🏔',bg:'linear-gradient(135deg,#041a0b,#062010)'},
+  {id:'a2',tipo:'rapel',nombre:'Potrero Chico',dificultad:'h',precio:350,fecha:'Dom 24 ago',spots:8,emoji:'🧗',bg:'linear-gradient(135deg,#1a0804,#201006)'},
+  {id:'a3',tipo:'hike',nombre:'La Huasteca Nocturna',dificultad:'m',precio:0,fecha:'Vie 29 ago',spots:15,emoji:'🌙',bg:'linear-gradient(135deg,#04061a,#060814)'},
+  {id:'a4',tipo:'campamento',nombre:'Sierra de Arteaga',dificultad:'l',precio:450,fecha:'Sep 6-7',spots:12,emoji:'⛺',bg:'linear-gradient(135deg,#041a0b,#051608)'},
+  {id:'a5',tipo:'social-run',nombre:'Cola de Caballo',dificultad:'l',precio:0,fecha:'Sábados',spots:30,emoji:'🏃',bg:'linear-gradient(135deg,#180604,#1a0a04)'},
+  {id:'a6',tipo:'expedicion',nombre:'Cerro Potosí 3700m',dificultad:'h',precio:800,fecha:'Oct 11-12',spots:6,emoji:'⛰',bg:'linear-gradient(135deg,#1a1204,#181008)'},
+];
+const DIFF={l:'<span class="chip cl">↑ Baja</span>',m:'<span class="chip cm">↑↑ Media</span>',h:'<span class="chip ch">↑↑↑ Alta</span>'};
+
+let _curFilter='todos';
+
+function actCardHtml(a){
+  return`<div class="act-card">
+    <div class="act-hero" style="background:${a.bg}">${a.emoji}</div>
+    <div class="act-body">
+      <div class="act-tipo">${a.tipo.replace('-',' ')}</div>
+      <div class="act-name">${a.nombre}</div>
+      <div class="act-chips">
+        ${DIFF[a.dificultad]||''}
+        <span class="chip cf">📅 ${a.fecha}</span>
+        ${a.precio?`<span class="chip cd">$${a.precio}</span>`:'<span class="chip cl">Gratis</span>'}
+        <span class="chip cd">👥 ${a.spots}</span>
+      </div>
+      <button class="act-btn" onclick="wantJoin('${a.nombre}')">Unirme →</button>
+    </div>
+  </div>`;
 }
 
-function initials(s){return(s||'?').split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();}
+function wantJoin(nombre){
+  const msg=encodeURIComponent(`Hola, quiero unirme a la actividad: ${nombre}`);
+  window.open(`https://wa.me/528112345678?text=${msg}`,'_blank');
+}
 
+function filterActs(tipo,btn){
+  _curFilter=tipo;
+  document.querySelectorAll('.act-fb').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  renderActGrid();
+}
+
+function renderActGrid(){
+  const g=document.getElementById('act-grid');
+  if(!g)return;
+  const list=_curFilter==='todos'?DEMO_ACTS:DEMO_ACTS.filter(a=>a.tipo===_curFilter);
+  g.innerHTML=list.map(actCardHtml).join('');
+}
+
+/* ── SECTION RENDERER ── */
+const SEC_META={inicio:{t:'Inicio',s:'Panel de aventurero'},explorar:{t:'Explorar Actividades',s:'Descubre tu próxima aventura'},reservas:{t:'Mis Reservas',s:'Próximas actividades y códigos QR'},historial:{t:'Historial',s:'Tus expediciones completadas'},perfil:{t:'Mi Perfil',s:'Información personal y de seguridad'}};
+
+function dbSection(name,btn){
+  document.querySelectorAll('.db-section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.db-nav-item').forEach(b=>b.classList.remove('active'));
+  document.getElementById('ds-'+name).classList.add('active');
+  if(btn)btn.classList.add('active');
+  const m=SEC_META[name]||{t:name,s:''};
+  document.getElementById('db-topbar-title').textContent=m.t;
+  document.getElementById('db-topbar-sub').textContent=m.s;
+  if(name==='reservas')generateQRs();
+  document.querySelector('.db-content').scrollTop=0;
+}
+
+/* ── RENDER SECTIONS ── */
+function renderInicio(user,rsv,nombre,nivel,completadas){
+  const proximas=rsv.filter(r=>!r.asistio&&r.estado!=='cancelada');
+  const tipos=[...new Set(rsv.filter(r=>r.asistio).map(r=>r.tipo_actividad))].length;
+  document.getElementById('ds-inicio').innerHTML=`
+    <div class="db-welcome">
+      <div class="db-welcome-av">${initials(nombre)}</div>
+      <div>
+        <div class="db-welcome-greeting">${greeting()}, ${nombre.split(' ')[0]} 👋</div>
+        <div class="db-welcome-sub">${nivel.ico} ${nivel.name} · ${completadas} actividad${completadas!==1?'es':''} completada${completadas!==1?'s':''}</div>
+      </div>
+    </div>
+    <div class="db-stats">
+      <div class="db-stat"><div class="db-stat-ico">🏔</div><div class="db-stat-v">${completadas}</div><div class="db-stat-l">Completadas</div></div>
+      <div class="db-stat"><div class="db-stat-ico">📅</div><div class="db-stat-v">${proximas.length}</div><div class="db-stat-l">Próximas</div></div>
+      <div class="db-stat"><div class="db-stat-ico">🗺</div><div class="db-stat-v">${tipos}</div><div class="db-stat-l">Tipos</div></div>
+    </div>
+    <div class="db-row-title">📅 Próxima reserva <a href="#" onclick="dbSection('reservas',document.querySelectorAll('.db-nav-item')[3]);return false">ver todas →</a></div>
+    ${proximas.length?`
+    <div class="rsv-item" style="cursor:pointer" onclick="dbSection('reservas',document.querySelectorAll('.db-nav-item')[3])">
+      <div class="rsv-ico2">${TIPO_ICO[proximas[0].tipo_actividad]||'🏔'}</div>
+      <div class="rsv-info">
+        <div class="rsv-iname">${proximas[0].actividad_nombre}</div>
+        <div class="rsv-imeta">${proximas[0].fecha_evento||'Fecha por confirmar'}${proximas[0].precio?' · $'+proximas[0].precio:''}</div>
+        <span class="rsv-badge ${proximas[0].estado==='confirmada'?'badge-conf':'badge-pend'}">${proximas[0].estado==='confirmada'?'✓ Confirmada':'⏳ Pendiente'}</span>
+      </div>
+    </div>`:`
+    <div class="empty-state" style="border:1px solid var(--border);border-radius:14px;padding:28px">
+      <span class="empty-ico">📅</span>
+      <p class="empty-text">Sin reservas próximas.<br><a href="#" onclick="dbSection('explorar',document.querySelectorAll('.db-nav-item')[1]);return false" style="color:var(--moss);text-decoration:none">Explorar actividades →</a></p>
+    </div>`}
+    <div class="db-row-title" style="margin-top:24px">🗺 Actividades disponibles <a href="#" onclick="dbSection('explorar',document.querySelectorAll('.db-nav-item')[1]);return false">ver todas →</a></div>
+    <div class="act-grid">${DEMO_ACTS.slice(0,3).map(actCardHtml).join('')}</div>`;
+}
+
+function renderExplorar(){
+  _curFilter='todos';
+  document.getElementById('ds-explorar').innerHTML=`
+    <div class="act-filters">
+      <button class="act-fb active" onclick="filterActs('todos',this)">Todas</button>
+      <button class="act-fb" onclick="filterActs('hike',this)">🥾 Hike</button>
+      <button class="act-fb" onclick="filterActs('campamento',this)">⛺ Campamento</button>
+      <button class="act-fb" onclick="filterActs('rapel',this)">🧗 Rápel</button>
+      <button class="act-fb" onclick="filterActs('expedicion',this)">⛰ Expedición</button>
+      <button class="act-fb" onclick="filterActs('social-run',this)">🏃 Social Run</button>
+    </div>
+    <div class="act-grid" id="act-grid">${DEMO_ACTS.map(actCardHtml).join('')}</div>`;
+}
+
+function renderReservas(rsv){
+  const proximas=rsv.filter(r=>!r.asistio&&r.estado!=='cancelada');
+  const badge=document.getElementById('nav-rsv-badge');
+  if(badge){badge.textContent=proximas.length;badge.style.display=proximas.length?'':'none';}
+  document.getElementById('ds-reservas').innerHTML=!proximas.length
+    ?`<div class="empty-state" style="border:1px solid var(--border);border-radius:14px;padding:48px">
+        <span class="empty-ico">📅</span>
+        <p class="empty-text">No tienes reservas próximas.<br>
+        <a href="#" onclick="dbSection('explorar',document.querySelectorAll('.db-nav-item')[1]);return false" style="color:var(--moss);text-decoration:none">Explorar actividades →</a></p>
+      </div>`
+    :`<div class="rsv-list">${proximas.map(r=>`
+      <div class="rsv-item">
+        <div class="rsv-ico2">${TIPO_ICO[r.tipo_actividad]||'🏔'}</div>
+        <div class="rsv-info">
+          <div class="rsv-iname">${r.actividad_nombre}</div>
+          <div class="rsv-imeta">${r.fecha_evento||'Fecha por confirmar'}${r.precio?' · $'+r.precio:''}</div>
+          <span class="rsv-badge ${r.estado==='confirmada'?'badge-conf':'badge-pend'}">${r.estado==='confirmada'?'✓ Confirmada':'⏳ Pendiente'}</span>
+        </div>
+        <div class="rsv-qr-wrap">
+          <div class="rsv-qr-box" id="qr-${r.id}"></div>
+          <button class="rsv-qr-dl" onclick="downloadQR('${r.id}','${r.actividad_nombre}')">⬇ Descargar</button>
+        </div>
+      </div>`).join('')}</div>`;
+}
+
+function renderHistorial(rsv,completadas){
+  const pasadas=rsv.filter(r=>r.asistio||r.estado==='cancelada');
+  const tipos=[...new Set(rsv.filter(r=>r.asistio).map(r=>r.tipo_actividad))].length;
+  document.getElementById('ds-historial').innerHTML=`
+    <div class="hist-grid">
+      <div class="hist-card"><div class="hist-v">${rsv.length}</div><div class="hist-l">Total reservas</div></div>
+      <div class="hist-card"><div class="hist-v">${completadas}</div><div class="hist-l">Completadas</div></div>
+      <div class="hist-card"><div class="hist-v">${tipos}</div><div class="hist-l">Tipos explorados</div></div>
+    </div>
+    ${!pasadas.length
+      ?`<div class="empty-state" style="border:1px solid var(--border);border-radius:14px;padding:48px"><span class="empty-ico">📊</span><p class="empty-text">Tu historial aparecerá aquí cuando completes actividades.</p></div>`
+      :`<div class="db-row-title">Actividades realizadas</div>
+        <div class="rsv-list">${pasadas.map(r=>`
+          <div class="rsv-item">
+            <div class="rsv-ico2">${TIPO_ICO[r.tipo_actividad]||'🏔'}</div>
+            <div class="rsv-info">
+              <div class="rsv-iname">${r.actividad_nombre}</div>
+              <div class="rsv-imeta">${r.fecha_evento||''}${r.precio?' · $'+r.precio:''}</div>
+              <span class="rsv-badge ${r.asistio?'badge-asist':'badge-canc'}">${r.asistio?'✓ Asististe':'✗ Cancelada'}</span>
+            </div>
+          </div>`).join('')}</div>`}`;
+}
+
+function renderPerfil(user){
+  const p=user.user_metadata||{};
+  const nombre=p.nombre_completo||(p.nombre?(p.nombre+(p.apellido?' '+p.apellido:'')):(user.email.split('@')[0]));
+  document.getElementById('ds-perfil').innerHTML=`
+    <div class="perf-header">
+      <div class="perf-av">${initials(nombre)}</div>
+      <div>
+        <div class="perf-name">${nombre}</div>
+        <div class="perf-email">${user.email}</div>
+      </div>
+    </div>
+    <div class="perf-grid">
+      <div class="perf-field"><div class="perf-label">Nombre</div><div class="perf-val">${p.nombre||nombre}</div></div>
+      <div class="perf-field"><div class="perf-label">Apellido</div><div class="perf-val ${!p.apellido?'empty':''}">${p.apellido||'No registrado'}</div></div>
+      <div class="perf-field"><div class="perf-label">Correo</div><div class="perf-val" style="font-size:.8rem;word-break:break-all">${user.email}</div></div>
+      <div class="perf-field"><div class="perf-label">Género</div><div class="perf-val ${!p.genero?'empty':''}">${p.genero||'No registrado'}</div></div>
+      <div class="perf-field"><div class="perf-label">Celular</div><div class="perf-val ${!p.telefono?'empty':''}">${p.telefono||'No registrado'}</div></div>
+      <div class="perf-field"><div class="perf-label">Tipo de sangre</div><div class="perf-val ${!p.tipo_sangre?'empty':''} " style="font-weight:600;color:${p.tipo_sangre?'#f97316':'inherit'}">${p.tipo_sangre||'No registrado'}</div></div>
+      <div class="perf-field"><div class="perf-label">Fecha de nacimiento</div><div class="perf-val ${!p.fecha_nacimiento?'empty':''}">${p.fecha_nacimiento||'No registrado'}</div></div>
+      <div class="perf-field" style="grid-column:1/-1"><div class="perf-label">Contacto de emergencia</div><div class="perf-val ${!p.contacto_emergencia?'empty':''}">${p.contacto_emergencia||'No registrado'}</div></div>
+    </div>`;
+}
+
+/* ── RENDER DASHBOARD ── */
 function renderDashboard(user,rsv){
   const profile=user.user_metadata||{};
   const nombre=profile.nombre_completo||(profile.nombre?(profile.nombre+(profile.apellido?' '+profile.apellido:'')):(user.email.split('@')[0]));
   const completadas=rsv.filter(r=>r.asistio).length;
   const nivel=nivelInfo(completadas);
 
-  // Header
+  // Sidebar
   document.getElementById('d-avatar').textContent=initials(nombre);
-  document.getElementById('d-name').textContent=nombre;
+  document.getElementById('d-name').textContent=nombre.split(' ')[0];
   document.getElementById('d-email').textContent=user.email;
   const badge=document.getElementById('d-level-badge');
-  badge.className='level-badge '+nivel.cls;
-  badge.textContent=nivel.ico+' '+nivel.name;
+  badge.className='level-badge '+nivel.cls;badge.textContent=nivel.ico+' '+nivel.name;
 
-  // Progress bar
   if(nivel.next){
     const pct=Math.round(((completadas-nivel.prev)/(nivel.next-nivel.prev))*100);
     document.getElementById('d-bar').style.width=Math.min(pct,100)+'%';
     document.getElementById('d-bar-l').textContent=completadas+' completadas';
-    document.getElementById('d-bar-r').textContent=nivel.next+' para '+nextLevel(nivel);
+    document.getElementById('d-bar-r').textContent=nivel.next+' para '+nextLevelName(nivel);
   }else{
     document.getElementById('d-bar').style.width='100%';
-    document.getElementById('d-bar-l').textContent='Nivel máximo alcanzado 🏔';
+    document.getElementById('d-bar-l').textContent='Nivel máximo 🏔';
     document.getElementById('d-bar-r').textContent='';
   }
 
-  // Perfil panel
-  const p=document.getElementById('dp-perfil');
-  p.innerHTML=`
-    <div class="profile-grid">
-      <div class="profile-field"><div class="pf-label">Nombre</div><div class="pf-value">${profile.nombre||nombre}</div></div>
-      <div class="profile-field"><div class="pf-label">Apellido</div><div class="pf-value ${!profile.apellido?'empty':''}">${profile.apellido||'No registrado'}</div></div>
-      <div class="profile-field"><div class="pf-label">Correo</div><div class="pf-value" style="font-size:.78rem;word-break:break-all">${user.email}</div></div>
-      <div class="profile-field"><div class="pf-label">Género</div><div class="pf-value ${!profile.genero?'empty':''}">${profile.genero||'No registrado'}</div></div>
-      <div class="profile-field"><div class="pf-label">Celular</div><div class="pf-value ${!profile.telefono?'empty':''}">${profile.telefono||'No registrado'}</div></div>
-      <div class="profile-field"><div class="pf-label">Tipo de sangre</div><div class="pf-value ${!profile.tipo_sangre?'empty':''}">${profile.tipo_sangre||'No registrado'}</div></div>
-      <div class="profile-field"><div class="pf-label">Fecha de nacimiento</div><div class="pf-value ${!profile.fecha_nacimiento?'empty':''}">${profile.fecha_nacimiento||'No registrado'}</div></div>
-      <div class="profile-field" style="grid-column:1/-1"><div class="pf-label">Contacto de emergencia</div><div class="pf-value ${!profile.contacto_emergencia?'empty':''}">${profile.contacto_emergencia||'No registrado'}</div></div>
-    </div>`;
-
-  // Actividades panel
-  const proximas=rsv.filter(r=>!r.asistio&&r.estado!=='cancelada');
-  const a=document.getElementById('dp-actividades');
-  if(!proximas.length){
-    a.innerHTML=`<div class="empty-state"><span class="empty-ico">🏔</span><p class="empty-text">Aún no tienes actividades próximas.<br>¡Reserva tu primera expedición!</p></div>`;
-  }else{
-    a.innerHTML=proximas.map(r=>`
-      <div class="rsv-card">
-        <div class="rsv-card-top">
-          <div class="rsv-ico">${TIPO_ICO[r.tipo_actividad]||'🏔'}</div>
-          <div style="flex:1">
-            <div class="rsv-name">${r.actividad_nombre}</div>
-            <div class="rsv-meta">${r.fecha_evento||'Fecha por confirmar'}${r.precio?' · $'+r.precio:''}</div>
-            <span class="rsv-badge ${r.estado==='confirmada'?'badge-conf':'badge-pend'}">${r.estado==='confirmada'?'✓ Confirmada':'⏳ Pendiente'}</span>
-          </div>
-        </div>
-        <div class="qr-section">
-          <div class="qr-box" id="qr-${r.id}"></div>
-          <div class="qr-info">
-            <div class="qr-label">Código de asistencia</div>
-            <div class="qr-id">${r.id.slice(0,18)}…</div>
-            <button class="btn-qr-dl" onclick="downloadQR('${r.id}','${r.actividad_nombre}')">⬇ Descargar QR</button>
-          </div>
-        </div>
-      </div>`).join('');
-    generateQRs();
-  }
-
-  // Historial panel
-  const pasadas=rsv.filter(r=>r.asistio||r.estado==='cancelada');
-  const h=document.getElementById('dp-historial');
-  const tipos=[...new Set(rsv.filter(r=>r.asistio).map(r=>r.tipo_actividad))].length;
-  h.innerHTML=`
-    <div class="hist-stats">
-      <div class="hist-stat"><div class="hist-stat-v">${rsv.length}</div><div class="hist-stat-l">Reservas</div></div>
-      <div class="hist-stat"><div class="hist-stat-v">${completadas}</div><div class="hist-stat-l">Completadas</div></div>
-      <div class="hist-stat"><div class="hist-stat-v">${tipos}</div><div class="hist-stat-l">Tipos</div></div>
-    </div>
-    ${!pasadas.length?`<div class="empty-state"><span class="empty-ico">📊</span><p class="empty-text">Tu historial aparecerá aquí cuando completes actividades.</p></div>`:
-    pasadas.map(r=>`
-      <div class="rsv-card">
-        <div class="rsv-card-top">
-          <div class="rsv-ico">${TIPO_ICO[r.tipo_actividad]||'🏔'}</div>
-          <div style="flex:1">
-            <div class="rsv-name">${r.actividad_nombre}</div>
-            <div class="rsv-meta">${r.fecha_evento||''}${r.precio?' · $'+r.precio:''}</div>
-            <span class="rsv-badge ${r.asistio?'badge-asist':'badge-canc'}">${r.asistio?'✓ Asististe':'✗ Cancelada'}</span>
-          </div>
-        </div>
-      </div>`).join('')}`;
+  renderInicio(user,rsv,nombre,nivel,completadas);
+  renderExplorar();
+  renderReservas(rsv);
+  renderHistorial(rsv,completadas);
+  renderPerfil(user);
 }
 
-function nextLevel(ni){
-  if(ni.next===3)return'Montañista';
-  if(ni.next===8)return'Alpinista';
-  if(ni.next===15)return'Guía';
-  return'';
-}
-
+/* ── QR ── */
 function generateQRs(){
   rsvData.filter(r=>!r.asistio&&r.estado!=='cancelada').forEach(r=>{
     const el=document.getElementById('qr-'+r.id);
     if(!el||el.children.length)return;
-    try{new QRCode(el,{text:'ALTURALIBRE:'+r.id,width:76,height:76,colorDark:'#000',colorLight:'#fff',correctLevel:QRCode.CorrectLevel.M});}
-    catch(e){}
+    try{new QRCode(el,{text:'ALTURALIBRE:'+r.id,width:64,height:64,colorDark:'#000',colorLight:'#fff',correctLevel:QRCode.CorrectLevel.M});}catch(e){}
   });
 }
 
 function downloadQR(rid,nombre){
-  const el=document.getElementById('qr-'+rid);
-  if(!el)return;
-  const cv=el.querySelector('canvas');
-  if(!cv)return;
+  const el=document.getElementById('qr-'+rid);if(!el)return;
+  const cv=el.querySelector('canvas');if(!cv)return;
   const a=document.createElement('a');
   a.download='QR-'+nombre.replace(/\s+/g,'-')+'.png';
   a.href=cv.toDataURL('image/png');a.click();
