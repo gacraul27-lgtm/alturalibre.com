@@ -136,6 +136,9 @@ select.fi option{background:#0a1a12;color:var(--cream);}
 .fi-icon-wrap{position:relative;}
 .fi-icon-wrap .fi{padding-left:42px;}
 .fi-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:.9rem;opacity:.5;}
+.fi-r-wrap{position:relative;}
+.fi-r-wrap .fi{padding-right:42px;}
+.fi-icon-r{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:.9rem;font-weight:700;transition:color .2s;line-height:1;}
 
 .btn-primary{
   width:100%;padding:14px;margin-top:8px;
@@ -393,11 +396,11 @@ select.fi option{background:#0a1a12;color:var(--cream);}
       <p class="auth-sub">¿Ya tienes cuenta? <a href="#" onclick="switchTab('login');return false">Inicia sesión</a></p>
       <div id="err-register" class="alert err"></div>
       <div class="field-row">
-        <div class="field"><label>Nombre completo *</label><input class="fi" id="r-nombre" type="text" placeholder="Juan Montaña"></div>
-        <div class="field"><label>Teléfono</label><input class="fi" id="r-tel" type="tel" placeholder="81 1234 5678"></div>
+        <div class="field"><label>Nombre *</label><input class="fi" id="r-nombre" type="text" placeholder="Juan" autocomplete="given-name"></div>
+        <div class="field"><label>Apellido *</label><input class="fi" id="r-apellido" type="text" placeholder="Montaña" autocomplete="family-name"></div>
       </div>
       <div class="field-row">
-        <div class="field"><label>Fecha de nacimiento</label><input class="fi" id="r-dob" type="date"></div>
+        <div class="field"><label>Fecha de nacimiento</label><input class="fi" id="r-dob" type="date" autocomplete="bday"></div>
         <div class="field"><label>Tipo de sangre</label>
           <select class="fi" id="r-sangre">
             <option value="">Selecciona</option>
@@ -406,13 +409,37 @@ select.fi option{background:#0a1a12;color:var(--cream);}
           </select>
         </div>
       </div>
+      <div class="field-row">
+        <div class="field"><label>Celular</label><input class="fi" id="r-tel" type="tel" placeholder="81 1234 5678" autocomplete="tel"></div>
+        <div class="field"><label>Género</label>
+          <select class="fi" id="r-genero">
+            <option value="">Selecciona</option>
+            <option>Masculino</option><option>Femenino</option><option>No binario</option><option>Prefiero no decir</option>
+          </select>
+        </div>
+      </div>
       <div class="field">
         <label>Contacto de emergencia</label>
         <input class="fi" id="r-emergencia" type="text" placeholder="Nombre y teléfono">
       </div>
+      <div class="field">
+        <label>Correo electrónico *</label>
+        <div class="fi-icon-wrap"><span class="fi-icon">✉</span>
+        <input class="fi" id="r-email" type="email" placeholder="tu@correo.com" autocomplete="email"></div>
+      </div>
       <div class="field-row">
-        <div class="field"><label>Correo electrónico *</label><input class="fi" id="r-email" type="email" placeholder="tu@correo.com" autocomplete="email"></div>
-        <div class="field"><label>Contraseña *</label><input class="fi" id="r-pass" type="password" placeholder="Mín. 6 caracteres" autocomplete="new-password"></div>
+        <div class="field">
+          <label>Contraseña *</label>
+          <div class="fi-icon-wrap"><span class="fi-icon">🔒</span>
+          <input class="fi" id="r-pass" type="password" placeholder="Mín. 6 caracteres" autocomplete="new-password"></div>
+        </div>
+        <div class="field">
+          <label>Confirmar contraseña *</label>
+          <div class="fi-r-wrap">
+            <input class="fi" id="r-pass2" type="password" placeholder="Repite tu contraseña" autocomplete="new-password">
+            <span class="fi-icon-r" id="pass-match-ico"></span>
+          </div>
+        </div>
       </div>
       <button class="btn-primary" id="btn-register" onclick="doRegister()">Crear mi cuenta →</button>
     </div>
@@ -585,18 +612,24 @@ async function doLogin(){
 async function doRegister(){
   clearErr('register');
   const nombre=document.getElementById('r-nombre').value.trim();
+  const apellido=document.getElementById('r-apellido').value.trim();
   const email=document.getElementById('r-email').value.trim();
   const pass=document.getElementById('r-pass').value;
-  if(!nombre||!email||!pass){showErr('register','Nombre, correo y contraseña son obligatorios.');return;}
+  const pass2=document.getElementById('r-pass2').value;
+  if(!nombre||!apellido||!email||!pass){showErr('register','Nombre, apellido, correo y contraseña son obligatorios.');return;}
   if(pass.length<6){showErr('register','La contraseña debe tener al menos 6 caracteres.');return;}
+  if(pass!==pass2){showErr('register','Las contraseñas no coinciden.');return;}
   const btn=document.getElementById('btn-register');
   btn.disabled=true;btn.textContent='Creando cuenta...';
   const{error}=await sb.auth.signUp({email,password:pass,options:{data:{
-    nombre_completo:nombre,
-    telefono:document.getElementById('r-tel').value.trim(),
+    nombre,
+    apellido,
+    nombre_completo:nombre+' '+apellido,
+    telefono:document.getElementById('r-tel').value.trim()||null,
     fecha_nacimiento:document.getElementById('r-dob').value||null,
     tipo_sangre:document.getElementById('r-sangre').value||null,
-    contacto_emergencia:document.getElementById('r-emergencia').value.trim()
+    genero:document.getElementById('r-genero').value||null,
+    contacto_emergencia:document.getElementById('r-emergencia').value.trim()||null
   }}});
   btn.disabled=false;btn.textContent='Crear mi cuenta →';
   if(error){showErr('register',error.message);}
@@ -653,7 +686,7 @@ function initials(s){return(s||'?').split(' ').slice(0,2).map(w=>w[0]).join('').
 
 function renderDashboard(user,rsv){
   const profile=user.user_metadata||{};
-  const nombre=profile.nombre_completo||user.email.split('@')[0];
+  const nombre=profile.nombre_completo||(profile.nombre?(profile.nombre+(profile.apellido?' '+profile.apellido:'')):(user.email.split('@')[0]));
   const completadas=rsv.filter(r=>r.asistio).length;
   const nivel=nivelInfo(completadas);
 
@@ -681,10 +714,13 @@ function renderDashboard(user,rsv){
   const p=document.getElementById('dp-perfil');
   p.innerHTML=`
     <div class="profile-grid">
-      <div class="profile-field"><div class="pf-label">Nombre</div><div class="pf-value">${nombre}</div></div>
+      <div class="profile-field"><div class="pf-label">Nombre</div><div class="pf-value">${profile.nombre||nombre}</div></div>
+      <div class="profile-field"><div class="pf-label">Apellido</div><div class="pf-value ${!profile.apellido?'empty':''}">${profile.apellido||'No registrado'}</div></div>
       <div class="profile-field"><div class="pf-label">Correo</div><div class="pf-value" style="font-size:.78rem;word-break:break-all">${user.email}</div></div>
-      <div class="profile-field"><div class="pf-label">Teléfono</div><div class="pf-value ${!profile.telefono?'empty':''}">${profile.telefono||'No registrado'}</div></div>
+      <div class="profile-field"><div class="pf-label">Género</div><div class="pf-value ${!profile.genero?'empty':''}">${profile.genero||'No registrado'}</div></div>
+      <div class="profile-field"><div class="pf-label">Celular</div><div class="pf-value ${!profile.telefono?'empty':''}">${profile.telefono||'No registrado'}</div></div>
       <div class="profile-field"><div class="pf-label">Tipo de sangre</div><div class="pf-value ${!profile.tipo_sangre?'empty':''}">${profile.tipo_sangre||'No registrado'}</div></div>
+      <div class="profile-field"><div class="pf-label">Fecha de nacimiento</div><div class="pf-value ${!profile.fecha_nacimiento?'empty':''}">${profile.fecha_nacimiento||'No registrado'}</div></div>
       <div class="profile-field" style="grid-column:1/-1"><div class="pf-label">Contacto de emergencia</div><div class="pf-value ${!profile.contacto_emergencia?'empty':''}">${profile.contacto_emergencia||'No registrado'}</div></div>
     </div>`;
 
@@ -787,6 +823,22 @@ sb.auth.onAuthStateChange(async(event,session)=>{
 /* ── ENTER KEY ── */
 document.getElementById('l-pass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 document.getElementById('r-pass').addEventListener('keydown',e=>{if(e.key==='Enter')doRegister();});
+document.getElementById('r-pass2').addEventListener('keydown',e=>{if(e.key==='Enter')doRegister();});
+
+/* ── PASSWORD MATCH INDICATOR ── */
+(function(){
+  const p1=document.getElementById('r-pass');
+  const p2=document.getElementById('r-pass2');
+  const ico=document.getElementById('pass-match-ico');
+  function check(){
+    if(!p2.value){ico.textContent='';return;}
+    const ok=p1.value===p2.value&&p1.value.length>=6;
+    ico.textContent=ok?'✓':'✗';
+    ico.style.color=ok?'#4ade80':'#f87171';
+  }
+  p1.addEventListener('input',check);
+  p2.addEventListener('input',check);
+})();
 </script>
 </body>
 </html>
