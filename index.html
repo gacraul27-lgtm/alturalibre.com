@@ -1502,7 +1502,7 @@ async function loadContent(){
   // Nav links
   const navHtml=secs.map(s=>`<a href="#${s.id}">${s.titulo}</a>`).join('');
   const lastContactId=secs.filter(s=>s.tipo==='contacto').pop()?.id;
-  document.getElementById('nav-links').innerHTML=navHtml+(lastContactId?`<a class="nav-cta" href="#${lastContactId}">Reservar</a>`:'');
+  document.getElementById('nav-links').innerHTML=navHtml+(lastContactId?`<a class="nav-cta" href="#${lastContactId}">Reservar</a>`:'')+`<a class="nav-cta" href="/auth/" style="background:var(--ember-dim);border:1px solid rgba(249,115,22,.3);padding:7px 16px;border-radius:8px;color:var(--ember)!important;font-size:.78rem">Mi cuenta</a>`;
 
   // Footer
   document.getElementById('ftr-txt').textContent=c.footer.texto;

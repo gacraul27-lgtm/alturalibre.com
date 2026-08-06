@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>Mi Cuenta · Altura Libre</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#050d0a;
+  --panel:#0a1a12;
+  --card:rgba(255,255,255,.04);
+  --border:rgba(134,239,172,.1);
+  --border-hi:rgba(134,239,172,.28);
+  --ember:#f97316;
+  --ember-dim:rgba(249,115,22,.18);
+  --moss:#4ade80;
+  --moss-dim:rgba(74,222,128,.12);
+  --cream:#f0fdf4;
+  --muted:rgba(240,253,244,.45);
+  --faint:rgba(240,253,244,.1);
+  --mono:'JetBrains Mono',monospace;
+  --sans:'Inter',system-ui,sans-serif;
+  --radius:16px;
+  --transition:.22s cubic-bezier(.4,0,.2,1);
+}
+html,body{height:100%;overflow:hidden;}
+body{font-family:var(--sans);background:var(--bg);color:var(--cream);display:flex;height:100vh;}
+
+/* ── LEFT BRAND PANEL ── */
+.brand{
+  width:42%;min-width:380px;
+  background:linear-gradient(160deg,#020c07 0%,#041a0b 40%,#061f10 100%);
+  position:relative;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:space-between;padding:48px 52px;
+  flex-shrink:0;
+}
+.brand-noise{
+  position:absolute;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+  pointer-events:none;opacity:.6;
+}
+
+/* Mountain canvas */
+#mtn-canvas{position:absolute;bottom:0;left:0;width:100%;height:55%;pointer-events:none;}
+
+/* Aurora */
+.aurora-wrap{position:absolute;top:0;left:0;right:0;height:55%;overflow:hidden;pointer-events:none;}
+.aurora{position:absolute;border-radius:50%;filter:blur(60px);animation:drift-a 12s ease-in-out infinite alternate;}
+.a1{width:340px;height:200px;top:-60px;left:-80px;background:radial-gradient(ellipse,rgba(74,222,128,.13),transparent 70%);animation-duration:14s;}
+.a2{width:280px;height:160px;top:20px;right:-60px;background:radial-gradient(ellipse,rgba(249,115,22,.07),transparent 70%);animation-duration:10s;animation-direction:alternate-reverse;}
+.a3{width:220px;height:140px;top:80px;left:30%;background:radial-gradient(ellipse,rgba(74,222,128,.08),transparent 70%);animation-duration:16s;}
+@keyframes drift-a{0%{transform:translateY(0) scale(1);}100%{transform:translateY(18px) scale(1.06);}}
+
+/* Stars */
+#star-canvas{position:absolute;top:0;left:0;width:100%;height:50%;pointer-events:none;opacity:.7;}
+
+/* Brand top */
+.brand-top{position:relative;z-index:2;}
+.brand-logo{display:flex;align-items:center;gap:10px;margin-bottom:36px;}
+.logo-mark{
+  width:40px;height:40px;border-radius:10px;
+  background:linear-gradient(135deg,rgba(249,115,22,.25),rgba(74,222,128,.15));
+  border:1px solid rgba(249,115,22,.3);
+  display:flex;align-items:center;justify-content:center;font-size:1.2rem;
+}
+.logo-text{font-size:.78rem;letter-spacing:.35em;text-transform:uppercase;color:var(--muted);font-family:var(--mono);}
+.brand-headline{font-size:2.6rem;font-weight:800;line-height:1.15;letter-spacing:-.03em;margin-bottom:16px;}
+.brand-headline span{
+  background:linear-gradient(135deg,var(--moss),rgba(74,222,128,.6));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.brand-sub{font-size:.92rem;color:var(--muted);line-height:1.65;max-width:280px;}
+
+/* Features */
+.features{position:relative;z-index:2;display:flex;flex-direction:column;gap:14px;margin-top:32px;}
+.feat{display:flex;align-items:center;gap:12px;}
+.feat-ico{
+  width:32px;height:32px;border-radius:8px;flex-shrink:0;
+  background:var(--moss-dim);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:.85rem;
+}
+.feat-text{font-size:.82rem;color:var(--muted);}
+.feat-text b{color:var(--cream);}
+
+/* Stats */
+.brand-bottom{position:relative;z-index:2;}
+.brand-stats{display:flex;gap:32px;padding-top:24px;border-top:1px solid var(--border);}
+.stat-v{font-family:var(--mono);font-size:1.5rem;font-weight:700;color:var(--cream);}
+.stat-l{font-family:var(--mono);font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:2px;}
+
+/* ── RIGHT AUTH PANEL ── */
+.auth-panel{
+  flex:1;overflow-y:auto;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:48px 40px;
+  background:var(--panel);
+  position:relative;
+}
+.auth-panel::-webkit-scrollbar{width:4px;}
+.auth-panel::-webkit-scrollbar-track{background:transparent;}
+.auth-panel::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
+
+.auth-card{width:100%;max-width:440px;}
+
+/* Tabs */
+.auth-tabs{display:flex;gap:4px;background:rgba(255,255,255,.04);border-radius:12px;padding:4px;margin-bottom:32px;}
+.auth-tab{
+  flex:1;padding:10px;border:none;background:none;color:var(--muted);
+  font-family:var(--sans);font-size:.85rem;font-weight:500;cursor:pointer;
+  border-radius:8px;transition:var(--transition);
+}
+.auth-tab.active{background:rgba(255,255,255,.07);color:var(--cream);}
+
+/* Form */
+.auth-title{font-size:1.55rem;font-weight:700;letter-spacing:-.02em;margin-bottom:6px;}
+.auth-sub{font-size:.83rem;color:var(--muted);margin-bottom:28px;line-height:1.6;}
+.auth-sub a{color:var(--moss);text-decoration:none;}
+
+.field{margin-bottom:16px;}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.field label{display:block;font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.fi{
+  width:100%;padding:12px 16px;
+  background:rgba(255,255,255,.04);border:1px solid var(--border);
+  border-radius:10px;color:var(--cream);font-family:var(--sans);font-size:.88rem;
+  outline:none;transition:var(--transition);
+}
+.fi:focus{border-color:var(--border-hi);background:rgba(255,255,255,.06);box-shadow:0 0 0 3px rgba(74,222,128,.07);}
+.fi::placeholder{color:rgba(240,253,244,.22);}
+select.fi option{background:#0a1a12;color:var(--cream);}
+
+.fi-icon-wrap{position:relative;}
+.fi-icon-wrap .fi{padding-left:42px;}
+.fi-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:.9rem;opacity:.5;}
+
+.btn-primary{
+  width:100%;padding:14px;margin-top:8px;
+  background:linear-gradient(135deg,rgba(249,115,22,.9),rgba(249,115,22,.7));
+  border:1px solid rgba(249,115,22,.4);border-radius:10px;
+  color:#fff;font-family:var(--sans);font-size:.9rem;font-weight:600;
+  cursor:pointer;transition:var(--transition);letter-spacing:.01em;
+}
+.btn-primary:hover{background:linear-gradient(135deg,rgba(249,115,22,1),rgba(249,115,22,.85));transform:translateY(-1px);box-shadow:0 8px 24px rgba(249,115,22,.2);}
+.btn-primary:active{transform:translateY(0);}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+
+.btn-ghost{
+  width:100%;padding:12px;margin-top:8px;
+  background:transparent;border:1px solid var(--border);border-radius:10px;
+  color:var(--muted);font-family:var(--sans);font-size:.85rem;cursor:pointer;transition:var(--transition);
+}
+.btn-ghost:hover{border-color:var(--border-hi);color:var(--cream);}
+
+/* Divider */
+.divider{display:flex;align-items:center;gap:12px;margin:20px 0;}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border);}
+.divider span{font-family:var(--mono);font-size:.6rem;letter-spacing:.15em;color:var(--muted);}
+
+/* Alert */
+.alert{padding:12px 16px;border-radius:10px;font-size:.82rem;margin-bottom:16px;display:none;line-height:1.5;}
+.alert.err{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.18);color:#fca5a5;}
+.alert.ok{background:rgba(74,222,128,.06);border:1px solid rgba(74,222,128,.15);color:#86efac;}
+.alert.show{display:block;}
+
+/* Back link */
+.back-link{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);text-decoration:none;margin-bottom:28px;
+  transition:color var(--transition);
+}
+.back-link:hover{color:var(--moss);}
+
+/* Verify block */
+.verify-icon{font-size:3rem;margin-bottom:16px;display:block;}
+.otp-inputs{display:flex;gap:8px;margin:20px 0;}
+.otp-inputs input{
+  flex:1;text-align:center;padding:14px 0;
+  background:rgba(255,255,255,.04);border:1px solid var(--border);
+  border-radius:10px;color:var(--cream);font-family:var(--mono);font-size:1.3rem;
+  font-weight:700;outline:none;transition:var(--transition);
+}
+.otp-inputs input:focus{border-color:var(--border-hi);background:rgba(255,255,255,.07);}
+
+/* ── DASHBOARD ── */
+.dash-header{
+  background:linear-gradient(135deg,rgba(249,115,22,.08),rgba(74,222,128,.04));
+  border:1px solid var(--border);border-radius:var(--radius);
+  padding:24px;margin-bottom:20px;display:flex;align-items:center;gap:16px;
+}
+.dash-avatar{
+  width:56px;height:56px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--ember-dim),var(--moss-dim));
+  border:2px solid rgba(249,115,22,.3);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;font-weight:700;color:var(--ember);
+}
+.dash-name{font-size:1.05rem;font-weight:600;color:var(--cream);}
+.dash-email{font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;color:var(--muted);margin-top:2px;}
+
+/* Level badge */
+.level-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:3px 10px;border-radius:20px;
+  font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;
+  margin-top:6px;
+}
+.nl-exp{background:rgba(148,163,184,.1);border:1px solid rgba(148,163,184,.2);color:#94a3b8;}
+.nl-mon{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.2);color:#4ade80;}
+.nl-alp{background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.2);color:#f97316;}
+.nl-gui{background:rgba(250,204,21,.1);border:1px solid rgba(250,204,21,.2);color:#facc15;}
+
+.level-bar-wrap{margin-top:8px;}
+.level-bar-track{height:4px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden;}
+.level-bar-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--ember),var(--moss));transition:width .6s ease;}
+.level-bar-label{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.52rem;color:var(--muted);margin-top:4px;}
+
+/* Dash tabs */
+.dash-tabs{display:flex;gap:4px;background:rgba(255,255,255,.04);border-radius:10px;padding:3px;margin-bottom:20px;}
+.dash-tab{
+  flex:1;padding:9px 6px;border:none;background:none;
+  color:var(--muted);font-size:.75rem;font-family:var(--sans);font-weight:500;
+  cursor:pointer;border-radius:7px;transition:var(--transition);white-space:nowrap;
+}
+.dash-tab.active{background:rgba(255,255,255,.07);color:var(--cream);}
+
+/* Dashboard panels */
+.dash-panel{display:none;}
+.dash-panel.active{display:block;}
+
+/* Profile grid */
+.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.profile-field{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px;}
+.pf-label{font-family:var(--mono);font-size:.52rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+.pf-value{font-size:.85rem;color:var(--cream);}
+.pf-value.empty{color:rgba(240,253,244,.25);font-style:italic;}
+
+/* Reservation cards */
+.rsv-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:18px;margin-bottom:12px;
+  transition:border-color var(--transition);
+}
+.rsv-card:hover{border-color:var(--border-hi);}
+.rsv-card-top{display:flex;align-items:flex-start;gap:12px;}
+.rsv-ico{
+  width:40px;height:40px;border-radius:10px;flex-shrink:0;
+  background:var(--ember-dim);border:1px solid rgba(249,115,22,.2);
+  display:flex;align-items:center;justify-content:center;font-size:1.1rem;
+}
+.rsv-name{font-size:.9rem;font-weight:600;color:var(--cream);}
+.rsv-meta{font-family:var(--mono);font-size:.58rem;letter-spacing:.06em;color:var(--muted);margin-top:3px;}
+.rsv-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:2px 8px;border-radius:20px;
+  font-family:var(--mono);font-size:.55rem;letter-spacing:.08em;margin-top:6px;
+}
+.badge-pend{background:rgba(234,179,8,.08);border:1px solid rgba(234,179,8,.2);color:#fbbf24;}
+.badge-conf{background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);color:#4ade80;}
+.badge-canc{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);color:#f87171;}
+.badge-asist{background:rgba(74,222,128,.15);border:1px solid rgba(74,222,128,.3);color:#4ade80;}
+
+/* QR */
+.qr-section{margin-top:14px;padding-top:14px;border-top:1px solid var(--border);display:flex;align-items:center;gap:16px;}
+.qr-box{
+  width:84px;height:84px;flex-shrink:0;
+  background:#fff;border-radius:8px;padding:4px;
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+}
+.qr-box img,.qr-box canvas{width:76px!important;height:76px!important;}
+.qr-info{flex:1;}
+.qr-label{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--moss);margin-bottom:4px;}
+.qr-id{font-family:var(--mono);font-size:.58rem;color:var(--muted);word-break:break-all;margin-bottom:8px;}
+.btn-qr-dl{
+  padding:6px 12px;background:var(--moss-dim);border:1px solid rgba(74,222,128,.2);
+  border-radius:6px;color:var(--moss);font-family:var(--mono);font-size:.58rem;
+  cursor:pointer;transition:var(--transition);
+}
+.btn-qr-dl:hover{background:rgba(74,222,128,.18);}
+
+/* Historial stats */
+.hist-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;}
+.hist-stat{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;}
+.hist-stat-v{font-family:var(--mono);font-size:1.6rem;font-weight:700;color:var(--cream);}
+.hist-stat-l{font-family:var(--mono);font-size:.52rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:4px;}
+
+.empty-state{text-align:center;padding:40px 20px;color:var(--muted);}
+.empty-ico{font-size:2.5rem;margin-bottom:12px;display:block;opacity:.5;}
+.empty-text{font-size:.85rem;line-height:1.6;}
+
+/* Logout */
+.btn-logout{
+  width:100%;padding:11px;margin-top:16px;
+  background:transparent;border:1px solid rgba(239,68,68,.15);border-radius:10px;
+  color:rgba(239,68,68,.6);font-family:var(--sans);font-size:.82rem;cursor:pointer;transition:var(--transition);
+}
+.btn-logout:hover{border-color:rgba(239,68,68,.3);color:#f87171;background:rgba(239,68,68,.04);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  body{flex-direction:column;overflow:auto;}
+  html,body{height:auto;}
+  .brand{width:100%;min-width:unset;padding:32px 24px 24px;min-height:unset;}
+  #mtn-canvas,#star-canvas,.aurora-wrap{display:none;}
+  .features{display:none;}
+  .brand-headline{font-size:1.8rem;}
+  .auth-panel{padding:32px 20px;min-height:100vh;justify-content:flex-start;}
+}
+
+/* Animations */
+@keyframes fade-up{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
+.fade-up{animation:fade-up .35s ease both;}
+</style>
+</head>
+<body>
+
+<!-- ── LEFT BRAND ── -->
+<div class="brand">
+  <div class="brand-noise"></div>
+  <div class="aurora-wrap">
+    <div class="aurora a1"></div>
+    <div class="aurora a2"></div>
+    <div class="aurora a3"></div>
+  </div>
+  <canvas id="star-canvas"></canvas>
+
+  <div class="brand-top">
+    <div class="brand-logo">
+      <div class="logo-mark">⛰</div>
+      <span class="logo-text">Altura Libre</span>
+    </div>
+    <h1 class="brand-headline">La montaña<br>te está<br><span>esperando</span></h1>
+    <p class="brand-sub">Únete a la comunidad de aventureros del noreste. Reserva expediciones, lleva tu historial y escala de nivel.</p>
+
+    <div class="features">
+      <div class="feat"><div class="feat-ico">🗺</div><div class="feat-text"><b>Reserva actividades</b> — hikes, campamentos, rápel y más</div></div>
+      <div class="feat"><div class="feat-ico">📊</div><div class="feat-text"><b>Rastrea tu progreso</b> — historial y nivel de aventurero</div></div>
+      <div class="feat"><div class="feat-ico">📱</div><div class="feat-text"><b>QR de asistencia</b> — check-in digital en cada expedición</div></div>
+    </div>
+  </div>
+
+  <div class="brand-bottom">
+    <div class="brand-stats">
+      <div><div class="stat-v">500+</div><div class="stat-l">Aventureros</div></div>
+      <div><div class="stat-v">200+</div><div class="stat-l">Expediciones</div></div>
+      <div><div class="stat-v">50+</div><div class="stat-l">Rutas</div></div>
+    </div>
+  </div>
+
+  <canvas id="mtn-canvas"></canvas>
+</div>
+
+<!-- ── RIGHT AUTH PANEL ── -->
+<div class="auth-panel">
+  <div class="auth-card">
+
+    <!-- LOGIN BLOCK -->
+    <div id="block-login" class="fade-up">
+      <a href="/" class="back-link">← Volver al sitio</a>
+      <div class="auth-tabs">
+        <button class="auth-tab active" onclick="switchTab('login',this)">Iniciar sesión</button>
+        <button class="auth-tab" onclick="switchTab('register',this)">Crear cuenta</button>
+      </div>
+      <h2 class="auth-title">Bienvenido de vuelta</h2>
+      <p class="auth-sub">¿Primera vez? <a href="#" onclick="switchTab('register');return false">Crea tu cuenta gratis</a></p>
+      <div id="err-login" class="alert err"></div>
+      <div class="field">
+        <label>Correo electrónico</label>
+        <div class="fi-icon-wrap"><span class="fi-icon">✉</span>
+        <input class="fi" id="l-email" type="email" placeholder="tu@correo.com" autocomplete="email"></div>
+      </div>
+      <div class="field">
+        <label>Contraseña</label>
+        <div class="fi-icon-wrap"><span class="fi-icon">🔒</span>
+        <input class="fi" id="l-pass" type="password" placeholder="••••••••" autocomplete="current-password"></div>
+      </div>
+      <button class="btn-primary" id="btn-login" onclick="doLogin()">Entrar a mi cuenta →</button>
+      <button class="btn-ghost" onclick="showForgot()">Olvidé mi contraseña</button>
+    </div>
+
+    <!-- REGISTER BLOCK -->
+    <div id="block-register" style="display:none" class="fade-up">
+      <a href="/" class="back-link">← Volver al sitio</a>
+      <div class="auth-tabs">
+        <button class="auth-tab" onclick="switchTab('login',this)">Iniciar sesión</button>
+        <button class="auth-tab active" onclick="switchTab('register',this)">Crear cuenta</button>
+      </div>
+      <h2 class="auth-title">Únete a la aventura</h2>
+      <p class="auth-sub">¿Ya tienes cuenta? <a href="#" onclick="switchTab('login');return false">Inicia sesión</a></p>
+      <div id="err-register" class="alert err"></div>
+      <div class="field-row">
+        <div class="field"><label>Nombre completo *</label><input class="fi" id="r-nombre" type="text" placeholder="Juan Montaña"></div>
+        <div class="field"><label>Teléfono</label><input class="fi" id="r-tel" type="tel" placeholder="81 1234 5678"></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>Fecha de nacimiento</label><input class="fi" id="r-dob" type="date"></div>
+        <div class="field"><label>Tipo de sangre</label>
+          <select class="fi" id="r-sangre">
+            <option value="">Selecciona</option>
+            <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
+            <option>AB+</option><option>AB-</option><option>O+</option><option>O-</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label>Contacto de emergencia</label>
+        <input class="fi" id="r-emergencia" type="text" placeholder="Nombre y teléfono">
+      </div>
+      <div class="field-row">
+        <div class="field"><label>Correo electrónico *</label><input class="fi" id="r-email" type="email" placeholder="tu@correo.com" autocomplete="email"></div>
+        <div class="field"><label>Contraseña *</label><input class="fi" id="r-pass" type="password" placeholder="Mín. 6 caracteres" autocomplete="new-password"></div>
+      </div>
+      <button class="btn-primary" id="btn-register" onclick="doRegister()">Crear mi cuenta →</button>
+    </div>
+
+    <!-- VERIFY BLOCK -->
+    <div id="block-verify" style="display:none" class="fade-up">
+      <span class="verify-icon">📬</span>
+      <h2 class="auth-title">Revisa tu correo</h2>
+      <p class="auth-sub" id="verify-msg">Te enviamos un enlace de confirmación. Haz clic en él y luego regresa aquí para iniciar sesión.</p>
+      <div id="err-verify" class="alert err"></div>
+      <div id="ok-verify" class="alert ok"></div>
+      <button class="btn-ghost" onclick="resentEmail()">Reenviar correo</button>
+      <button class="btn-ghost" onclick="showBlock('login')">← Volver al inicio de sesión</button>
+    </div>
+
+    <!-- FORGOT BLOCK -->
+    <div id="block-forgot" style="display:none" class="fade-up">
+      <h2 class="auth-title">Recuperar acceso</h2>
+      <p class="auth-sub">Ingresa tu correo y te enviaremos un enlace para restablecer tu contraseña.</p>
+      <div id="err-forgot" class="alert err"></div>
+      <div id="ok-forgot" class="alert ok"></div>
+      <div class="field"><label>Correo electrónico</label>
+        <input class="fi" id="f-email" type="email" placeholder="tu@correo.com">
+      </div>
+      <button class="btn-primary" onclick="doForgot()">Enviar enlace →</button>
+      <button class="btn-ghost" onclick="showBlock('login')">← Volver</button>
+    </div>
+
+    <!-- DASHBOARD BLOCK -->
+    <div id="block-dashboard" style="display:none" class="fade-up">
+      <div class="dash-header">
+        <div class="dash-avatar" id="d-avatar">?</div>
+        <div style="flex:1;min-width:0">
+          <div class="dash-name" id="d-name">—</div>
+          <div class="dash-email" id="d-email">—</div>
+          <div id="d-level-badge" class="level-badge nl-exp">🥾 Explorador</div>
+          <div class="level-bar-wrap" id="d-bar-wrap">
+            <div class="level-bar-track"><div class="level-bar-fill" id="d-bar" style="width:0%"></div></div>
+            <div class="level-bar-label"><span id="d-bar-l">0 actividades</span><span id="d-bar-r">3 para subir</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dash-tabs">
+        <button class="dash-tab active" onclick="dashTab('perfil',this)">👤 Perfil</button>
+        <button class="dash-tab" onclick="dashTab('actividades',this)">📅 Actividades</button>
+        <button class="dash-tab" onclick="dashTab('historial',this)">📊 Historial</button>
+      </div>
+
+      <div class="dash-panel active" id="dp-perfil"></div>
+      <div class="dash-panel" id="dp-actividades"></div>
+      <div class="dash-panel" id="dp-historial"></div>
+
+      <button class="btn-logout" onclick="doLogout()">Cerrar sesión</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+/* ── SUPABASE ── */
+const SB_URL='https://smdfrouqumpechbevqix.supabase.co';
+const SB_ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNtZGZyb3VxdW1wZWNoYmV2cWl4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU3NTU5NTYsImV4cCI6MjEwMTMzMTk1Nn0.LPIF4lfnLwAmwHcvkjvF08mNqxOHA7v7yQ1azpS9Wvk';
+const sb=window.supabase.createClient(SB_URL,SB_ANON);
+
+let sbUser=null,rsvData=[];
+
+const TIPO_ICO={hike:'🥾',campamento:'⛺',rapel:'🧗','social-run':'🏃',expedicion:'⛰'};
+
+/* ── MOUNTAIN CANVAS ── */
+(function(){
+  const cv=document.getElementById('mtn-canvas');
+  if(!cv)return;
+  const ctx=cv.getContext('2d');
+  function draw(){
+    cv.width=cv.offsetWidth;cv.height=cv.offsetHeight;
+    const w=cv.width,h=cv.height;
+    const grad=ctx.createLinearGradient(0,0,0,h);
+    grad.addColorStop(0,'rgba(4,26,11,0)');grad.addColorStop(1,'rgba(4,26,11,1)');
+    // Far range
+    ctx.fillStyle='rgba(6,31,16,.85)';
+    ctx.beginPath();ctx.moveTo(0,h);
+    ctx.lineTo(0,h*.28);ctx.lineTo(w*.12,h*.05);ctx.lineTo(w*.28,h*.22);
+    ctx.lineTo(w*.42,h*.0);ctx.lineTo(w*.58,h*.18);ctx.lineTo(w*.72,h*.02);
+    ctx.lineTo(w*.88,h*.2);ctx.lineTo(w,h*.1);ctx.lineTo(w,h);
+    ctx.closePath();ctx.fill();
+    // Mid range
+    ctx.fillStyle='rgba(4,22,12,.95)';
+    ctx.beginPath();ctx.moveTo(0,h);
+    ctx.lineTo(0,h*.52);ctx.lineTo(w*.08,h*.35);ctx.lineTo(w*.22,h*.5);
+    ctx.lineTo(w*.35,h*.28);ctx.lineTo(w*.5,h*.44);ctx.lineTo(w*.62,h*.3);
+    ctx.lineTo(w*.76,h*.48);ctx.lineTo(w*.9,h*.36);ctx.lineTo(w,h*.5);ctx.lineTo(w,h);
+    ctx.closePath();ctx.fill();
+    // Fore
+    ctx.fillStyle='rgba(3,16,8,1)';
+    ctx.beginPath();ctx.moveTo(0,h);ctx.lineTo(0,h*.76);
+    ctx.bezierCurveTo(w*.2,h*.68,w*.4,h*.8,w*.6,h*.72);
+    ctx.bezierCurveTo(w*.8,h*.64,w*.9,h*.78,w,h*.7);
+    ctx.lineTo(w,h);ctx.closePath();ctx.fill();
+    // Fog overlay
+    ctx.fillStyle=grad;ctx.fillRect(0,0,w,h);
+  }
+  draw();
+  window.addEventListener('resize',draw);
+})();
+
+/* ── STAR CANVAS ── */
+(function(){
+  const cv=document.getElementById('star-canvas');
+  if(!cv)return;
+  const ctx=cv.getContext('2d');
+  let stars=[];
+  function init(){
+    cv.width=cv.offsetWidth;cv.height=cv.offsetHeight;
+    stars=Array.from({length:120},()=>({
+      x:Math.random()*cv.width,y:Math.random()*cv.height,
+      r:Math.random()*.9+.2,a:Math.random()*.5+.1,
+      spd:Math.random()*.002+.001,ph:Math.random()*Math.PI*2
+    }));
+  }
+  function draw(t){
+    ctx.clearRect(0,0,cv.width,cv.height);
+    stars.forEach(s=>{
+      const a=s.a*(.55+.45*Math.sin(t*s.spd*800+s.ph));
+      ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(240,253,244,${a})`;ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  init();draw(0);
+  window.addEventListener('resize',init);
+})();
+
+/* ── UI HELPERS ── */
+function showBlock(id){
+  ['login','register','verify','forgot','dashboard'].forEach(b=>{
+    const el=document.getElementById('block-'+b);
+    if(el)el.style.display=b===id?'':'none';
+  });
+  window.scrollTo(0,0);
+}
+
+function switchTab(tab){
+  showBlock(tab);
+  document.querySelectorAll('.auth-tab').forEach(t=>t.classList.remove('active'));
+}
+
+function showErr(id,msg){const el=document.getElementById('err-'+id);if(el){el.textContent=msg;el.classList.add('show');}}
+function clearErr(id){const el=document.getElementById('err-'+id);if(el){el.textContent='';el.classList.remove('show');}}
+function showOk(id,msg){const el=document.getElementById('ok-'+id);if(el){el.textContent=msg;el.classList.add('show');}}
+function setLoading(btnId,loading,defaultText){
+  const b=document.getElementById(btnId);
+  if(!b)return;
+  b.disabled=loading;b.textContent=loading?'Cargando...':(defaultText||b.dataset.default||b.textContent);
+}
+
+/* ── AUTH ── */
+async function doLogin(){
+  clearErr('login');
+  const email=document.getElementById('l-email').value.trim();
+  const pass=document.getElementById('l-pass').value;
+  if(!email||!pass){showErr('login','Completa todos los campos.');return;}
+  const btn=document.getElementById('btn-login');
+  btn.disabled=true;btn.textContent='Entrando...';
+  const{error}=await sb.auth.signInWithPassword({email,password:pass});
+  btn.disabled=false;btn.textContent='Entrar a mi cuenta →';
+  if(error){showErr('login',error.message==='Invalid login credentials'?'Correo o contraseña incorrectos.':error.message);}
+}
+
+async function doRegister(){
+  clearErr('register');
+  const nombre=document.getElementById('r-nombre').value.trim();
+  const email=document.getElementById('r-email').value.trim();
+  const pass=document.getElementById('r-pass').value;
+  if(!nombre||!email||!pass){showErr('register','Nombre, correo y contraseña son obligatorios.');return;}
+  if(pass.length<6){showErr('register','La contraseña debe tener al menos 6 caracteres.');return;}
+  const btn=document.getElementById('btn-register');
+  btn.disabled=true;btn.textContent='Creando cuenta...';
+  const{error}=await sb.auth.signUp({email,password:pass,options:{data:{
+    nombre_completo:nombre,
+    telefono:document.getElementById('r-tel').value.trim(),
+    fecha_nacimiento:document.getElementById('r-dob').value||null,
+    tipo_sangre:document.getElementById('r-sangre').value||null,
+    contacto_emergencia:document.getElementById('r-emergencia').value.trim()
+  }}});
+  btn.disabled=false;btn.textContent='Crear mi cuenta →';
+  if(error){showErr('register',error.message);}
+  else{
+    document.getElementById('verify-msg').textContent=`Enviamos un enlace de confirmación a ${email}. Haz clic en él para activar tu cuenta.`;
+    showBlock('verify');
+  }
+}
+
+async function resentEmail(){
+  clearErr('verify');
+  const email=document.getElementById('r-email').value.trim()||document.getElementById('l-email').value.trim();
+  if(!email){showErr('verify','No se encontró el correo. Intenta registrarte de nuevo.');return;}
+  const{error}=await sb.auth.resend({type:'signup',email});
+  if(error)showErr('verify',error.message);
+  else showOk('verify','Correo reenviado. Revisa tu bandeja de entrada.');
+}
+
+async function doForgot(){
+  clearErr('forgot');
+  const email=document.getElementById('f-email').value.trim();
+  if(!email){showErr('forgot','Ingresa tu correo.');return;}
+  const{error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:window.location.origin+'/auth/'});
+  if(error)showErr('forgot',error.message);
+  else showOk('forgot','Enlace enviado. Revisa tu correo.');
+}
+
+function showForgot(){showBlock('forgot');}
+
+async function doLogout(){
+  await sb.auth.signOut();
+  sbUser=null;rsvData=[];
+  showBlock('login');
+}
+
+/* ── LEVEL SYSTEM ── */
+function nivelInfo(n){
+  if(n>=15)return{name:'Guía',cls:'nl-gui',ico:'🏔',next:null,prev:15};
+  if(n>=8) return{name:'Alpinista',cls:'nl-alp',ico:'⛰',next:15,prev:8};
+  if(n>=3) return{name:'Montañista',cls:'nl-mon',ico:'🧗',next:8,prev:3};
+  return{name:'Explorador',cls:'nl-exp',ico:'🥾',next:3,prev:0};
+}
+
+/* ── DASHBOARD ── */
+function dashTab(tab,btn){
+  document.querySelectorAll('.dash-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.dash-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('dp-'+tab).classList.add('active');
+  if(btn)btn.classList.add('active');
+  if(tab==='actividades')generateQRs();
+}
+
+function initials(s){return(s||'?').split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();}
+
+function renderDashboard(user,rsv){
+  const profile=user.user_metadata||{};
+  const nombre=profile.nombre_completo||user.email.split('@')[0];
+  const completadas=rsv.filter(r=>r.asistio).length;
+  const nivel=nivelInfo(completadas);
+
+  // Header
+  document.getElementById('d-avatar').textContent=initials(nombre);
+  document.getElementById('d-name').textContent=nombre;
+  document.getElementById('d-email').textContent=user.email;
+  const badge=document.getElementById('d-level-badge');
+  badge.className='level-badge '+nivel.cls;
+  badge.textContent=nivel.ico+' '+nivel.name;
+
+  // Progress bar
+  if(nivel.next){
+    const pct=Math.round(((completadas-nivel.prev)/(nivel.next-nivel.prev))*100);
+    document.getElementById('d-bar').style.width=Math.min(pct,100)+'%';
+    document.getElementById('d-bar-l').textContent=completadas+' completadas';
+    document.getElementById('d-bar-r').textContent=nivel.next+' para '+nextLevel(nivel);
+  }else{
+    document.getElementById('d-bar').style.width='100%';
+    document.getElementById('d-bar-l').textContent='Nivel máximo alcanzado 🏔';
+    document.getElementById('d-bar-r').textContent='';
+  }
+
+  // Perfil panel
+  const p=document.getElementById('dp-perfil');
+  p.innerHTML=`
+    <div class="profile-grid">
+      <div class="profile-field"><div class="pf-label">Nombre</div><div class="pf-value">${nombre}</div></div>
+      <div class="profile-field"><div class="pf-label">Correo</div><div class="pf-value" style="font-size:.78rem;word-break:break-all">${user.email}</div></div>
+      <div class="profile-field"><div class="pf-label">Teléfono</div><div class="pf-value ${!profile.telefono?'empty':''}">${profile.telefono||'No registrado'}</div></div>
+      <div class="profile-field"><div class="pf-label">Tipo de sangre</div><div class="pf-value ${!profile.tipo_sangre?'empty':''}">${profile.tipo_sangre||'No registrado'}</div></div>
+      <div class="profile-field" style="grid-column:1/-1"><div class="pf-label">Contacto de emergencia</div><div class="pf-value ${!profile.contacto_emergencia?'empty':''}">${profile.contacto_emergencia||'No registrado'}</div></div>
+    </div>`;
+
+  // Actividades panel
+  const proximas=rsv.filter(r=>!r.asistio&&r.estado!=='cancelada');
+  const a=document.getElementById('dp-actividades');
+  if(!proximas.length){
+    a.innerHTML=`<div class="empty-state"><span class="empty-ico">🏔</span><p class="empty-text">Aún no tienes actividades próximas.<br>¡Reserva tu primera expedición!</p></div>`;
+  }else{
+    a.innerHTML=proximas.map(r=>`
+      <div class="rsv-card">
+        <div class="rsv-card-top">
+          <div class="rsv-ico">${TIPO_ICO[r.tipo_actividad]||'🏔'}</div>
+          <div style="flex:1">
+            <div class="rsv-name">${r.actividad_nombre}</div>
+            <div class="rsv-meta">${r.fecha_evento||'Fecha por confirmar'}${r.precio?' · $'+r.precio:''}</div>
+            <span class="rsv-badge ${r.estado==='confirmada'?'badge-conf':'badge-pend'}">${r.estado==='confirmada'?'✓ Confirmada':'⏳ Pendiente'}</span>
+          </div>
+        </div>
+        <div class="qr-section">
+          <div class="qr-box" id="qr-${r.id}"></div>
+          <div class="qr-info">
+            <div class="qr-label">Código de asistencia</div>
+            <div class="qr-id">${r.id.slice(0,18)}…</div>
+            <button class="btn-qr-dl" onclick="downloadQR('${r.id}','${r.actividad_nombre}')">⬇ Descargar QR</button>
+          </div>
+        </div>
+      </div>`).join('');
+    generateQRs();
+  }
+
+  // Historial panel
+  const pasadas=rsv.filter(r=>r.asistio||r.estado==='cancelada');
+  const h=document.getElementById('dp-historial');
+  const tipos=[...new Set(rsv.filter(r=>r.asistio).map(r=>r.tipo_actividad))].length;
+  h.innerHTML=`
+    <div class="hist-stats">
+      <div class="hist-stat"><div class="hist-stat-v">${rsv.length}</div><div class="hist-stat-l">Reservas</div></div>
+      <div class="hist-stat"><div class="hist-stat-v">${completadas}</div><div class="hist-stat-l">Completadas</div></div>
+      <div class="hist-stat"><div class="hist-stat-v">${tipos}</div><div class="hist-stat-l">Tipos</div></div>
+    </div>
+    ${!pasadas.length?`<div class="empty-state"><span class="empty-ico">📊</span><p class="empty-text">Tu historial aparecerá aquí cuando completes actividades.</p></div>`:
+    pasadas.map(r=>`
+      <div class="rsv-card">
+        <div class="rsv-card-top">
+          <div class="rsv-ico">${TIPO_ICO[r.tipo_actividad]||'🏔'}</div>
+          <div style="flex:1">
+            <div class="rsv-name">${r.actividad_nombre}</div>
+            <div class="rsv-meta">${r.fecha_evento||''}${r.precio?' · $'+r.precio:''}</div>
+            <span class="rsv-badge ${r.asistio?'badge-asist':'badge-canc'}">${r.asistio?'✓ Asististe':'✗ Cancelada'}</span>
+          </div>
+        </div>
+      </div>`).join('')}`;
+}
+
+function nextLevel(ni){
+  if(ni.next===3)return'Montañista';
+  if(ni.next===8)return'Alpinista';
+  if(ni.next===15)return'Guía';
+  return'';
+}
+
+function generateQRs(){
+  rsvData.filter(r=>!r.asistio&&r.estado!=='cancelada').forEach(r=>{
+    const el=document.getElementById('qr-'+r.id);
+    if(!el||el.children.length)return;
+    try{new QRCode(el,{text:'ALTURALIBRE:'+r.id,width:76,height:76,colorDark:'#000',colorLight:'#fff',correctLevel:QRCode.CorrectLevel.M});}
+    catch(e){}
+  });
+}
+
+function downloadQR(rid,nombre){
+  const el=document.getElementById('qr-'+rid);
+  if(!el)return;
+  const cv=el.querySelector('canvas');
+  if(!cv)return;
+  const a=document.createElement('a');
+  a.download='QR-'+nombre.replace(/\s+/g,'-')+'.png';
+  a.href=cv.toDataURL('image/png');a.click();
+}
+
+/* ── LOAD DATA ── */
+async function loadUserData(user){
+  sbUser=user;
+  const{data}=await sb.from('reservaciones').select('*').eq('user_id',user.id).order('fecha_evento',{ascending:true});
+  rsvData=data||[];
+  renderDashboard(user,rsvData);
+  showBlock('dashboard');
+}
+
+/* ── AUTH STATE LISTENER ── */
+sb.auth.onAuthStateChange(async(event,session)=>{
+  if(session?.user){
+    await loadUserData(session.user);
+  }else if(event==='SIGNED_OUT'){
+    showBlock('login');
+  }
+});
+
+/* ── ENTER KEY ── */
+document.getElementById('l-pass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+document.getElementById('r-pass').addEventListener('keydown',e=>{if(e.key==='Enter')doRegister();});
+</script>
+</body>
+</html>
