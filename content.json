@@ -104,14 +104,6 @@
       "email": "info@alturalibre.com",
       "telefono": "+52 81 0000 0000",
       "instagram": "@alturalibre"
-    },
-    {
-      "id": "logmsdbnfzs",
-      "titulo": "Unete a la aventura",
-      "subtitulo": "Reserva actividades y lleva el seguimiento de tus expediciones.",
-      "tipo": "login",
-      "visible": true,
-      "estilo": "oscuro"
     }
   ],
   "footer": {
