@@ -446,8 +446,46 @@ body.in-dash.light-mode .nl-gui{background:rgba(109,40,217,.07);border-color:rgb
 body.in-dash.light-mode .chip.cd{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.1);color:rgba(15,15,20,.5);}
 body.in-dash.light-mode .db-content::-webkit-scrollbar-thumb{background:rgba(0,0,0,.12);}
 
-/* ── RESPONSIVE ── */
-@media(max-width:768px){
+/* ── TOPBAR extras ── */
+.db-topbar-left{display:flex;align-items:center;gap:10px;}
+.db-topbar-right{display:flex;align-items:center;gap:10px;}
+.db-topbar-brand{display:none;font-size:1.3rem;line-height:1;}
+.db-mobile-logout{display:none;width:34px;height:34px;border:1px solid var(--border);border-radius:9px;background:rgba(255,255,255,.04);color:var(--muted);font-size:1rem;cursor:pointer;transition:var(--transition);align-items:center;justify-content:center;}
+.db-mobile-logout:hover{color:#f87171;background:rgba(239,68,68,.05);}
+body.in-dash.light-mode .db-mobile-logout{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.1);}
+
+/* ── BOTTOM NAV ── */
+.db-bottom-nav{display:none;height:62px;flex-shrink:0;border-top:1px solid var(--border);background:rgba(13,13,13,.97);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);}
+body.in-dash.light-mode .db-bottom-nav{background:rgba(255,255,255,.97);}
+.db-bn-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:none;background:none;color:rgba(245,245,245,.38);cursor:pointer;transition:var(--transition);position:relative;padding:8px 4px;}
+body.in-dash.light-mode .db-bn-item{color:rgba(15,15,20,.38);}
+.db-bn-item.active{color:#8b5cf6;}
+body.in-dash.light-mode .db-bn-item.active{color:#7c3aed;}
+.db-bn-item.active .db-bn-ico{transform:scale(1.15);}
+.db-bn-ico{font-size:1.25rem;line-height:1;transition:transform .2s;}
+.db-bn-lbl{font-size:.55rem;font-weight:600;letter-spacing:.02em;font-family:var(--sans);}
+.db-bn-badge{position:absolute;top:6px;right:calc(50% - 14px);background:#8b5cf6;color:#fff;font-size:.45rem;font-weight:700;width:15px;height:15px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+
+/* ── TABLET: icon-only sidebar (768–1023px) ── */
+@media(min-width:768px) and (max-width:1023px){
+  .db-side{width:68px;}
+  .db-brand,.db-profile-card,.db-nav-sep,.db-side-bottom{display:none;}
+  .db-side-top{padding:14px 8px;border-bottom:none;}
+  .db-nav{padding:8px 6px;gap:4px;}
+  .db-nav-item{padding:12px 8px;justify-content:center;border-radius:12px;}
+  .db-nav-item::after{content:attr(data-label);position:absolute;left:calc(100% + 10px);top:50%;transform:translateY(-50%);background:#1a1a1a;color:#f5f5f5;font-size:.72rem;font-weight:500;padding:6px 12px;border-radius:9px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s;border:1px solid rgba(255,255,255,.1);z-index:200;}
+  body.in-dash.light-mode .db-nav-item::after{background:#fff;color:#111118;border-color:rgba(0,0,0,.12);box-shadow:0 4px 16px rgba(0,0,0,.12);}
+  .db-nav-item:hover::after{opacity:1;}
+  .db-nav-lbl{display:none;}
+  .db-nav-ico{font-size:1.2rem;}
+  .db-topbar{padding:0 20px;}
+  .db-content{padding:22px 22px 36px;}
+  .act-grid{grid-template-columns:repeat(auto-fill,minmax(220px,1fr));}
+}
+
+/* ── MOBILE: bottom nav (< 768px) ── */
+@media(max-width:767px){
+  /* Auth page (non-dashboard) */
   body:not(.in-dash){flex-direction:column;overflow:auto;}
   html,body:not(.in-dash){height:auto;}
   .brand{width:100%;min-width:unset;padding:32px 24px 24px;min-height:unset;}
@@ -455,27 +493,44 @@ body.in-dash.light-mode .db-content::-webkit-scrollbar-thumb{background:rgba(0,0
   .features{display:none;}
   .brand-headline{font-size:1.8rem;}
   .auth-panel{padding:32px 20px;min-height:100vh;justify-content:flex-start;}
-  body.in-dash .auth-card{flex-direction:column;}
+
+  /* Dashboard layout */
   body.in-dash #block-dashboard{flex-direction:column;}
-  .db-side{width:100%;height:auto;border-right:none;border-bottom:1px solid var(--border);}
-  .db-side-top{padding:12px 14px;}
-  .db-profile-card{padding:10px;}
-  .db-brand{margin-bottom:12px;}
-  .db-nav{flex-direction:row;padding:6px 10px;gap:3px;overflow-x:auto;}
-  .db-nav-sep{display:none;}
-  .db-nav-item .db-nav-lbl{display:none;}
-  .db-nav-item{padding:9px 12px;}
-  .db-side-bottom{padding:8px 10px;}
-  .db-content{padding:16px 16px 32px;}
-  .db-topbar{padding:0 16px;height:50px;}
-  .db-stats,.hist-grid{grid-template-columns:1fr 1fr;}
-  .act-grid{grid-template-columns:1fr 1fr;}
+  .db-side{display:none;}
+  .db-bottom-nav{display:flex;}
+  .db-topbar{height:54px;padding:0 16px;}
+  .db-topbar-brand{display:block;}
+  .db-topbar-sub{display:none;}
+  .db-back-site{display:none;}
+  .db-mobile-logout{display:flex;}
+  .db-content{padding:16px 14px 80px;}
+
+  /* Grids */
+  .db-stats{grid-template-columns:repeat(3,1fr);gap:10px;}
+  .db-stat{padding:14px 10px;}
+  .db-stat-v{font-size:1.6rem;}
+  .hist-grid{grid-template-columns:repeat(3,1fr);gap:10px;}
+  .act-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;}
+  .perf-grid{grid-template-columns:1fr 1fr;}
+  .rsv-item{flex-wrap:wrap;}
+  .rsv-qr-wrap{width:100%;flex-direction:row;justify-content:flex-start;gap:10px;padding-top:12px;border-top:1px solid var(--border);}
+
+  /* Welcome */
+  .db-welcome{padding:20px;}
+  .db-welcome-greeting{font-size:1.2rem;}
+
+  /* Cards */
+  .act-img-wrap{height:120px;}
+  .act-card-body{padding:12px 12px 14px;}
+  .act-card-name{font-size:.88rem;}
 }
-@media(max-width:480px){
-  .db-stats,.hist-grid{grid-template-columns:1fr;}
+
+/* ── EXTRA SMALL (< 400px) ── */
+@media(max-width:399px){
+  .db-stats,.hist-grid{grid-template-columns:1fr 1fr;}
   .act-grid{grid-template-columns:1fr;}
   .perf-grid{grid-template-columns:1fr;}
-  .rsv-item{flex-wrap:wrap;}
+  .db-stat-v{font-size:1.4rem;}
 }
 
 /* Animations */
@@ -658,12 +713,12 @@ body.in-dash.light-mode .db-content::-webkit-scrollbar-thumb{background:rgba(0,0
 
         <nav class="db-nav">
           <div class="db-nav-sep">Principal</div>
-          <button class="db-nav-item active" onclick="dbSection('inicio',this)"><span class="db-nav-ico">⊞</span><span class="db-nav-lbl">Inicio</span></button>
-          <button class="db-nav-item" onclick="dbSection('explorar',this)"><span class="db-nav-ico">🗺</span><span class="db-nav-lbl">Explorar</span></button>
+          <button class="db-nav-item active" data-section="inicio" data-label="Inicio" onclick="dbSection('inicio',this)"><span class="db-nav-ico">⊞</span><span class="db-nav-lbl">Inicio</span></button>
+          <button class="db-nav-item" data-section="explorar" data-label="Explorar" onclick="dbSection('explorar',this)"><span class="db-nav-ico">🗺</span><span class="db-nav-lbl">Explorar</span></button>
           <div class="db-nav-sep">Mi cuenta</div>
-          <button class="db-nav-item" onclick="dbSection('reservas',this)"><span class="db-nav-ico">📅</span><span class="db-nav-lbl">Mis Reservas</span><span class="db-nav-badge" id="nav-rsv-badge" style="display:none">0</span></button>
-          <button class="db-nav-item" onclick="dbSection('historial',this)"><span class="db-nav-ico">📊</span><span class="db-nav-lbl">Historial</span></button>
-          <button class="db-nav-item" onclick="dbSection('perfil',this)"><span class="db-nav-ico">👤</span><span class="db-nav-lbl">Mi Perfil</span></button>
+          <button class="db-nav-item" data-section="reservas" data-label="Reservas" onclick="dbSection('reservas',this)"><span class="db-nav-ico">📅</span><span class="db-nav-lbl">Mis Reservas</span><span class="db-nav-badge" id="nav-rsv-badge" style="display:none">0</span></button>
+          <button class="db-nav-item" data-section="historial" data-label="Historial" onclick="dbSection('historial',this)"><span class="db-nav-ico">📊</span><span class="db-nav-lbl">Historial</span></button>
+          <button class="db-nav-item" data-section="perfil" data-label="Mi Perfil" onclick="dbSection('perfil',this)"><span class="db-nav-ico">👤</span><span class="db-nav-lbl">Mi Perfil</span></button>
         </nav>
 
         <div class="db-side-bottom">
@@ -674,15 +729,20 @@ body.in-dash.light-mode .db-content::-webkit-scrollbar-thumb{background:rgba(0,0
       <!-- ── MAIN ── -->
       <main class="db-main">
         <div class="db-topbar">
-          <div>
-            <div class="db-topbar-title" id="db-topbar-title">Inicio</div>
-            <div class="db-topbar-sub" id="db-topbar-sub">Panel de aventurero</div>
+          <div class="db-topbar-left">
+            <div class="db-topbar-brand">⛰</div>
+            <div>
+              <div class="db-topbar-title" id="db-topbar-title">Inicio</div>
+              <div class="db-topbar-sub" id="db-topbar-sub">Panel de aventurero</div>
+            </div>
           </div>
-          <div style="display:flex;align-items:center;gap:10px;">
+          <div class="db-topbar-right">
             <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()" title="Cambiar tema">☀️</button>
             <a href="/" class="db-back-site">← Sitio web</a>
+            <button class="db-mobile-logout" onclick="doLogout()" title="Cerrar sesión">↩</button>
           </div>
         </div>
+
         <div class="db-content">
           <div class="db-section active" id="ds-inicio"></div>
           <div class="db-section" id="ds-explorar"></div>
@@ -690,6 +750,26 @@ body.in-dash.light-mode .db-content::-webkit-scrollbar-thumb{background:rgba(0,0
           <div class="db-section" id="ds-historial"></div>
           <div class="db-section" id="ds-perfil"></div>
         </div>
+
+        <!-- ── BOTTOM NAV (mobile only) ── -->
+        <nav class="db-bottom-nav">
+          <button class="db-bn-item active" data-section="inicio" onclick="dbSection('inicio',this)">
+            <span class="db-bn-ico">⊞</span><span class="db-bn-lbl">Inicio</span>
+          </button>
+          <button class="db-bn-item" data-section="explorar" onclick="dbSection('explorar',this)">
+            <span class="db-bn-ico">🗺</span><span class="db-bn-lbl">Explorar</span>
+          </button>
+          <button class="db-bn-item" data-section="reservas" onclick="dbSection('reservas',this)">
+            <span class="db-bn-ico">📅</span><span class="db-bn-lbl">Reservas</span>
+            <span class="db-bn-badge" id="nav-rsv-badge-m" style="display:none">0</span>
+          </button>
+          <button class="db-bn-item" data-section="historial" onclick="dbSection('historial',this)">
+            <span class="db-bn-ico">📊</span><span class="db-bn-lbl">Historial</span>
+          </button>
+          <button class="db-bn-item" data-section="perfil" onclick="dbSection('perfil',this)">
+            <span class="db-bn-ico">👤</span><span class="db-bn-lbl">Perfil</span>
+          </button>
+        </nav>
       </main>
 
     </div>
@@ -955,14 +1035,14 @@ const SEC_META={inicio:{t:'Inicio',s:'Panel de aventurero'},explorar:{t:'Explora
 
 function dbSection(name,btn){
   document.querySelectorAll('.db-section').forEach(s=>s.classList.remove('active'));
-  document.querySelectorAll('.db-nav-item').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.db-nav-item,.db-bn-item').forEach(b=>b.classList.remove('active'));
   document.getElementById('ds-'+name).classList.add('active');
-  if(btn)btn.classList.add('active');
+  document.querySelectorAll(`[data-section="${name}"]`).forEach(el=>el.classList.add('active'));
   const m=SEC_META[name]||{t:name,s:''};
   document.getElementById('db-topbar-title').textContent=m.t;
   document.getElementById('db-topbar-sub').textContent=m.s;
   if(name==='reservas')generateQRs();
-  document.querySelector('.db-content').scrollTop=0;
+  const c=document.querySelector('.db-content');if(c)c.scrollTop=0;
 }
 
 /* ── RENDER SECTIONS ── */
@@ -1054,8 +1134,10 @@ function renderExplorar(){
 
 function renderReservas(rsv){
   const proximas=rsv.filter(r=>!r.asistio&&r.estado!=='cancelada');
-  const badge=document.getElementById('nav-rsv-badge');
-  if(badge){badge.textContent=proximas.length;badge.style.display=proximas.length?'':'none';}
+  ['nav-rsv-badge','nav-rsv-badge-m'].forEach(id=>{
+    const b=document.getElementById(id);
+    if(b){b.textContent=proximas.length;b.style.display=proximas.length?'':'none';}
+  });
   document.getElementById('ds-reservas').innerHTML=!proximas.length
     ?`<div class="empty-state" style="border:1px solid var(--border);border-radius:14px;padding:48px">
         <span class="empty-ico">📅</span>
