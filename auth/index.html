@@ -199,7 +199,14 @@ select.fi option{background:#0a1a12;color:var(--cream);}
 .alert{padding:12px 16px;border-radius:10px;font-size:.82rem;margin-bottom:16px;display:none;line-height:1.5;}
 .alert.err{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.18);color:#fca5a5;}
 .alert.ok{background:rgba(74,222,128,.06);border:1px solid rgba(74,222,128,.15);color:#86efac;}
+.alert.warn{background:rgba(234,179,8,.07);border:1px solid rgba(234,179,8,.18);color:#fde047;}
 .alert.show{display:block;}
+.field-hint{font-size:.76rem;padding:8px 12px;border-radius:8px;margin-top:5px;display:none;line-height:1.5;}
+.field-hint.show{display:block;}
+.field-hint.warn{background:rgba(234,179,8,.07);border:1px solid rgba(234,179,8,.16);color:#fde047;}
+.field-hint.ok{background:rgba(74,222,128,.06);border:1px solid rgba(74,222,128,.12);color:#86efac;}
+.field-hint.chk{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:var(--muted);}
+.field-hint a,.field-hint button.hint-link{color:inherit;font-weight:700;text-decoration:underline;background:none;border:none;padding:0;cursor:pointer;font-size:inherit;font-family:inherit;}
 
 /* Back link */
 .back-link{
@@ -775,7 +782,11 @@ body.in-dash.light-mode .db-bn-item.active{color:#7c3aed;}
         </div>
       </div>
       <div class="field-row">
-        <div class="field"><label>Celular</label><input class="fi" id="r-tel" type="tel" placeholder="81 1234 5678" autocomplete="tel"></div>
+        <div class="field">
+          <label>Celular</label>
+          <input class="fi" id="r-tel" type="tel" placeholder="81 1234 5678" autocomplete="tel">
+          <div class="field-hint" id="hint-tel"></div>
+        </div>
         <div class="field"><label>Género</label>
           <select class="fi" id="r-genero">
             <option value="">Selecciona</option>
@@ -791,6 +802,7 @@ body.in-dash.light-mode .db-bn-item.active{color:#7c3aed;}
         <label>Correo electrónico *</label>
         <div class="fi-icon-wrap"><span class="fi-icon">✉</span>
         <input class="fi" id="r-email" type="email" placeholder="tu@correo.com" autocomplete="email"></div>
+        <div class="field-hint" id="hint-email"></div>
       </div>
       <div class="field-row">
         <div class="field">
@@ -1094,6 +1106,66 @@ async function doLogin(){
   if(error){showErr('login',error.message==='Invalid login credentials'?'Correo o contraseña incorrectos.':error.message);}
 }
 
+/* ── VERIFICACIÓN DE DUPLICADOS ── */
+function normPhone(v){return(v||'').replace(/[^0-9]/g,'');}
+
+function showHint(id,html,type){
+  const el=document.getElementById(id);
+  if(!el)return;
+  el.innerHTML=html;
+  el.className='field-hint '+type+' show';
+}
+function clearHint(id){
+  const el=document.getElementById(id);
+  if(el){el.innerHTML='';el.className='field-hint';}
+}
+
+async function checkConflict(params){
+  try{
+    const{data,error}=await sb.rpc('check_registration_conflict',params);
+    if(error)return null;
+    return data;
+  }catch{return null;}
+}
+
+async function validateEmail(){
+  const email=document.getElementById('r-email').value.trim();
+  clearHint('hint-email');
+  if(!email||!email.includes('@')||!email.includes('.'))return;
+  showHint('hint-email','Verificando correo…','chk');
+  const r=await checkConflict({p_email:email,p_phone:null});
+  if(!r){clearHint('hint-email');return;}
+  if(r.email_exists){
+    showHint('hint-email',
+      '⚠ Este correo ya tiene una cuenta. '+
+      '<button class="hint-link" onclick="showForgot()">¿Olvidaste tu contraseña?</button>',
+      'warn');
+  }else{
+    clearHint('hint-email');
+  }
+}
+
+async function validatePhone(){
+  const raw=document.getElementById('r-tel').value.trim();
+  const phone=normPhone(raw);
+  clearHint('hint-tel');
+  if(phone.length<10)return;
+  showHint('hint-tel','Verificando número…','chk');
+  const r=await checkConflict({p_email:null,p_phone:phone});
+  if(!r){clearHint('hint-tel');return;}
+  if(r.phone_exists){
+    const hint=r.phone_email_hint
+      ? ' La cuenta está asociada a: <b>'+r.phone_email_hint+'</b>.'
+      : '';
+    showHint('hint-tel',
+      '⚠ Este número ya está registrado.'+hint+' '+
+      '<button class="hint-link" onclick="showForgot()">Restablecer contraseña</button>',
+      'warn');
+  }else{
+    clearHint('hint-tel');
+  }
+}
+
 async function doRegister(){
   clearErr('register');
   const nombre=document.getElementById('r-nombre').value.trim();
@@ -1101,16 +1173,46 @@ async function doRegister(){
   const email=document.getElementById('r-email').value.trim();
   const pass=document.getElementById('r-pass').value;
   const pass2=document.getElementById('r-pass2').value;
+  const telefono=document.getElementById('r-tel').value.trim();
+
   if(!nombre||!apellido||!email||!pass){showErr('register','Nombre, apellido, correo y contraseña son obligatorios.');return;}
   if(pass.length<6){showErr('register','La contraseña debe tener al menos 6 caracteres.');return;}
   if(pass!==pass2){showErr('register','Las contraseñas no coinciden.');return;}
+
   const btn=document.getElementById('btn-register');
-  btn.disabled=true;btn.textContent='Creando cuenta...';
+  btn.disabled=true;btn.textContent='Verificando…';
+
+  /* Verificación final antes de crear la cuenta */
+  const phone=normPhone(telefono);
+  const dup=await checkConflict({p_email:email,p_phone:phone.length>=10?phone:null});
+  if(dup){
+    if(dup.email_exists){
+      showHint('hint-email',
+        '⚠ Este correo ya tiene una cuenta. '+
+        '<button class="hint-link" onclick="showForgot()">¿Olvidaste tu contraseña?</button>',
+        'warn');
+      showErr('register','Este correo ya está registrado.');
+      btn.disabled=false;btn.textContent='Crear mi cuenta →';
+      return;
+    }
+    if(dup.phone_exists){
+      const hint=dup.phone_email_hint
+        ? ' Cuenta asociada: <b>'+dup.phone_email_hint+'</b>.'
+        : '';
+      showHint('hint-tel',
+        '⚠ Este número ya está registrado.'+hint+' '+
+        '<button class="hint-link" onclick="showForgot()">Restablecer contraseña</button>',
+        'warn');
+      showErr('register','Este número de celular ya está registrado.');
+      btn.disabled=false;btn.textContent='Crear mi cuenta →';
+      return;
+    }
+  }
+
+  btn.textContent='Creando cuenta…';
   const{error}=await sb.auth.signUp({email,password:pass,options:{data:{
-    nombre,
-    apellido,
-    nombre_completo:nombre+' '+apellido,
-    telefono:document.getElementById('r-tel').value.trim()||null,
+    nombre,apellido,nombre_completo:nombre+' '+apellido,
+    telefono:telefono||null,
     fecha_nacimiento:document.getElementById('r-dob').value||null,
     tipo_sangre:document.getElementById('r-sangre').value||null,
     genero:document.getElementById('r-genero').value||null,
@@ -1119,7 +1221,8 @@ async function doRegister(){
   btn.disabled=false;btn.textContent='Crear mi cuenta →';
   if(error){showErr('register',error.message);}
   else{
-    document.getElementById('verify-msg').textContent=`Enviamos un enlace de confirmación a ${email}. Haz clic en él para activar tu cuenta.`;
+    document.getElementById('verify-msg').textContent=
+      `Enviamos un enlace de confirmación a ${email}. Haz clic en él para activar tu cuenta.`;
     showBlock('verify');
   }
 }
@@ -1143,6 +1246,14 @@ async function doForgot(){
 }
 
 function showForgot(){showBlock('forgot');}
+
+/* Blur listeners para validación en tiempo real */
+document.addEventListener('DOMContentLoaded',()=>{
+  const rEmail=document.getElementById('r-email');
+  const rTel=document.getElementById('r-tel');
+  if(rEmail)rEmail.addEventListener('blur',validateEmail);
+  if(rTel)rTel.addEventListener('blur',validatePhone);
+});
 
 async function doLogout(){
   await sb.auth.signOut();
