@@ -131,9 +131,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--cream);display:fle
 .auth-footer-brand{display:flex;align-items:center;gap:8px;margin-bottom:4px;}
 .auth-footer-mark{
   width:24px;height:24px;border-radius:7px;
-  background:linear-gradient(135deg,var(--moss),var(--ember));
-  display:flex;align-items:center;justify-content:center;
-  font-size:.8rem;flex-shrink:0;
+  object-fit:cover;flex-shrink:0;opacity:.7;
 }
 .auth-footer-name{font-family:var(--mono);font-size:.72rem;letter-spacing:.25em;text-transform:uppercase;color:var(--cream);opacity:.55;}
 .auth-footer-legal{font-family:var(--mono);font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0;}
@@ -927,7 +925,7 @@ body.in-dash.light-mode .db-bn-item.active{color:#7c3aed;}
 
   <footer class="auth-footer">
     <div class="auth-footer-brand">
-      <div class="auth-footer-mark">⛰</div>
+      <img class="auth-footer-mark" src="../logo.jpg" alt="Altura Libre">
       <span class="auth-footer-name">Altura Libre</span>
     </div>
     <p class="auth-footer-legal">© 2025 Altura Libre. Todos los derechos reservados.</p>
