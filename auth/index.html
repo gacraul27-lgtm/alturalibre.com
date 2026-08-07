@@ -509,21 +509,23 @@ body.in-dash.light-mode .db-bn-item.active{color:#7c3aed;}
   html,body:not(.in-dash){height:100%;height:100dvh;overflow:hidden;}
   body:not(.in-dash){flex-direction:column;}
 
-  /* ── Brand: barra compacta de 58px en vez del panel lateral ── */
+  /* ── Brand: sección compacta vertical con headline y sub ── */
   .brand{
-    height:58px;min-height:58px;max-height:58px;
-    width:100%;min-width:unset;padding:0 20px;
-    flex-direction:row;align-items:center;justify-content:flex-start;
+    width:100%;min-width:unset;height:auto;min-height:unset;max-height:none;
+    padding:22px 20px 20px;
+    flex-direction:column;align-items:flex-start;justify-content:flex-start;
     flex-shrink:0;
     background:rgba(4,12,9,.96);
-    border-bottom:1px solid rgba(74,222,128,.07);
+    border-bottom:1px solid rgba(74,222,128,.09);
   }
   #mtn-canvas,#star-canvas,.aurora-wrap,.brand-noise{display:none;}
-  .brand-top{margin-bottom:0;display:flex;align-items:center;}
-  .brand-logo{margin-bottom:0;}
-  .logo-mark{width:30px;height:30px;border-radius:8px;font-size:.9rem;}
-  .logo-text{font-size:.7rem;}
-  .brand-headline,.brand-sub,.features,.brand-bottom{display:none;}
+  .brand-top{display:block;position:relative;z-index:2;margin-bottom:0;}
+  .brand-logo{margin-bottom:10px;}
+  .logo-mark{width:28px;height:28px;border-radius:8px;font-size:.85rem;}
+  .logo-text{font-size:.65rem;}
+  .brand-headline{display:block;font-size:1.7rem;margin-bottom:10px;line-height:1.13;}
+  .brand-sub{display:block;font-size:.8rem;line-height:1.55;margin-bottom:0;}
+  .features,.brand-bottom{display:none;}
 
   /* ── Auth panel: scrolleable internamente ── */
   .auth-panel{
