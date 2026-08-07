@@ -34,6 +34,28 @@ nav.scrolled{background:rgba(3,5,10,.92);backdrop-filter:blur(12px);}
 .nav-links a:hover{color:var(--cream);}
 .nav-cta{font-family:var(--mono);font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;padding:10px 22px;border:1px solid rgba(249,115,22,.5);color:var(--ember);text-decoration:none;border-radius:4px;transition:all .2s;}
 .nav-cta:hover{background:var(--ember);color:#000;border-color:var(--ember);}
+.nav-account{
+  display:inline-flex;align-items:center;gap:7px;flex-shrink:0;
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;
+  padding:9px 18px;
+  background:var(--ember);color:var(--cream);
+  text-decoration:none;border-radius:9px;
+  border:1px solid transparent;
+  transition:transform .22s,filter .22s,box-shadow .22s;
+  white-space:nowrap;
+}
+.nav-account svg{opacity:.9;flex-shrink:0;}
+.nav-account:hover{transform:translateY(-2px);filter:brightness(1.12);box-shadow:0 8px 28px rgba(0,0,0,.45);}
+.mobile-menu .mob-cta{
+  margin-top:24px;
+  display:inline-flex;align-items:center;gap:9px;
+  font-family:var(--mono);font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;
+  padding:14px 36px;border-radius:10px;
+  background:var(--ember);color:var(--cream);
+  border:none;text-decoration:none;
+  transition:filter .2s,transform .2s;
+}
+.mobile-menu .mob-cta:hover,.mobile-menu .mob-cta:active{filter:brightness(1.1);transform:scale(.98);}
 
 /* HERO */
 #hero{position:relative;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;}
@@ -547,6 +569,8 @@ html[data-mode="light"] .nav-links a{color:rgba(30,41,59,.55);}
 html[data-mode="light"] .nav-links a:hover{color:#1e293b;}
 html[data-mode="light"] .nav-cta{border-color:rgba(224,98,0,.4);color:var(--ember);}
 html[data-mode="light"] .nav-cta:hover{background:var(--ember);color:#fff;border-color:var(--ember);}
+html[data-mode="light"] .nav-account{color:#fff;}
+html[data-mode="light"] .mobile-menu .mob-cta{color:#fff;}
 html[data-mode="light"] .mode-btn{border-color:rgba(0,0,0,.12);}
 html[data-mode="light"] .section-title{color:#1e293b;}
 /* Nosotros */
@@ -742,7 +766,7 @@ html[data-mode="light"] .hero-bg-overlay{background:rgba(15,30,60,.28)!important
 <!-- MOBILE MENU OVERLAY -->
 <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
   <div id="mobile-links"></div>
-  <a class="mob-cta" href="/auth/">Mi cuenta</a>
+  <a class="mob-cta" href="/auth/"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>Mi cuenta</a>
 </div>
 
 <!-- HERO -->
@@ -1583,7 +1607,8 @@ async function loadContent(){
   // Nav links
   const navHtml=secs.map(s=>`<a href="#${s.id}">${s.titulo}</a>`).join('');
   const lastContactId=secs.filter(s=>s.tipo==='contacto').pop()?.id;
-  document.getElementById('nav-links').innerHTML=navHtml+(lastContactId?`<a class="nav-cta" href="#${lastContactId}">Reservar</a>`:'')+`<a class="nav-cta" href="/auth/" style="background:var(--ember-dim);border:1px solid rgba(249,115,22,.3);padding:7px 16px;border-radius:8px;color:var(--ember)!important;font-size:.78rem">Mi cuenta</a>`;
+  const userIcon=`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>`;
+  document.getElementById('nav-links').innerHTML=navHtml+(lastContactId?`<a class="nav-cta" href="#${lastContactId}">Reservar</a>`:'')+`<a class="nav-account" href="/auth/">${userIcon}Mi cuenta</a>`;
   /* Populate mobile menu with same section links */
   const mobEl=document.getElementById('mobile-links');
   if(mobEl)mobEl.innerHTML=secs.map(s=>`<a href="#${s.id}">${s.titulo}</a>`).join('')+(lastContactId?`<a href="#${lastContactId}">Reservar</a>`:'')
