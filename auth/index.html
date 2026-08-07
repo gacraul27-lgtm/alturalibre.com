@@ -77,9 +77,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--cream);display:fle
 .brand-logo{display:flex;align-items:center;gap:10px;margin-bottom:36px;}
 .logo-mark{
   width:40px;height:40px;border-radius:10px;
-  background:linear-gradient(135deg,rgba(249,115,22,.25),rgba(74,222,128,.15));
-  border:1px solid rgba(249,115,22,.3);
-  display:flex;align-items:center;justify-content:center;font-size:1.2rem;
+  object-fit:cover;display:block;flex-shrink:0;
 }
 .logo-text{font-size:.78rem;letter-spacing:.35em;text-transform:uppercase;color:var(--muted);font-family:var(--mono);}
 .brand-headline{font-size:2.6rem;font-weight:800;line-height:1.15;letter-spacing:-.03em;margin-bottom:16px;}
@@ -539,7 +537,7 @@ body.in-dash.light-mode .db-bn-item.active{color:#7c3aed;}
   #mtn-canvas,#star-canvas,.aurora-wrap,.brand-noise{display:none;}
   .brand-top{display:block;position:relative;z-index:2;margin-bottom:0;}
   .brand-logo{margin-bottom:10px;}
-  .logo-mark{width:28px;height:28px;border-radius:8px;font-size:.85rem;}
+  .logo-mark{width:28px;height:28px;border-radius:8px;}
   .logo-text{font-size:.65rem;}
   .brand-headline{display:block;font-size:1.7rem;margin-bottom:10px;line-height:1.13;}
   .brand-sub{display:block;font-size:.8rem;line-height:1.55;margin-bottom:0;}
@@ -668,7 +666,7 @@ body.in-dash.light-mode .db-bn-item.active{color:#7c3aed;}
 
   <div class="brand-top">
     <div class="brand-logo">
-      <div class="logo-mark">⛰</div>
+      <img class="logo-mark" src="../logo.jpg" alt="Altura Libre">
       <span class="logo-text">Altura Libre</span>
     </div>
     <h1 class="brand-headline">La montaña<br>te está<br><span>esperando</span></h1>
