@@ -517,15 +517,25 @@ body.in-dash.light-mode .db-bn-item.active{color:#7c3aed;}
   body.in-dash{--sp-xl:16px;--sp-lg:14px;--sp-md:12px;--sp-sm:10px;--card-img-h:clamp(110px,32vw,160px);}
   body.in-dash #block-dashboard{flex-direction:column;}
   .db-side{display:none;}
-  .db-bottom-nav{display:flex;}
-  .db-topbar{height:54px;padding:0 16px;}
+
+  /* Topbar y bottom-nav fijos al viewport — evita problemas con 100vh en iOS Safari */
+  .db-topbar{
+    position:fixed;top:0;left:0;right:0;z-index:200;
+    height:54px;padding:0 16px;
+    background:rgba(13,13,13,.97);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  }
+  body.in-dash.light-mode .db-topbar{background:rgba(255,255,255,.97);}
   .db-topbar-brand{display:block;}
   .db-topbar-sub{display:none;}
   .db-back-site{display:none;}
   .db-mobile-logout{display:flex;}
+  .db-bottom-nav{
+    display:flex;position:fixed;bottom:0;left:0;right:0;z-index:200;
+    height:62px;
+  }
 
-  /* Content */
-  .db-content{padding:16px 14px 80px;}
+  /* Content con padding para compensar barra fija superior e inferior */
+  .db-content{padding:calc(54px + 16px) 14px calc(62px + 16px);}
   .db-stats{grid-template-columns:repeat(3,1fr);gap:10px;}
   .db-stat{padding:14px 10px;}
   .db-stat-v{font-size:clamp(1.3rem,6vw,1.8rem);}
