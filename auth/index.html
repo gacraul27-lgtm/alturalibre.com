@@ -226,8 +226,20 @@ body.in-dash .auth-panel{padding:0;justify-content:flex-start;align-items:stretc
 body.in-dash .auth-card{max-width:none;width:100%;display:flex;height:100vh;overflow:hidden;}
 body.in-dash #block-dashboard{flex:1;display:flex;flex-direction:row;min-width:0;overflow:hidden;height:100%;}
 
+/* Fluid spacing — all dashboard spacing derives from these */
+body.in-dash{
+  --sp-xs:clamp(8px,1vw,12px);
+  --sp-sm:clamp(12px,1.5vw,18px);
+  --sp-md:clamp(16px,2.5vw,24px);
+  --sp-lg:clamp(20px,3.5vw,32px);
+  --sp-xl:clamp(24px,4vw,40px);
+  --sidebar-w:clamp(220px,17vw,268px);
+  --topbar-h:clamp(52px,6vh,64px);
+  --card-img-h:clamp(120px,14vw,168px);
+}
+
 /* Sidebar */
-.db-side{width:260px;flex-shrink:0;background:#111111;border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;}
+.db-side{width:var(--sidebar-w);flex-shrink:0;background:#111111;border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;transition:width .3s ease;}
 .db-side-top{padding:20px 16px 14px;border-bottom:1px solid var(--border);}
 .db-brand{display:flex;align-items:center;gap:9px;margin-bottom:20px;padding:0 4px;}
 .db-brand-ico{width:28px;height:28px;border-radius:7px;flex-shrink:0;background:linear-gradient(135deg,rgba(139,92,246,.3),rgba(99,102,241,.15));border:1px solid rgba(139,92,246,.35);display:flex;align-items:center;justify-content:center;font-size:.8rem;}
@@ -248,7 +260,8 @@ body.in-dash #block-dashboard{flex:1;display:flex;flex-direction:row;min-width:0
 .db-nav-item:hover{background:rgba(255,255,255,.06);color:var(--cream);}
 .db-nav-item.active{background:rgba(139,92,246,.1);color:var(--cream);font-weight:600;}
 .db-nav-item.active::before{content:'';position:absolute;left:0;top:7px;bottom:7px;width:3px;background:#8b5cf6;border-radius:0 3px 3px 0;}
-.db-nav-ico{font-size:1.05rem;width:22px;text-align:center;flex-shrink:0;opacity:.8;}
+.db-nav-ico{display:flex;align-items:center;justify-content:center;width:22px;flex-shrink:0;opacity:.8;}
+.db-nav-ico svg{display:block;}
 .db-nav-item.active .db-nav-ico{opacity:1;}
 .db-nav-badge{margin-left:auto;background:#8b5cf6;color:#fff;font-family:var(--mono);font-size:.48rem;padding:2px 6px;border-radius:9px;font-weight:700;}
 
@@ -258,31 +271,27 @@ body.in-dash #block-dashboard{flex:1;display:flex;flex-direction:row;min-width:0
 
 /* Main area */
 .db-main{flex:1;display:flex;flex-direction:column;overflow:hidden;background:#0d0d0d;}
-.db-topbar{padding:0 28px;height:58px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:rgba(13,13,13,.92);backdrop-filter:blur(14px);flex-shrink:0;}
+.db-topbar{padding:0 var(--sp-xl);height:var(--topbar-h);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:rgba(13,13,13,.92);backdrop-filter:blur(14px);flex-shrink:0;}
 .db-topbar-title{font-size:1.1rem;font-weight:700;color:var(--cream);}
 .db-topbar-sub{font-family:var(--mono);font-size:.52rem;letter-spacing:.06em;color:var(--muted);margin-top:2px;}
-.db-back-site{padding:7px 14px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:9px;color:var(--muted);font-family:var(--mono);font-size:.55rem;letter-spacing:.06em;text-decoration:none;transition:var(--transition);}
-.db-back-site:hover{border-color:var(--border-hi);color:var(--cream);}
-.theme-toggle{width:34px;height:34px;border:1px solid var(--border);border-radius:9px;background:rgba(255,255,255,.04);color:var(--muted);font-size:.95rem;cursor:pointer;transition:var(--transition);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.theme-toggle:hover{background:rgba(255,255,255,.08);border-color:var(--border-hi);}
-.db-content{flex:1;overflow-y:auto;padding:28px 28px 40px;}
+.db-content{flex:1;overflow-y:auto;padding:var(--sp-xl) var(--sp-xl) clamp(36px,6vh,52px);}
 .db-content::-webkit-scrollbar{width:4px;}
 .db-content::-webkit-scrollbar-thumb{background:rgba(255,255,255,.06);border-radius:4px;}
 .db-section{display:none;width:100%;}
 .db-section.active{display:block;width:100%;}
 
 /* Welcome hero */
-.db-welcome{position:relative;background:linear-gradient(135deg,#151520,#0f0f14);border:1px solid rgba(139,92,246,.16);border-radius:18px;padding:26px 28px;margin-bottom:24px;overflow:hidden;}
+.db-welcome{position:relative;background:linear-gradient(135deg,#151520,#0f0f14);border:1px solid rgba(139,92,246,.16);border-radius:18px;padding:var(--sp-lg) var(--sp-xl);margin-bottom:var(--sp-lg);overflow:hidden;}
 .db-welcome::before{content:'';position:absolute;right:-40px;top:-40px;width:220px;height:220px;background:radial-gradient(circle,rgba(139,92,246,.12),transparent 70%);pointer-events:none;}
-.db-welcome-greeting{font-size:1.45rem;font-weight:800;color:var(--cream);line-height:1.2;margin-bottom:5px;}
+.db-welcome-greeting{font-size:clamp(1.05rem,2.2vw,1.5rem);font-weight:800;color:var(--cream);line-height:1.2;margin-bottom:5px;}
 .db-welcome-sub{font-size:.82rem;color:rgba(240,253,244,.5);}
 
 /* Stats row */
-.db-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px;}
-.db-stat{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;transition:all var(--transition);cursor:default;}
+.db-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--sp-sm);margin-bottom:var(--sp-lg);}
+.db-stat{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:var(--sp-md) var(--sp-sm);transition:all var(--transition);cursor:default;}
 .db-stat:hover{border-color:rgba(139,92,246,.22);transform:translateY(-1px);}
 .db-stat-ico{font-size:1.4rem;margin-bottom:10px;}
-.db-stat-v{font-family:var(--mono);font-size:2rem;font-weight:800;color:var(--cream);line-height:1;}
+.db-stat-v{font-family:var(--mono);font-size:clamp(1.4rem,2.8vw,2.2rem);font-weight:800;color:var(--cream);line-height:1;}
 .db-stat-l{font-size:.72rem;color:var(--muted);margin-top:6px;}
 
 .db-row-title{font-size:.92rem;font-weight:700;color:var(--cream);margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;}
@@ -294,12 +303,12 @@ body.in-dash #block-dashboard{flex:1;display:flex;flex-direction:row;min-width:0
 .act-fb{padding:7px 15px;border:1px solid var(--border);border-radius:20px;background:none;color:rgba(240,253,244,.4);font-family:var(--sans);font-size:.76rem;cursor:pointer;transition:var(--transition);}
 .act-fb:hover{border-color:var(--border-hi);color:var(--cream);}
 .act-fb.active{background:rgba(139,92,246,.1);border-color:rgba(139,92,246,.38);color:#c4b5fd;font-weight:600;}
-.act-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;}
+.act-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(190px,22vw,300px),1fr));gap:var(--sp-sm);}
 
 /* Activity card - redesigned */
 .act-card{background:var(--card);border:1px solid var(--border);border-radius:18px;overflow:hidden;transition:all .22s ease;cursor:default;}
 .act-card:hover{border-color:rgba(139,92,246,.3);transform:translateY(-3px);box-shadow:0 14px 40px rgba(0,0,0,.5);}
-.act-img-wrap{position:relative;height:155px;overflow:hidden;background:#061009;}
+.act-img-wrap{position:relative;height:var(--card-img-h);overflow:hidden;background:#061009;}
 .act-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s ease;}
 .act-card:hover .act-img-wrap img{transform:scale(1.05);}
 .act-img-fallback{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3.2rem;background:linear-gradient(135deg,#061a0c,#040e07);}
@@ -308,9 +317,9 @@ body.in-dash #block-dashboard{flex:1;display:flex;flex-direction:row;min-width:0
 .act-card-body{padding:16px 16px 18px;}
 .act-card-name{font-size:.98rem;font-weight:700;color:var(--cream);margin-bottom:5px;line-height:1.3;}
 .act-card-desc{font-size:.74rem;color:rgba(240,253,244,.45);line-height:1.55;margin-bottom:10px;}
-.act-card-meta{display:flex;gap:0;flex-wrap:wrap;margin-bottom:12px;}
-.act-card-meta span{font-size:.69rem;color:rgba(240,253,244,.38);}
-.act-card-meta span:not(:last-child)::after{content:'·';margin:0 6px;opacity:.4;}
+.act-card-meta{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;align-items:center;}
+.act-card-meta>*{display:flex;align-items:center;gap:4px;font-size:.69rem;color:rgba(240,253,244,.45);}
+.act-card-meta svg{flex-shrink:0;opacity:.7;}
 .act-card-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;padding-top:12px;border-top:1px solid var(--border);}
 .act-diff{font-size:.65rem;font-weight:600;padding:4px 10px;border-radius:20px;}
 .act-diff.easy{background:rgba(74,222,128,.1);color:#4ade80;}
@@ -319,7 +328,10 @@ body.in-dash #block-dashboard{flex:1;display:flex;flex-direction:row;min-width:0
 .act-diff.expert{background:rgba(239,68,68,.1);color:#f87171;}
 .act-card-btn{padding:8px 16px;background:linear-gradient(135deg,rgba(139,92,246,.9),rgba(109,40,217,.9));border:none;border-radius:10px;color:#fff;font-size:.74rem;font-weight:700;cursor:pointer;transition:.2s;white-space:nowrap;}
 .act-card-btn:hover{background:linear-gradient(135deg,#8b5cf6,#7c3aed);box-shadow:0 4px 14px rgba(139,92,246,.35);}
-.act-card-punto{font-size:.69rem;color:rgba(240,253,244,.35);margin-bottom:12px;}
+.act-card-punto{display:flex;align-items:center;gap:5px;font-size:.69rem;color:rgba(240,253,244,.4);margin-bottom:12px;}
+.act-card-punto svg{flex-shrink:0;opacity:.7;}
+body.in-dash.light-mode .act-card-meta>*{color:rgba(15,15,20,.5);}
+body.in-dash.light-mode .act-card-punto{color:rgba(15,15,20,.45);}
 
 /* legacy chip classes kept for reservas/historial */
 .chip{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:9px;font-family:var(--mono);font-size:.48rem;letter-spacing:.04em;}
@@ -334,6 +346,7 @@ body.in-dash #block-dashboard{flex:1;display:flex;flex-direction:row;min-width:0
 .rsv-item{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px;display:flex;gap:16px;align-items:flex-start;transition:all var(--transition);}
 .rsv-item:hover{border-color:rgba(139,92,246,.2);}
 .rsv-ico2{width:48px;height:48px;border-radius:12px;flex-shrink:0;background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.2);display:flex;align-items:center;justify-content:center;font-size:1.35rem;}
+.rsv-ico2 svg{display:block;}
 .rsv-info{flex:1;min-width:0;}
 .rsv-iname{font-size:.95rem;font-weight:700;color:var(--cream);margin-bottom:4px;}
 .rsv-imeta{font-size:.72rem;color:rgba(240,253,244,.4);margin-bottom:8px;}
@@ -391,10 +404,6 @@ body.in-dash.light-mode .db-main{background:#f4f4f8;}
 body.in-dash.light-mode .db-topbar{background:rgba(255,255,255,.96);box-shadow:0 1px 0 rgba(0,0,0,.08);}
 body.in-dash.light-mode .db-topbar-title{color:#111118;}
 body.in-dash.light-mode .db-topbar-sub{color:rgba(15,15,20,.45);}
-body.in-dash.light-mode .db-back-site{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.1);color:rgba(15,15,20,.5);}
-body.in-dash.light-mode .db-back-site:hover{border-color:rgba(0,0,0,.2);color:#111118;}
-body.in-dash.light-mode .theme-toggle{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.1);}
-body.in-dash.light-mode .theme-toggle:hover{background:rgba(0,0,0,.08);}
 body.in-dash.light-mode .db-welcome{background:linear-gradient(135deg,#ede9fe,#f5f3ff);border-color:rgba(124,58,237,.2);}
 body.in-dash.light-mode .db-welcome::before{background:radial-gradient(circle,rgba(124,58,237,.1),transparent 70%);}
 body.in-dash.light-mode .db-welcome-greeting{color:#1a0a3d;}
@@ -447,45 +456,55 @@ body.in-dash.light-mode .chip.cd{background:rgba(0,0,0,.04);border-color:rgba(0,
 body.in-dash.light-mode .db-content::-webkit-scrollbar-thumb{background:rgba(0,0,0,.12);}
 
 /* ── TOPBAR extras ── */
-.db-topbar-left{display:flex;align-items:center;gap:10px;}
-.db-topbar-right{display:flex;align-items:center;gap:10px;}
-.db-topbar-brand{display:none;font-size:1.3rem;line-height:1;}
-.db-mobile-logout{display:none;width:34px;height:34px;border:1px solid var(--border);border-radius:9px;background:rgba(255,255,255,.04);color:var(--muted);font-size:1rem;cursor:pointer;transition:var(--transition);align-items:center;justify-content:center;}
+.db-topbar-left{display:flex;align-items:center;gap:var(--sp-sm);}
+.db-topbar-right{display:flex;align-items:center;gap:var(--sp-xs);}
+.db-topbar-brand{display:none;color:var(--ember);line-height:0;}
+.db-topbar-brand svg{display:block;}
+.db-mobile-logout{display:none;width:34px;height:34px;border:1px solid var(--border);border-radius:9px;background:rgba(255,255,255,.04);color:var(--muted);cursor:pointer;transition:var(--transition);align-items:center;justify-content:center;line-height:0;}
 .db-mobile-logout:hover{color:#f87171;background:rgba(239,68,68,.05);}
 body.in-dash.light-mode .db-mobile-logout{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.1);}
+.db-back-site{display:flex;align-items:center;gap:5px;padding:7px 13px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:9px;color:var(--muted);font-family:var(--mono);font-size:.55rem;letter-spacing:.06em;text-decoration:none;transition:var(--transition);line-height:1;}
+.db-back-site svg{flex-shrink:0;}
+.db-back-site:hover{border-color:var(--border-hi);color:var(--cream);}
+.theme-toggle{width:34px;height:34px;border:1px solid var(--border);border-radius:9px;background:rgba(255,255,255,.04);color:var(--muted);cursor:pointer;transition:var(--transition);display:flex;align-items:center;justify-content:center;line-height:0;}
+.theme-toggle:hover{background:rgba(255,255,255,.08);border-color:var(--border-hi);}
+body.in-dash.light-mode .db-back-site{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.1);color:rgba(15,15,20,.5);}
+body.in-dash.light-mode .db-back-site:hover{border-color:rgba(0,0,0,.2);color:#111118;}
+body.in-dash.light-mode .theme-toggle{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.1);}
+body.in-dash.light-mode .theme-toggle:hover{background:rgba(0,0,0,.08);}
 
 /* ── BOTTOM NAV ── */
-.db-bottom-nav{display:none;height:62px;flex-shrink:0;border-top:1px solid var(--border);background:rgba(13,13,13,.97);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);}
+.db-bottom-nav{display:none;height:62px;flex-shrink:0;border-top:1px solid var(--border);background:rgba(13,13,13,.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);}
 body.in-dash.light-mode .db-bottom-nav{background:rgba(255,255,255,.97);}
-.db-bn-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:none;background:none;color:rgba(245,245,245,.38);cursor:pointer;transition:var(--transition);position:relative;padding:8px 4px;}
-body.in-dash.light-mode .db-bn-item{color:rgba(15,15,20,.38);}
+.db-bn-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border:none;background:none;color:rgba(245,245,245,.32);cursor:pointer;transition:var(--transition);position:relative;padding:8px 4px 6px;}
+body.in-dash.light-mode .db-bn-item{color:rgba(15,15,20,.32);}
 .db-bn-item.active{color:#8b5cf6;}
 body.in-dash.light-mode .db-bn-item.active{color:#7c3aed;}
-.db-bn-item.active .db-bn-ico{transform:scale(1.15);}
-.db-bn-ico{font-size:1.25rem;line-height:1;transition:transform .2s;}
-.db-bn-lbl{font-size:.55rem;font-weight:600;letter-spacing:.02em;font-family:var(--sans);}
-.db-bn-badge{position:absolute;top:6px;right:calc(50% - 14px);background:#8b5cf6;color:#fff;font-size:.45rem;font-weight:700;width:15px;height:15px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.db-bn-item.active .db-bn-ico svg{transform:scale(1.12);}
+.db-bn-ico svg{transition:transform .2s;}
+.db-bn-lbl{font-size:.53rem;font-weight:600;letter-spacing:.01em;font-family:var(--sans);}
+.db-bn-badge{position:absolute;top:5px;right:calc(50% - 16px);background:#8b5cf6;color:#fff;font-size:.44rem;font-weight:700;min-width:14px;height:14px;border-radius:7px;padding:0 3px;display:flex;align-items:center;justify-content:center;}
 
-/* ── TABLET: icon-only sidebar (768–1023px) ── */
+/* ── TABLET 768–1023px: icon sidebar ── */
 @media(min-width:768px) and (max-width:1023px){
-  .db-side{width:68px;}
+  body.in-dash{--sidebar-w:68px;}
   .db-brand,.db-profile-card,.db-nav-sep,.db-side-bottom{display:none;}
-  .db-side-top{padding:14px 8px;border-bottom:none;}
+  .db-side-top{padding:clamp(10px,2vh,16px) 8px;border-bottom:none;}
   .db-nav{padding:8px 6px;gap:4px;}
-  .db-nav-item{padding:12px 8px;justify-content:center;border-radius:12px;}
-  .db-nav-item::after{content:attr(data-label);position:absolute;left:calc(100% + 10px);top:50%;transform:translateY(-50%);background:#1a1a1a;color:#f5f5f5;font-size:.72rem;font-weight:500;padding:6px 12px;border-radius:9px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s;border:1px solid rgba(255,255,255,.1);z-index:200;}
-  body.in-dash.light-mode .db-nav-item::after{background:#fff;color:#111118;border-color:rgba(0,0,0,.12);box-shadow:0 4px 16px rgba(0,0,0,.12);}
+  .db-nav-item{padding:clamp(10px,1.5vh,13px) 8px;justify-content:center;border-radius:12px;}
+  .db-nav-item::after{content:attr(data-label);position:absolute;left:calc(100% + 10px);top:50%;transform:translateY(-50%);background:#1a1a2e;color:#f5f5f5;font-size:.72rem;font-weight:500;padding:6px 12px;border-radius:9px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s;border:1px solid rgba(255,255,255,.1);z-index:200;box-shadow:0 4px 20px rgba(0,0,0,.4);}
+  body.in-dash.light-mode .db-nav-item::after{background:#fff;color:#111118;border-color:rgba(0,0,0,.1);box-shadow:0 4px 20px rgba(0,0,0,.12);}
   .db-nav-item:hover::after{opacity:1;}
   .db-nav-lbl{display:none;}
-  .db-nav-ico{font-size:1.2rem;}
-  .db-topbar{padding:0 20px;}
-  .db-content{padding:22px 22px 36px;}
-  .act-grid{grid-template-columns:repeat(auto-fill,minmax(220px,1fr));}
+  .db-nav-ico{width:auto;}
+  .db-content{padding:var(--sp-lg) var(--sp-lg) clamp(28px,5vh,44px);}
+  .db-topbar{padding:0 var(--sp-lg);}
+  .act-grid{grid-template-columns:repeat(auto-fill,minmax(clamp(180px,26vw,280px),1fr));}
 }
 
-/* ── MOBILE: bottom nav (< 768px) ── */
+/* ── MOBILE <768px: bottom nav ── */
 @media(max-width:767px){
-  /* Auth page (non-dashboard) */
+  /* Non-dashboard auth pages */
   body:not(.in-dash){flex-direction:column;overflow:auto;}
   html,body:not(.in-dash){height:auto;}
   .brand{width:100%;min-width:unset;padding:32px 24px 24px;min-height:unset;}
@@ -494,7 +513,8 @@ body.in-dash.light-mode .db-bn-item.active{color:#7c3aed;}
   .brand-headline{font-size:1.8rem;}
   .auth-panel{padding:32px 20px;min-height:100vh;justify-content:flex-start;}
 
-  /* Dashboard layout */
+  /* Dashboard */
+  body.in-dash{--sp-xl:16px;--sp-lg:14px;--sp-md:12px;--sp-sm:10px;--card-img-h:clamp(110px,32vw,160px);}
   body.in-dash #block-dashboard{flex-direction:column;}
   .db-side{display:none;}
   .db-bottom-nav{display:flex;}
@@ -503,34 +523,26 @@ body.in-dash.light-mode .db-bn-item.active{color:#7c3aed;}
   .db-topbar-sub{display:none;}
   .db-back-site{display:none;}
   .db-mobile-logout{display:flex;}
-  .db-content{padding:16px 14px 80px;}
 
-  /* Grids */
+  /* Content */
+  .db-content{padding:16px 14px 80px;}
   .db-stats{grid-template-columns:repeat(3,1fr);gap:10px;}
   .db-stat{padding:14px 10px;}
-  .db-stat-v{font-size:1.6rem;}
+  .db-stat-v{font-size:clamp(1.3rem,6vw,1.8rem);}
   .hist-grid{grid-template-columns:repeat(3,1fr);gap:10px;}
-  .act-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;}
+  .act-grid{grid-template-columns:repeat(auto-fill,minmax(clamp(150px,42vw,220px),1fr));gap:12px;}
   .perf-grid{grid-template-columns:1fr 1fr;}
   .rsv-item{flex-wrap:wrap;}
   .rsv-qr-wrap{width:100%;flex-direction:row;justify-content:flex-start;gap:10px;padding-top:12px;border-top:1px solid var(--border);}
-
-  /* Welcome */
-  .db-welcome{padding:20px;}
-  .db-welcome-greeting{font-size:1.2rem;}
-
-  /* Cards */
-  .act-img-wrap{height:120px;}
-  .act-card-body{padding:12px 12px 14px;}
-  .act-card-name{font-size:.88rem;}
+  .db-welcome{padding:18px 16px;}
+  .db-row-title{font-size:.84rem;}
 }
 
-/* ── EXTRA SMALL (< 400px) ── */
-@media(max-width:399px){
+/* ── EXTRA SMALL <420px ── */
+@media(max-width:419px){
   .db-stats,.hist-grid{grid-template-columns:1fr 1fr;}
   .act-grid{grid-template-columns:1fr;}
   .perf-grid{grid-template-columns:1fr;}
-  .db-stat-v{font-size:1.4rem;}
 }
 
 /* Animations */
@@ -694,7 +706,7 @@ body.in-dash.light-mode .db-bn-item.active{color:#7c3aed;}
       <aside class="db-side">
         <div class="db-side-top">
           <div class="db-brand">
-            <div class="db-brand-ico">⛰</div>
+            <div class="db-brand-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 20 2 20"/><polyline points="8 15 12 11 16 15"/></svg></div>
             <span class="db-brand-name">Altura Libre</span>
           </div>
           <div class="db-profile-card">
@@ -705,7 +717,7 @@ body.in-dash.light-mode .db-bn-item.active{color:#7c3aed;}
                 <div class="db-user-sub" id="d-email">—</div>
               </div>
             </div>
-            <div id="d-level-badge" class="level-badge nl-exp" style="margin:0 0 8px">🥾 Explorador</div>
+            <div id="d-level-badge" class="level-badge nl-exp" style="margin:0 0 8px">Explorador</div>
             <div class="db-level-track"><div class="db-level-fill" id="d-bar" style="width:0%"></div></div>
             <div class="db-level-info"><span id="d-bar-l">0 actividades</span><span id="d-bar-r">3 para subir</span></div>
           </div>
@@ -713,16 +725,35 @@ body.in-dash.light-mode .db-bn-item.active{color:#7c3aed;}
 
         <nav class="db-nav">
           <div class="db-nav-sep">Principal</div>
-          <button class="db-nav-item active" data-section="inicio" data-label="Inicio" onclick="dbSection('inicio',this)"><span class="db-nav-ico">⊞</span><span class="db-nav-lbl">Inicio</span></button>
-          <button class="db-nav-item" data-section="explorar" data-label="Explorar" onclick="dbSection('explorar',this)"><span class="db-nav-ico">🗺</span><span class="db-nav-lbl">Explorar</span></button>
+          <button class="db-nav-item active" data-section="inicio" data-label="Inicio" onclick="dbSection('inicio',this)">
+            <span class="db-nav-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1v-9.5z"/><path d="M9 21V12h6v9"/></svg></span>
+            <span class="db-nav-lbl">Inicio</span>
+          </button>
+          <button class="db-nav-item" data-section="explorar" data-label="Explorar" onclick="dbSection('explorar',this)">
+            <span class="db-nav-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M16.24 7.76l-3.18 6.36-6.32 3.14 3.18-6.36z"/></svg></span>
+            <span class="db-nav-lbl">Explorar</span>
+          </button>
           <div class="db-nav-sep">Mi cuenta</div>
-          <button class="db-nav-item" data-section="reservas" data-label="Reservas" onclick="dbSection('reservas',this)"><span class="db-nav-ico">📅</span><span class="db-nav-lbl">Mis Reservas</span><span class="db-nav-badge" id="nav-rsv-badge" style="display:none">0</span></button>
-          <button class="db-nav-item" data-section="historial" data-label="Historial" onclick="dbSection('historial',this)"><span class="db-nav-ico">📊</span><span class="db-nav-lbl">Historial</span></button>
-          <button class="db-nav-item" data-section="perfil" data-label="Mi Perfil" onclick="dbSection('perfil',this)"><span class="db-nav-ico">👤</span><span class="db-nav-lbl">Mi Perfil</span></button>
+          <button class="db-nav-item" data-section="reservas" data-label="Reservas" onclick="dbSection('reservas',this)">
+            <span class="db-nav-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2.5"/><path d="M16 2v3M8 2v3M3 10h18"/></svg></span>
+            <span class="db-nav-lbl">Mis Reservas</span>
+            <span class="db-nav-badge" id="nav-rsv-badge" style="display:none">0</span>
+          </button>
+          <button class="db-nav-item" data-section="historial" data-label="Historial" onclick="dbSection('historial',this)">
+            <span class="db-nav-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></span>
+            <span class="db-nav-lbl">Historial</span>
+          </button>
+          <button class="db-nav-item" data-section="perfil" data-label="Mi Perfil" onclick="dbSection('perfil',this)">
+            <span class="db-nav-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-3.87 3.58-7 8-7s8 3.13 8 7"/></svg></span>
+            <span class="db-nav-lbl">Mi Perfil</span>
+          </button>
         </nav>
 
         <div class="db-side-bottom">
-          <button class="db-logout" onclick="doLogout()">↩ &nbsp;Cerrar sesión</button>
+          <button class="db-logout" onclick="doLogout()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            Cerrar sesión
+          </button>
         </div>
       </aside>
 
@@ -730,16 +761,23 @@ body.in-dash.light-mode .db-bn-item.active{color:#7c3aed;}
       <main class="db-main">
         <div class="db-topbar">
           <div class="db-topbar-left">
-            <div class="db-topbar-brand">⛰</div>
+            <div class="db-topbar-brand"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 20 2 20"/><polyline points="8 15 12 11 16 15"/></svg></div>
             <div>
               <div class="db-topbar-title" id="db-topbar-title">Inicio</div>
               <div class="db-topbar-sub" id="db-topbar-sub">Panel de aventurero</div>
             </div>
           </div>
           <div class="db-topbar-right">
-            <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()" title="Cambiar tema">☀️</button>
-            <a href="/" class="db-back-site">← Sitio web</a>
-            <button class="db-mobile-logout" onclick="doLogout()" title="Cerrar sesión">↩</button>
+            <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()" title="Cambiar tema">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+            </button>
+            <a href="/" class="db-back-site">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+              Sitio web
+            </a>
+            <button class="db-mobile-logout" onclick="doLogout()" title="Cerrar sesión">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            </button>
           </div>
         </div>
 
@@ -754,20 +792,25 @@ body.in-dash.light-mode .db-bn-item.active{color:#7c3aed;}
         <!-- ── BOTTOM NAV (mobile only) ── -->
         <nav class="db-bottom-nav">
           <button class="db-bn-item active" data-section="inicio" onclick="dbSection('inicio',this)">
-            <span class="db-bn-ico">⊞</span><span class="db-bn-lbl">Inicio</span>
+            <span class="db-bn-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1v-9.5z"/><path d="M9 21V12h6v9"/></svg></span>
+            <span class="db-bn-lbl">Inicio</span>
           </button>
           <button class="db-bn-item" data-section="explorar" onclick="dbSection('explorar',this)">
-            <span class="db-bn-ico">🗺</span><span class="db-bn-lbl">Explorar</span>
+            <span class="db-bn-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M16.24 7.76l-3.18 6.36-6.32 3.14 3.18-6.36z"/></svg></span>
+            <span class="db-bn-lbl">Explorar</span>
           </button>
           <button class="db-bn-item" data-section="reservas" onclick="dbSection('reservas',this)">
-            <span class="db-bn-ico">📅</span><span class="db-bn-lbl">Reservas</span>
+            <span class="db-bn-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2.5"/><path d="M16 2v3M8 2v3M3 10h18"/></svg></span>
+            <span class="db-bn-lbl">Reservas</span>
             <span class="db-bn-badge" id="nav-rsv-badge-m" style="display:none">0</span>
           </button>
           <button class="db-bn-item" data-section="historial" onclick="dbSection('historial',this)">
-            <span class="db-bn-ico">📊</span><span class="db-bn-lbl">Historial</span>
+            <span class="db-bn-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></span>
+            <span class="db-bn-lbl">Historial</span>
           </button>
           <button class="db-bn-item" data-section="perfil" onclick="dbSection('perfil',this)">
-            <span class="db-bn-ico">👤</span><span class="db-bn-lbl">Perfil</span>
+            <span class="db-bn-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-3.87 3.58-7 8-7s8 3.13 8 7"/></svg></span>
+            <span class="db-bn-lbl">Perfil</span>
           </button>
         </nav>
       </main>
@@ -944,13 +987,36 @@ async function doLogout(){
 }
 
 /* ── LEVEL SYSTEM ── */
-const TIPO_ICO={hike:'🥾',campamento:'⛺',rapel:'🧗','social-run':'🏃',expedicion:'⛰'};
+const ICONS={
+  home:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1v-9.5z"/><path d="M9 21V12h6v9"/></svg>`,
+  compass:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M16.24 7.76l-3.18 6.36-6.32 3.14 3.18-6.36z"/></svg>`,
+  calendar:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2.5"/><path d="M16 2v3M8 2v3M3 10h18"/></svg>`,
+  chart:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>`,
+  user:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-3.87 3.58-7 8-7s8 3.13 8 7"/></svg>`,
+  mountain:`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 20 2 20"/><polyline points="8 15 12 11 16 15"/></svg>`,
+  logout:`<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>`,
+  sun:`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>`,
+  moon:`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>`,
+  back:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>`,
+  hike:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 3 21 20 3 20"/><polyline points="8 15 12 11 16 15"/></svg>`,
+  campamento:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20l7-13 3 4 3-4 7 13H2z"/><path d="M2 20h20"/></svg>`,
+  rapel:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2"/><path d="M12 7v5l-2.5 5M12 12l2.5 5"/><path d="M9 21a2 2 0 004 0M12 21a2 2 0 004 0"/></svg>`,
+  run:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="13" cy="4.5" r="1.5"/><path d="M9 11l2.5-2.5 2.5 1.5 2-4"/><path d="M11.5 11L9.5 20M14 10.5l1 9.5M5 9.5h4.5M15 6.5h4"/></svg>`,
+  expedicion:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 20 2 20"/><polyline points="7 14 12 9 17 14"/><line x1="12" y1="2" x2="12" y2="9"/></svg>`,
+  clock:`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
+  pin:`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>`,
+  ruler:`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>`,
+  users:`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>`,
+  calSm:`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v3M8 2v3M3 10h18"/></svg>`,
+  download:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>`,
+};
+const TIPO_ICO={hike:ICONS.hike,campamento:ICONS.campamento,rapel:ICONS.rapel,'social-run':ICONS.run,expedicion:ICONS.expedicion};
 
 function nivelInfo(n){
-  if(n>=15)return{name:'Guía',cls:'nl-gui',ico:'🏔',next:null,prev:15};
-  if(n>=8) return{name:'Alpinista',cls:'nl-alp',ico:'⛰',next:15,prev:8};
-  if(n>=3) return{name:'Montañista',cls:'nl-mon',ico:'🧗',next:8,prev:3};
-  return{name:'Explorador',cls:'nl-exp',ico:'🥾',next:3,prev:0};
+  if(n>=15)return{name:'Guía',cls:'nl-gui',ico:'',next:null,prev:15};
+  if(n>=8) return{name:'Alpinista',cls:'nl-alp',ico:'',next:15,prev:8};
+  if(n>=3) return{name:'Montañista',cls:'nl-mon',ico:'',next:8,prev:3};
+  return{name:'Explorador',cls:'nl-exp',ico:'',next:3,prev:0};
 }
 function nextLevelName(ni){
   if(ni.next===3)return'Montañista';if(ni.next===8)return'Alpinista';if(ni.next===15)return'Guía';return'';
@@ -975,35 +1041,35 @@ function fmtFecha(d){
 }
 
 function actCardHtml(act,evento){
-  const icons={hike:'🥾',campamento:'⛺',rapel:'🧗','social-run':'🏃',expedicion:'⛰'};
+  const typeIcon={hike:ICONS.hike,campamento:ICONS.campamento,rapel:ICONS.rapel,'social-run':ICONS.run,expedicion:ICONS.expedicion};
   const diffCls={fácil:'easy',moderada:'moderate',difícil:'hard',experto:'expert'};
   const diffLabel={fácil:'Fácil',moderada:'Moderada',difícil:'Difícil',experto:'Experto'};
   const nombre=act.nombre||evento?.actividad_id||'Actividad';
   const tipo=(act.tipo||'actividad').replace('-',' ');
   const precio=evento?.precio!=null&&evento?.precio!==''?(Number(evento.precio)===0?'Gratis':'$'+evento.precio):'';
   const meta=[];
-  if(evento?.fecha)meta.push('📅 '+fmtFecha(evento.fecha));
-  if(evento?.hora)meta.push('⏰ '+evento.hora);
-  if(act.tiempo)meta.push('⏱ '+act.tiempo);
-  if(act.distancia)meta.push('📏 '+act.distancia);
-  if(evento?.cupos_disponibles!=null)meta.push('👥 '+evento.cupos_disponibles+' cupos');
+  if(evento?.fecha)meta.push(`${ICONS.calSm}<span>${fmtFecha(evento.fecha)}</span>`);
+  if(evento?.hora)meta.push(`${ICONS.clock}<span>${evento.hora}</span>`);
+  if(act.tiempo)meta.push(`${ICONS.clock}<span>${act.tiempo}</span>`);
+  if(act.distancia)meta.push(`${ICONS.ruler}<span>${act.distancia}</span>`);
+  if(evento?.cupos_disponibles!=null)meta.push(`${ICONS.users}<span>${evento.cupos_disponibles} cupos</span>`);
   const safeNombre=nombre.replace(/'/g,"\\'");
   return`<div class="act-card">
     <div class="act-img-wrap">
       ${act.cover_url
         ?`<img src="${act.cover_url}" alt="${nombre}" loading="lazy">`
-        :`<div class="act-img-fallback">${icons[act.tipo]||'🏔'}</div>`}
+        :`<div class="act-img-fallback">${typeIcon[act.tipo]||ICONS.mountain}</div>`}
       <span class="act-ov-tipo">${tipo}</span>
       ${precio?`<span class="act-ov-price">${precio}</span>`:''}
     </div>
     <div class="act-card-body">
       <div class="act-card-name">${nombre}</div>
       ${act.descripcion?`<div class="act-card-desc">${act.descripcion.length>90?act.descripcion.slice(0,90)+'…':act.descripcion}</div>`:''}
-      ${meta.length?`<div class="act-card-meta">${meta.map(m=>`<span>${m}</span>`).join('')}</div>`:''}
-      ${evento?.punto_encuentro?`<div class="act-card-punto">📍 ${evento.punto_encuentro}</div>`:''}
+      ${meta.length?`<div class="act-card-meta">${meta.join('')}</div>`:''}
+      ${evento?.punto_encuentro?`<div class="act-card-punto">${ICONS.pin}<span>${evento.punto_encuentro}</span></div>`:''}
       <div class="act-card-footer">
         ${act.dificultad?`<span class="act-diff ${diffCls[act.dificultad]||''}">${diffLabel[act.dificultad]||act.dificultad}</span>`:'<span></span>'}
-        <button class="act-card-btn" onclick="wantJoin('${safeNombre}')">Me interesa →</button>
+        <button class="act-card-btn" onclick="wantJoin('${safeNombre}')">Me interesa</button>
       </div>
     </div>
   </div>`;
@@ -1061,15 +1127,15 @@ function renderInicio(user,rsv,nombre,nivel,completadas){
 
   document.getElementById('ds-inicio').innerHTML=`
     <div class="db-welcome">
-      <div class="db-welcome-greeting">${greeting()}, ${nombre.split(' ')[0]} 👋</div>
-      <div class="db-welcome-sub">${nivel.ico} Nivel <strong style="color:var(--cream)">${nivel.name}</strong> · ${completadas} actividad${completadas!==1?'es':''} completada${completadas!==1?'s':''}</div>
+      <div class="db-welcome-greeting">${greeting()}, ${nombre.split(' ')[0]}</div>
+      <div class="db-welcome-sub">Nivel <strong style="color:var(--cream)">${nivel.name}</strong> · ${completadas} actividad${completadas!==1?'es':''} completada${completadas!==1?'s':''}</div>
     </div>
     <div class="db-stats">
-      <div class="db-stat"><div class="db-stat-ico">🏔</div><div class="db-stat-v">${completadas}</div><div class="db-stat-l">Completadas</div></div>
-      <div class="db-stat"><div class="db-stat-ico">📅</div><div class="db-stat-v">${proximas.length}</div><div class="db-stat-l">Próximas</div></div>
-      <div class="db-stat"><div class="db-stat-ico">🗺</div><div class="db-stat-v">${tipos}</div><div class="db-stat-l">Tipos</div></div>
+      <div class="db-stat"><div class="db-stat-v">${completadas}</div><div class="db-stat-l">Completadas</div></div>
+      <div class="db-stat"><div class="db-stat-v">${proximas.length}</div><div class="db-stat-l">Próximas</div></div>
+      <div class="db-stat"><div class="db-stat-v">${tipos}</div><div class="db-stat-l">Tipos</div></div>
     </div>
-    <div class="db-row-title">📅 Próxima reserva <a href="#" onclick="dbSection('reservas',document.querySelectorAll('.db-nav-item')[3]);return false">ver todas →</a></div>
+    <div class="db-row-title">Próxima reserva <a href="#" onclick="dbSection('reservas',document.querySelectorAll('.db-nav-item')[3]);return false">ver todas →</a></div>
     ${proximas.length?`
     <div class="rsv-item" style="cursor:pointer" onclick="dbSection('reservas',document.querySelectorAll('.db-nav-item')[3])">
       <div class="rsv-ico2">${TIPO_ICO[proximas[0].tipo_actividad]||'🏔'}</div>
@@ -1080,14 +1146,14 @@ function renderInicio(user,rsv,nombre,nivel,completadas){
       </div>
     </div>`:`
     <div class="empty-state" style="border:1px solid var(--border);border-radius:14px;padding:28px">
-      <span class="empty-ico">📅</span>
+      <span class="empty-ico">—</span>
       <p class="empty-text">Sin reservas próximas.<br><a href="#" onclick="dbSection('explorar',document.querySelectorAll('.db-nav-item')[1]);return false" style="color:var(--moss);text-decoration:none">Explorar actividades →</a></p>
     </div>`}
-    <div class="db-row-title" style="margin-top:24px">🗺 Próximas actividades <a href="#" onclick="dbSection('explorar',document.querySelectorAll('.db-nav-item')[1]);return false">ver todas →</a></div>
+    <div class="db-row-title" style="margin-top:24px">Próximas actividades <a href="#" onclick="dbSection('explorar',document.querySelectorAll('.db-nav-item')[1]);return false">ver todas →</a></div>
     ${previewActs.length
       ?`<div class="act-grid">${previewActs.map(u=>actCardHtml(u.act,u.evento)).join('')}</div>`
       :`<div class="empty-state" style="border:1px solid var(--border);border-radius:14px;padding:28px">
-          <span class="empty-ico">🗺</span>
+          <span class="empty-ico">—</span>
           <p class="empty-text">El administrador aún no ha publicado actividades.</p>
         </div>`}`;
 }
@@ -1111,7 +1177,7 @@ function renderExplorar(){
   if(!_allActItems.length){
     document.getElementById('ds-explorar').innerHTML=`
       <div class="empty-state" style="border:1px solid var(--border);border-radius:16px;padding:64px">
-        <span class="empty-ico">🗺</span>
+        <span class="empty-ico">—</span>
         <p class="empty-text">El administrador aún no ha publicado actividades.<br>¡Vuelve pronto!</p>
       </div>`;
     return;
@@ -1119,9 +1185,8 @@ function renderExplorar(){
 
   const tipos=[...new Set(_allActItems.map(u=>u.act.tipo).filter(Boolean))];
   const typeBtns=tipos.map(t=>{
-    const ico={hike:'🥾',campamento:'⛺',rapel:'🧗','social-run':'🏃',expedicion:'⛰'}[t]||'🏔';
     const lab=t.replace('-',' ');
-    return`<button class="act-fb" onclick="filterActs('${t}',this)">${ico} ${lab}</button>`;
+    return`<button class="act-fb" onclick="filterActs('${t}',this)">${lab}</button>`;
   }).join('');
 
   document.getElementById('ds-explorar').innerHTML=`
@@ -1140,7 +1205,7 @@ function renderReservas(rsv){
   });
   document.getElementById('ds-reservas').innerHTML=!proximas.length
     ?`<div class="empty-state" style="border:1px solid var(--border);border-radius:14px;padding:48px">
-        <span class="empty-ico">📅</span>
+        <span class="empty-ico">—</span>
         <p class="empty-text">No tienes reservas próximas.<br>
         <a href="#" onclick="dbSection('explorar',document.querySelectorAll('.db-nav-item')[1]);return false" style="color:var(--moss);text-decoration:none">Explorar actividades →</a></p>
       </div>`
@@ -1154,7 +1219,7 @@ function renderReservas(rsv){
         </div>
         <div class="rsv-qr-wrap">
           <div class="rsv-qr-box" id="qr-${r.id}"></div>
-          <button class="rsv-qr-dl" onclick="downloadQR('${r.id}','${r.actividad_nombre}')">⬇ Descargar</button>
+          <button class="rsv-qr-dl" onclick="downloadQR('${r.id}','${r.actividad_nombre}')">${ICONS.download} Descargar</button>
         </div>
       </div>`).join('')}</div>`;
 }
@@ -1169,7 +1234,7 @@ function renderHistorial(rsv,completadas){
       <div class="hist-card"><div class="hist-v">${tipos}</div><div class="hist-l">Tipos explorados</div></div>
     </div>
     ${!pasadas.length
-      ?`<div class="empty-state" style="border:1px solid var(--border);border-radius:14px;padding:48px"><span class="empty-ico">📊</span><p class="empty-text">Tu historial aparecerá aquí cuando completes actividades.</p></div>`
+      ?`<div class="empty-state" style="border:1px solid var(--border);border-radius:14px;padding:48px"><span class="empty-ico">—</span><p class="empty-text">Tu historial aparecerá aquí cuando completes actividades.</p></div>`
       :`<div class="db-row-title">Actividades realizadas</div>
         <div class="rsv-list">${pasadas.map(r=>`
           <div class="rsv-item">
@@ -1220,7 +1285,7 @@ function renderDashboard(user,rsv,siteContent){
   document.getElementById('d-name').textContent=nombre.split(' ')[0];
   document.getElementById('d-email').textContent=user.email;
   const badge=document.getElementById('d-level-badge');
-  badge.className='level-badge '+nivel.cls;badge.textContent=nivel.ico+' '+nivel.name;
+  badge.className='level-badge '+nivel.cls;badge.textContent=nivel.name;
 
   if(nivel.next){
     const pct=Math.round(((completadas-nivel.prev)/(nivel.next-nivel.prev))*100);
@@ -1229,7 +1294,7 @@ function renderDashboard(user,rsv,siteContent){
     document.getElementById('d-bar-r').textContent=nivel.next+' para '+nextLevelName(nivel);
   }else{
     document.getElementById('d-bar').style.width='100%';
-    document.getElementById('d-bar-l').textContent='Nivel máximo 🏔';
+    document.getElementById('d-bar-l').textContent='Nivel máximo';
     document.getElementById('d-bar-r').textContent='';
   }
 
@@ -1273,18 +1338,14 @@ async function loadUserData(user){
 function toggleTheme(){
   const light=document.body.classList.toggle('light-mode');
   const btn=document.getElementById('theme-btn');
-  if(btn)btn.textContent=light?'🌙':'☀️';
+  if(btn)btn.innerHTML=light?ICONS.moon:ICONS.sun;
   try{localStorage.setItem('al-theme',light?'light':'dark');}catch(e){}
 }
 (function initTheme(){
-  try{
-    if(localStorage.getItem('al-theme')==='light'){
-      document.body.classList.add('light-mode');
-    }
-  }catch(e){}
+  try{if(localStorage.getItem('al-theme')==='light')document.body.classList.add('light-mode');}catch(e){}
   document.addEventListener('DOMContentLoaded',function(){
     const btn=document.getElementById('theme-btn');
-    if(btn)btn.textContent=document.body.classList.contains('light-mode')?'🌙':'☀️';
+    if(btn)btn.innerHTML=document.body.classList.contains('light-mode')?ICONS.moon:ICONS.sun;
   });
 })();
 
