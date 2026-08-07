@@ -228,10 +228,11 @@ body.in-dash .auth-card{max-width:none;width:100%;display:flex;height:100vh;over
 /* Nav */
 .db-nav{flex:1;padding:10px;overflow-y:auto;display:flex;flex-direction:column;gap:1px;}
 .db-nav-sep{font-family:var(--mono);font-size:.46rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(240,253,244,.18);padding:12px 8px 4px;}
-.db-nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid transparent;background:none;color:var(--muted);font-family:var(--sans);font-size:.82rem;font-weight:500;cursor:pointer;border-radius:10px;transition:var(--transition);text-align:left;width:100%;}
-.db-nav-item:hover{background:rgba(255,255,255,.04);color:var(--cream);}
-.db-nav-item.active{background:rgba(249,115,22,.08);color:var(--ember);border-color:rgba(249,115,22,.12);}
-.db-nav-ico{font-size:.95rem;width:20px;text-align:center;flex-shrink:0;}
+.db-nav-item{display:flex;align-items:center;gap:11px;padding:11px 14px;border:none;background:none;color:var(--muted);font-family:var(--sans);font-size:.83rem;font-weight:500;cursor:pointer;border-radius:10px;transition:var(--transition);text-align:left;width:100%;position:relative;}
+.db-nav-item:hover{background:rgba(255,255,255,.05);color:var(--cream);}
+.db-nav-item.active{background:rgba(249,115,22,.07);color:var(--ember);}
+.db-nav-item.active::before{content:'';position:absolute;left:0;top:8px;bottom:8px;width:3px;background:var(--ember);border-radius:0 3px 3px 0;}
+.db-nav-ico{font-size:1rem;width:20px;text-align:center;flex-shrink:0;}
 .db-nav-badge{margin-left:auto;background:rgba(249,115,22,.15);border:1px solid rgba(249,115,22,.2);color:var(--ember);font-family:var(--mono);font-size:.48rem;padding:1px 6px;border-radius:10px;}
 
 .db-side-bottom{padding:14px 10px;border-top:1px solid var(--border);}
@@ -290,6 +291,9 @@ body.in-dash .auth-card{max-width:none;width:100%;display:flex;height:100vh;over
 .cf{background:rgba(99,102,241,.07);border:1px solid rgba(99,102,241,.15);color:#a5b4fc;}
 .act-btn{width:100%;padding:9px;border:none;border-radius:9px;font-family:var(--sans);font-size:.77rem;font-weight:600;cursor:pointer;transition:var(--transition);background:linear-gradient(135deg,rgba(249,115,22,.9),rgba(249,115,22,.7));color:#fff;}
 .act-btn:hover{background:linear-gradient(135deg,#f97316,rgba(249,115,22,.9));}
+.act-hero-img{height:110px;width:100%;object-fit:cover;display:block;}
+.act-desc{font-size:.74rem;color:var(--muted);line-height:1.5;margin-bottom:10px;}
+.act-punto{font-size:.72rem;color:var(--muted);margin:0 0 10px;padding-top:8px;border-top:1px solid var(--border);}
 
 /* Reservas */
 .rsv-list{display:flex;flex-direction:column;gap:12px;}
@@ -745,32 +749,47 @@ function nextLevelName(ni){
 function initials(s){return(s||'?').split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();}
 function greeting(){const h=new Date().getHours();return h<12?'Buenos días':h<18?'Buenas tardes':'Buenas noches';}
 
-/* ── DEMO ACTIVITIES ── */
-const DEMO_ACTS=[
-  {id:'a1',tipo:'hike',nombre:'Cerro de la Silla',dificultad:'m',precio:0,fecha:'Sábados',spots:20,emoji:'🏔',bg:'linear-gradient(135deg,#041a0b,#062010)'},
-  {id:'a2',tipo:'rapel',nombre:'Potrero Chico',dificultad:'h',precio:350,fecha:'Dom 24 ago',spots:8,emoji:'🧗',bg:'linear-gradient(135deg,#1a0804,#201006)'},
-  {id:'a3',tipo:'hike',nombre:'La Huasteca Nocturna',dificultad:'m',precio:0,fecha:'Vie 29 ago',spots:15,emoji:'🌙',bg:'linear-gradient(135deg,#04061a,#060814)'},
-  {id:'a4',tipo:'campamento',nombre:'Sierra de Arteaga',dificultad:'l',precio:450,fecha:'Sep 6-7',spots:12,emoji:'⛺',bg:'linear-gradient(135deg,#041a0b,#051608)'},
-  {id:'a5',tipo:'social-run',nombre:'Cola de Caballo',dificultad:'l',precio:0,fecha:'Sábados',spots:30,emoji:'🏃',bg:'linear-gradient(135deg,#180604,#1a0a04)'},
-  {id:'a6',tipo:'expedicion',nombre:'Cerro Potosí 3700m',dificultad:'h',precio:800,fecha:'Oct 11-12',spots:6,emoji:'⛰',bg:'linear-gradient(135deg,#1a1204,#181008)'},
-];
-const DIFF={l:'<span class="chip cl">↑ Baja</span>',m:'<span class="chip cm">↑↑ Media</span>',h:'<span class="chip ch">↑↑↑ Alta</span>'};
+/* ── SITE CONTENT ── */
+let _catalogo=[], _calendario=[], _curFilter='todos', _allActItems=[];
 
-let _curFilter='todos';
+async function loadSiteContent(){
+  try{
+    const r=await fetch(`https://raw.githubusercontent.com/gacraul27-lgtm/alturalibre.com/main/content.json?t=${Date.now()}`);
+    if(!r.ok)return{};
+    return await r.json();
+  }catch{return{};}
+}
 
-function actCardHtml(a){
+function fmtFecha(d){
+  if(!d)return'';
+  try{return new Date(d+'T12:00:00').toLocaleDateString('es-MX',{day:'numeric',month:'short',year:'numeric'});}catch{return d;}
+}
+
+function actCardHtml(act,evento){
+  const icons={hike:'🥾',campamento:'⛺',rapel:'🧗','social-run':'🏃',expedicion:'⛰'};
+  const diffCls={fácil:'cl',moderada:'cm',difícil:'ch',experto:'ch'};
+  const diffIco={fácil:'🟢',moderada:'🟡',difícil:'🔴',experto:'⚫'};
+  const nombre=act.nombre||evento?.actividad_id||'Actividad';
+  const tipo=(act.tipo||'actividad').replace('-',' ');
   return`<div class="act-card">
-    <div class="act-hero" style="background:${a.bg}">${a.emoji}</div>
+    ${act.cover_url
+      ?`<img class="act-hero-img" src="${act.cover_url}" alt="${nombre}" loading="lazy">`
+      :`<div class="act-hero" style="background:linear-gradient(135deg,#041a0b,#062010)">${icons[act.tipo]||'🏔'}</div>`}
     <div class="act-body">
-      <div class="act-tipo">${a.tipo.replace('-',' ')}</div>
-      <div class="act-name">${a.nombre}</div>
+      <div class="act-tipo">${tipo}</div>
+      <div class="act-name">${nombre}</div>
+      ${act.descripcion?`<div class="act-desc">${act.descripcion.length>90?act.descripcion.slice(0,90)+'…':act.descripcion}</div>`:''}
       <div class="act-chips">
-        ${DIFF[a.dificultad]||''}
-        <span class="chip cf">📅 ${a.fecha}</span>
-        ${a.precio?`<span class="chip cd">$${a.precio}</span>`:'<span class="chip cl">Gratis</span>'}
-        <span class="chip cd">👥 ${a.spots}</span>
+        ${act.dificultad?`<span class="chip ${diffCls[act.dificultad]||'cd'}">${diffIco[act.dificultad]||''} ${act.dificultad}</span>`:''}
+        ${evento?.fecha?`<span class="chip cf">📅 ${fmtFecha(evento.fecha)}</span>`:''}
+        ${evento?.hora?`<span class="chip cd">⏰ ${evento.hora}</span>`:''}
+        ${evento?.precio!=null&&evento?.precio!==''?`<span class="chip cd">${Number(evento.precio)===0?'Gratis':'$'+evento.precio}</span>`:''}
+        ${evento?.cupos_disponibles!=null?`<span class="chip cd">👥 ${evento.cupos_disponibles}</span>`:''}
+        ${act.tiempo?`<span class="chip cd">⏱ ${act.tiempo}</span>`:''}
+        ${act.distancia?`<span class="chip cd">📏 ${act.distancia}</span>`:''}
       </div>
-      <button class="act-btn" onclick="wantJoin('${a.nombre}')">Unirme →</button>
+      ${evento?.punto_encuentro?`<div class="act-punto">📍 ${evento.punto_encuentro}</div>`:''}
+      <button class="act-btn" onclick="wantJoin('${nombre.replace(/'/g,"\\'")}')">Me interesa →</button>
     </div>
   </div>`;
 }
@@ -790,8 +809,10 @@ function filterActs(tipo,btn){
 function renderActGrid(){
   const g=document.getElementById('act-grid');
   if(!g)return;
-  const list=_curFilter==='todos'?DEMO_ACTS:DEMO_ACTS.filter(a=>a.tipo===_curFilter);
-  g.innerHTML=list.map(actCardHtml).join('');
+  const items=_curFilter==='todos'?_allActItems:_allActItems.filter(u=>(u.act.tipo||'')=== _curFilter);
+  g.innerHTML=items.length
+    ?items.map(u=>actCardHtml(u.act,u.evento)).join('')
+    :`<div class="empty-state" style="border:1px solid var(--border);border-radius:14px;padding:32px;grid-column:1/-1"><span class="empty-ico">🔍</span><p class="empty-text">No hay actividades de este tipo aún.</p></div>`;
 }
 
 /* ── SECTION RENDERER ── */
@@ -813,6 +834,16 @@ function dbSection(name,btn){
 function renderInicio(user,rsv,nombre,nivel,completadas){
   const proximas=rsv.filter(r=>!r.asistio&&r.estado!=='cancelada');
   const tipos=[...new Set(rsv.filter(r=>r.asistio).map(r=>r.tipo_actividad))].length;
+
+  // Build preview from upcoming calendar events (max 3)
+  const today=new Date().toISOString().split('T')[0];
+  const upcomingEvts=_calendario
+    .filter(e=>e.estado!=='cancelado'&&e.fecha>=today)
+    .sort((a,b)=>new Date(a.fecha)-new Date(b.fecha))
+    .slice(0,3)
+    .map(e=>({act:(_catalogo.find(a=>a.nombre===e.actividad_id)||{nombre:e.actividad_id,tipo:'hike'}),evento:e}));
+  const previewActs=upcomingEvts.length?upcomingEvts:_catalogo.slice(0,3).map(a=>({act:a,evento:null}));
+
   document.getElementById('ds-inicio').innerHTML=`
     <div class="db-welcome">
       <div class="db-welcome-av">${initials(nombre)}</div>
@@ -840,22 +871,53 @@ function renderInicio(user,rsv,nombre,nivel,completadas){
       <span class="empty-ico">📅</span>
       <p class="empty-text">Sin reservas próximas.<br><a href="#" onclick="dbSection('explorar',document.querySelectorAll('.db-nav-item')[1]);return false" style="color:var(--moss);text-decoration:none">Explorar actividades →</a></p>
     </div>`}
-    <div class="db-row-title" style="margin-top:24px">🗺 Actividades disponibles <a href="#" onclick="dbSection('explorar',document.querySelectorAll('.db-nav-item')[1]);return false">ver todas →</a></div>
-    <div class="act-grid">${DEMO_ACTS.slice(0,3).map(actCardHtml).join('')}</div>`;
+    <div class="db-row-title" style="margin-top:24px">🗺 Próximas actividades <a href="#" onclick="dbSection('explorar',document.querySelectorAll('.db-nav-item')[1]);return false">ver todas →</a></div>
+    ${previewActs.length
+      ?`<div class="act-grid">${previewActs.map(u=>actCardHtml(u.act,u.evento)).join('')}</div>`
+      :`<div class="empty-state" style="border:1px solid var(--border);border-radius:14px;padding:28px">
+          <span class="empty-ico">🗺</span>
+          <p class="empty-text">El administrador aún no ha publicado actividades.</p>
+        </div>`}`;
 }
 
 function renderExplorar(){
   _curFilter='todos';
+  const today=new Date().toISOString().split('T')[0];
+
+  // Upcoming events enriched with catalog
+  const upcoming=_calendario
+    .filter(e=>e.estado!=='cancelado'&&(!e.fecha||e.fecha>=today))
+    .sort((a,b)=>new Date(a.fecha||'9999')-new Date(b.fecha||'9999'))
+    .map(e=>({act:(_catalogo.find(a=>a.nombre===e.actividad_id)||{nombre:e.actividad_id,tipo:'hike'}),evento:e}));
+
+  // Catalog items without upcoming events
+  const scheduled=new Set(upcoming.map(u=>u.act.nombre));
+  const unscheduled=_catalogo.filter(a=>!scheduled.has(a.nombre)).map(a=>({act:a,evento:null}));
+
+  _allActItems=[...upcoming,...unscheduled];
+
+  if(!_allActItems.length){
+    document.getElementById('ds-explorar').innerHTML=`
+      <div class="empty-state" style="border:1px solid var(--border);border-radius:16px;padding:64px">
+        <span class="empty-ico">🗺</span>
+        <p class="empty-text">El administrador aún no ha publicado actividades.<br>¡Vuelve pronto!</p>
+      </div>`;
+    return;
+  }
+
+  const tipos=[...new Set(_allActItems.map(u=>u.act.tipo).filter(Boolean))];
+  const typeBtns=tipos.map(t=>{
+    const ico={hike:'🥾',campamento:'⛺',rapel:'🧗','social-run':'🏃',expedicion:'⛰'}[t]||'🏔';
+    const lab=t.replace('-',' ');
+    return`<button class="act-fb" onclick="filterActs('${t}',this)">${ico} ${lab}</button>`;
+  }).join('');
+
   document.getElementById('ds-explorar').innerHTML=`
     <div class="act-filters">
       <button class="act-fb active" onclick="filterActs('todos',this)">Todas</button>
-      <button class="act-fb" onclick="filterActs('hike',this)">🥾 Hike</button>
-      <button class="act-fb" onclick="filterActs('campamento',this)">⛺ Campamento</button>
-      <button class="act-fb" onclick="filterActs('rapel',this)">🧗 Rápel</button>
-      <button class="act-fb" onclick="filterActs('expedicion',this)">⛰ Expedición</button>
-      <button class="act-fb" onclick="filterActs('social-run',this)">🏃 Social Run</button>
+      ${typeBtns}
     </div>
-    <div class="act-grid" id="act-grid">${DEMO_ACTS.map(actCardHtml).join('')}</div>`;
+    <div class="act-grid" id="act-grid">${_allActItems.map(u=>actCardHtml(u.act,u.evento)).join('')}</div>`;
 }
 
 function renderReservas(rsv){
@@ -930,7 +992,10 @@ function renderPerfil(user){
 }
 
 /* ── RENDER DASHBOARD ── */
-function renderDashboard(user,rsv){
+function renderDashboard(user,rsv,siteContent){
+  _catalogo=(siteContent&&siteContent.actividades_catalogo)||[];
+  _calendario=(siteContent&&siteContent.calendario)||[];
+
   const profile=user.user_metadata||{};
   const nombre=profile.nombre_completo||(profile.nombre?(profile.nombre+(profile.apellido?' '+profile.apellido:'')):(user.email.split('@')[0]));
   const completadas=rsv.filter(r=>r.asistio).length;
@@ -981,9 +1046,12 @@ function downloadQR(rid,nombre){
 /* ── LOAD DATA ── */
 async function loadUserData(user){
   sbUser=user;
-  const{data}=await sb.from('reservaciones').select('*').eq('user_id',user.id).order('fecha_evento',{ascending:true});
-  rsvData=data||[];
-  renderDashboard(user,rsvData);
+  const[rsvRes,siteContent]=await Promise.all([
+    sb.from('reservaciones').select('*').eq('user_id',user.id).order('fecha_evento',{ascending:true}),
+    loadSiteContent()
+  ]);
+  rsvData=rsvRes.data||[];
+  renderDashboard(user,rsvData,siteContent);
   showBlock('dashboard');
 }
 
