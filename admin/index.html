@@ -315,6 +315,58 @@ html[data-admin-mode="light"] .char-count{color:rgba(15,23,42,.2);}
 html[data-admin-mode="light"] .fi-hint{color:rgba(15,23,42,.28);}
 html[data-admin-mode="light"] .changes-badge{background:rgba(180,83,9,.1);border-color:rgba(180,83,9,.25);}
 
+/* ── AVENTUREROS SECTION ── */
+.usr-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:14px;}
+.usr-stat{padding:12px 14px;border:1px solid var(--border);border-radius:9px;background:var(--card);text-align:center;}
+.usr-stat-val{font-family:var(--disp,var(--mono));font-size:1.6rem;color:var(--cream);line-height:1;}
+.usr-stat-lbl{font-family:var(--mono);font-size:.48rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:4px;}
+.usr-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--border);background:var(--card);cursor:pointer;transition:background .15s,border-color .15s;position:relative;}
+.usr-row:first-child{border-radius:8px 8px 0 0;}
+.usr-row:last-child{border-radius:0 0 8px 8px;}
+.usr-row:not(:last-child){border-bottom:none;}
+.usr-row:hover{background:rgba(134,239,172,.04);border-color:rgba(134,239,172,.15);}
+.usr-row.usr-banned{opacity:.55;}
+.usr-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--ember),rgba(249,115,22,.35));display:flex;align-items:center;justify-content:center;font-size:.88rem;font-weight:700;flex-shrink:0;color:#fff;}
+.usr-avatar.av-banned{background:linear-gradient(135deg,#ef4444,rgba(239,68,68,.35));}
+.usr-name-t{font-size:.82rem;font-weight:500;color:var(--cream);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px;}
+.usr-name-s{font-family:var(--mono);font-size:.48rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px;}
+.usr-badge-pill{font-family:var(--mono);font-size:.44rem;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:8px;border:1px solid transparent;}
+.usr-chevron{opacity:.3;flex-shrink:0;transition:opacity .15s;}
+.usr-row:hover .usr-chevron{opacity:.7;}
+
+/* User modal */
+.usr-modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:600;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(3px);}
+.usr-modal-box{background:var(--side);border:1px solid var(--border);border-radius:14px;width:100%;max-width:540px;max-height:88vh;display:flex;flex-direction:column;overflow:hidden;}
+.usr-modal-hdr{padding:16px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;flex-shrink:0;}
+.usr-modal-scroll{overflow-y:auto;flex:1;}
+.usr-modal-body{padding:16px 18px;display:flex;flex-direction:column;gap:18px;}
+.usr-section-lbl{font-family:var(--mono);font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(134,239,172,.35);margin-bottom:8px;}
+.usr-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.usr-detail-item{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px 12px;}
+.usr-detail-lbl{font-family:var(--mono);font-size:.46rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
+.usr-detail-val{font-size:.78rem;color:var(--cream);word-break:break-all;}
+.usr-action-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+.usr-action-btn{display:flex;align-items:center;justify-content:center;gap:6px;padding:9px 12px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:var(--mono);font-size:.56rem;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .18s;}
+.usr-action-btn:hover{background:rgba(134,239,172,.05);color:var(--text);border-color:var(--faint);}
+.usr-action-btn.btn-danger{border-color:rgba(239,68,68,.2);color:#f87171;}
+.usr-action-btn.btn-danger:hover{background:rgba(239,68,68,.08);}
+.usr-action-btn.btn-warn{border-color:rgba(249,115,22,.2);color:var(--ember);}
+.usr-action-btn.btn-warn:hover{background:rgba(249,115,22,.07);}
+.usr-action-btn.btn-ok{border-color:rgba(74,222,128,.2);color:#4ade80;}
+.usr-action-btn.btn-ok:hover{background:rgba(74,222,128,.07);}
+.usr-rsv-item{display:flex;align-items:center;gap:9px;padding:9px 12px;border:1px solid var(--border);border-radius:7px;background:var(--card);margin-bottom:5px;}
+.usr-rsv-status{display:flex;align-items:center;flex-shrink:0;}
+.usr-inline-edit{display:flex;gap:6px;margin-top:6px;}
+.usr-inline-edit input{flex:1;background:var(--card);border:1px solid var(--border2);border-radius:6px;padding:6px 10px;font-size:.78rem;color:var(--cream);font-family:inherit;}
+.usr-inline-edit input:focus{outline:none;border-color:var(--ember);}
+html[data-admin-mode="light"] .usr-stat{background:var(--card);border-color:var(--border);}
+html[data-admin-mode="light"] .usr-row{background:var(--card);border-color:var(--border);}
+html[data-admin-mode="light"] .usr-row:hover{background:rgba(0,0,0,.03);}
+html[data-admin-mode="light"] .usr-detail-item{background:var(--card2);border-color:var(--border);}
+html[data-admin-mode="light"] .usr-modal-box{background:#fff;border-color:var(--border);}
+html[data-admin-mode="light"] .usr-modal-hdr{border-bottom-color:var(--border);}
+html[data-admin-mode="light"] .usr-rsv-item{background:var(--card2);border-color:var(--border);}
+
 /* Mode toggle button in admin topbar */
 .btn-mode{padding:8px 10px;background:transparent;border:1px solid var(--border);border-radius:7px;color:var(--muted);cursor:pointer;font-size:.88rem;transition:all .2s;line-height:1;}
 .btn-mode:hover{border-color:var(--faint);color:var(--text);}
@@ -1902,64 +1954,320 @@ function initAdminSb(){
   return sbAdmin;
 }
 
+/* ── AVENTUREROS: VARIABLES ── */
+let usrData=[];
+
 function fUsuarios(b){
   b.innerHTML=`
-    <div class="form-section-title">Aventureros Registrados</div>
-    <button class="btn-save" onclick="cargarUsuarios()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg> Actualizar lista</button>
-    <div id="usuarios-lista" style="margin-top:18px"><p style="color:var(--muted);font-size:.8rem">Cargando…</p></div>`;
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <div style="font-size:.88rem;font-weight:600;color:var(--cream)">Gestión de aventureros</div>
+      <button class="btn-save" id="usr-refresh-btn" onclick="cargarUsuarios()" style="padding:6px 14px;gap:6px">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+        Actualizar
+      </button>
+    </div>
+    <div class="usr-stats" id="usr-stats"></div>
+    <div style="margin-bottom:12px">
+      <input class="fi" id="usr-search" placeholder="Buscar por nombre o correo…" oninput="filtrarUsr(this.value)" style="width:100%;box-sizing:border-box">
+    </div>
+    <div id="usuarios-lista"></div>`;
   cargarUsuarios();
 }
 
 async function cargarUsuarios(){
   const sb=initAdminSb();
   const el=document.getElementById('usuarios-lista');
-  if(!sb){el.innerHTML='<p style="color:#fca5a5;font-size:.8rem">⚠ Supabase no disponible.</p>';return;}
-  el.innerHTML='<p style="color:var(--muted);font-size:.8rem">Cargando…</p>';
+  const statsEl=document.getElementById('usr-stats');
+  if(!sb){if(el)el.innerHTML='<p style="color:#fca5a5;font-size:.8rem">Supabase no disponible.</p>';return;}
+  if(el)el.innerHTML='<p style="color:var(--muted);font-size:.8rem;padding:12px 0">Cargando aventureros…</p>';
   try{
-  const[{data:perfs,error:e1},{data:rsvs,error:e2}]=await Promise.all([
-    sb.from('profiles').select('*').order('created_at',{ascending:false}),
-    sb.from('reservaciones').select('*').order('fecha_evento',{ascending:false})
-  ]);
-  if(e1||e2){
-    const msg=(e1||e2).message||JSON.stringify(e1||e2);
-    el.innerHTML=`<p style="color:#fca5a5;font-size:.78rem">⚠ Error Supabase: ${msg}</p><p style="color:var(--muted);font-size:.7rem;margin-top:6px">La clave de servicio puede estar incorrecta o el acceso a las tablas está restringido.</p>`;
-    return;
-  }
-  if(!perfs?.length){el.innerHTML='<p style="color:var(--muted);font-size:.8rem">Sin usuarios registrados aún.</p>';return;}
-  const nivelN=n=>{if(n>=15)return'Guía';if(n>=8)return'Alpinista';if(n>=3)return'Montañista';return'Explorador';};
-  el.innerHTML=perfs.map(p=>{
-    const prsvs=(rsvs||[]).filter(r=>r.user_id===p.id);
-    const completadas=prsvs.filter(r=>r.asistio).length;
-    return `<div class="drag-item" style="margin-bottom:10px">
-      <div style="display:flex;align-items:flex-start;gap:12px">
-        <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--ember),rgba(249,115,22,.4));display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:700;flex-shrink:0">${(p.nombre_completo||'?')[0].toUpperCase()}</div>
-        <div style="flex:1;min-width:0">
-          <div style="font-size:.88rem;font-weight:500;color:var(--cream);margin-bottom:2px">${p.nombre_completo||'—'}</div>
-          <div style="font-family:var(--mono);font-size:.52rem;letter-spacing:.08em;color:var(--muted)">${p.id.slice(0,8)}</div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">
-            ${p.tipo_sangre?`<span style="font-family:var(--mono);font-size:.48rem;padding:2px 7px;border-radius:8px;background:rgba(239,68,68,.1);color:#fca5a5;border:1px solid rgba(239,68,68,.18)">🩸 ${p.tipo_sangre}</span>`:''}
-            ${p.contacto_emergencia?`<span style="font-family:var(--mono);font-size:.48rem;padding:2px 7px;border-radius:8px;background:rgba(134,239,172,.06);color:var(--moss);border:1px solid rgba(134,239,172,.1)">🆘 ${p.contacto_emergencia}</span>`:''}
-            <span style="font-family:var(--mono);font-size:.48rem;padding:2px 7px;border-radius:8px;background:rgba(249,115,22,.08);color:var(--ember);border:1px solid rgba(249,115,22,.15)">${nivelN(completadas)}</span>
-          </div>
-        </div>
-        <div style="text-align:right;flex-shrink:0">
-          <div style="font-family:var(--mono);font-size:.52rem;color:var(--muted)">${prsvs.length} reserv.</div>
-          <div style="font-family:var(--mono);font-size:.52rem;color:#86efac">${completadas} complet.</div>
-        </div>
+    const[authResp,{data:perfs,error:e1},{data:rsvs,error:e2}]=await Promise.all([
+      sb.auth.admin.listUsers({perPage:1000}),
+      sb.from('profiles').select('*').order('created_at',{ascending:false}),
+      sb.from('reservaciones').select('*').order('fecha_evento',{ascending:false})
+    ]);
+    if(e1||e2){
+      const msg=(e1||e2).message||'Error desconocido';
+      if(el)el.innerHTML=`<p style="color:#fca5a5;font-size:.78rem">Error: ${msg}</p>`;return;
+    }
+    const authUsers=authResp?.data?.users||[];
+    const authMap={};authUsers.forEach(u=>authMap[u.id]=u);
+    const now=new Date();
+    usrData=(perfs||[]).map(p=>{
+      const au=authMap[p.id]||{};
+      const userRsvs=(rsvs||[]).filter(r=>r.user_id===p.id);
+      const isBanned=au.banned_until&&new Date(au.banned_until)>now;
+      const completadas=userRsvs.filter(r=>r.asistio).length;
+      return{profile:p,auth:au,reservaciones:userRsvs,isBanned,completadas};
+    });
+    const total=usrData.length;
+    const banned=usrData.filter(u=>u.isBanned).length;
+    const totalRsvs=(rsvs||[]).length;
+    const totalComp=(rsvs||[]).filter(r=>r.asistio).length;
+    if(statsEl)statsEl.innerHTML=`
+      <div class="usr-stat"><div class="usr-stat-val">${total}</div><div class="usr-stat-lbl">Aventureros</div></div>
+      <div class="usr-stat"><div class="usr-stat-val" style="color:#4ade80">${total-banned}</div><div class="usr-stat-lbl">Activos</div></div>
+      <div class="usr-stat"><div class="usr-stat-val" style="color:#f97316">${totalRsvs}</div><div class="usr-stat-lbl">Reservaciones</div></div>
+      <div class="usr-stat"><div class="usr-stat-val" style="color:#86efac">${totalComp}</div><div class="usr-stat-lbl">Completadas</div></div>`;
+    renderUsrTable('');
+  }catch(err){if(el)el.innerHTML=`<p style="color:#fca5a5;font-size:.78rem">Error: ${err.message}</p>`;}
+}
+
+function filtrarUsr(q){renderUsrTable(q);}
+
+function renderUsrTable(q){
+  const el=document.getElementById('usuarios-lista');if(!el)return;
+  const nivelInfo=n=>{
+    if(n>=15)return['Guía','#f97316','rgba(249,115,22,.12)'];
+    if(n>=8)return['Alpinista','#60a5fa','rgba(96,165,250,.12)'];
+    if(n>=3)return['Montañista','#4ade80','rgba(74,222,128,.12)'];
+    return['Explorador','#86efac','rgba(134,239,172,.1)'];
+  };
+  const ql=q.toLowerCase();
+  const filtered=q?usrData.filter(u=>(u.profile.nombre_completo||'').toLowerCase().includes(ql)||(u.auth.email||'').toLowerCase().includes(ql)):usrData;
+  if(!filtered.length){el.innerHTML=`<p style="color:var(--muted);font-size:.8rem;padding:20px;text-align:center">${q?'Sin resultados para "'+q+'"':'Sin aventureros registrados.'}</p>`;return;}
+  el.innerHTML=filtered.map(u=>{
+    const{profile:p,auth:au,reservaciones:rsvs,isBanned,completadas}=u;
+    const[nivel,nivelColor,nivelBg]=nivelInfo(completadas);
+    const ini=(p.nombre_completo||au.email||'?')[0].toUpperCase();
+    const nombre=p.nombre_completo||'—';
+    const email=au.email||p.id.slice(0,16)+'…';
+    return `<div class="usr-row${isBanned?' usr-banned':''}" onclick="openUsrModal('${p.id}')">
+      <div class="usr-avatar${isBanned?' av-banned':''}">${ini}</div>
+      <div style="flex:1;min-width:0">
+        <div class="usr-name-t">${nombre}</div>
+        <div class="usr-name-s">${email}</div>
       </div>
-      ${prsvs.length?`<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">
-        ${prsvs.slice(0,3).map(r=>`<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid rgba(134,239,172,.04)">
-          <span style="display:flex;align-items:center">${r.asistio?'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>':r.estado==='cancelada'?'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>':'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>'}</span>
-          <div style="flex:1"><div style="font-size:.78rem;color:var(--cream)">${r.actividad_nombre}</div><div style="font-family:var(--mono);font-size:.48rem;color:var(--muted)">${r.fecha_evento||'s/f'}${r.precio?' · $'+r.precio:''}</div></div>
-          ${!r.asistio&&r.estado!=='cancelada'?`<button onclick="marcarAsistencia('${r.id}','${p.id}')" style="padding:3px 8px;background:rgba(134,239,172,.1);border:1px solid rgba(134,239,172,.2);border-radius:4px;color:var(--moss);font-family:var(--mono);font-size:.48rem;cursor:pointer">Confirmar</button>`:''}
-        </div>`).join('')}
-        ${prsvs.length>3?`<div style="font-family:var(--mono);font-size:.48rem;color:var(--muted);padding:4px 0">+${prsvs.length-3} más…</div>`:''}
-      </div>`:''}
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0">
+        <span class="usr-badge-pill" style="background:${nivelBg};color:${nivelColor};border-color:${nivelColor}33">${nivel}</span>
+        ${isBanned?'<span class="usr-badge-pill" style="background:rgba(239,68,68,.1);color:#f87171;border-color:rgba(239,68,68,.25)">Baneado</span>':'<span style="font-family:var(--mono);font-size:.44rem;color:var(--muted)">'+rsvs.length+' reserv.</span>'}
+      </div>
+      <svg class="usr-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
     </div>`;
   }).join('');
-  }catch(err){
-    if(el)el.innerHTML=`<p style="color:#fca5a5;font-size:.78rem">⚠ Error: ${err.message}</p>`;
-  }
+}
+
+function openUsrModal(userId){
+  const u=usrData.find(x=>x.profile.id===userId);if(!u)return;
+  const{profile:p,auth:au,reservaciones:rsvs,isBanned,completadas}=u;
+  const nivelN=n=>n>=15?'Guía':n>=8?'Alpinista':n>=3?'Montañista':'Explorador';
+  const canceladas=rsvs.filter(r=>r.estado==='cancelada').length;
+  const pendientes=rsvs.filter(r=>!r.asistio&&r.estado!=='cancelada').length;
+  const ini=(p.nombre_completo||au.email||'?')[0].toUpperCase();
+  const svgCheck='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+  const svgX='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+  const svgClock='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
+  const svgEdit='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>';
+  const svgBan='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>';
+  const svgUnlock='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 019.9-1"/></svg>';
+  const svgTrash='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>';
+  const svgPhone='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.07 10.8 19.79 19.79 0 01.01 2.2 2 2 0 012 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>';
+  const nEsc=s=>(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'&quot;');
+  const dateF=s=>{try{return new Date(s).toLocaleDateString('es-MX',{day:'2-digit',month:'long',year:'numeric'});}catch{return s||'—';}};
+  const bd=document.createElement('div');
+  bd.className='usr-modal-backdrop';bd.id='usr-modal';
+  bd.onclick=e=>{if(e.target===bd)closeUsrModal();};
+  bd.innerHTML=`
+    <div class="usr-modal-box">
+      <div class="usr-modal-hdr">
+        <div style="width:42px;height:42px;border-radius:50%;background:${isBanned?'linear-gradient(135deg,#ef4444,rgba(239,68,68,.5))':'linear-gradient(135deg,var(--ember),rgba(249,115,22,.4))'};display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:700;flex-shrink:0;color:#fff">${ini}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:.9rem;font-weight:600;color:var(--cream);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.nombre_completo||'Sin nombre'}</div>
+          <div style="font-family:var(--mono);font-size:.5rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis">${au.email||'—'}</div>
+        </div>
+        ${isBanned?'<span class="usr-badge-pill" style="background:rgba(239,68,68,.1);color:#f87171;border-color:rgba(239,68,68,.25);flex-shrink:0">Baneado</span>':''}
+        <button onclick="closeUsrModal()" style="width:30px;height:30px;border-radius:7px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="usr-modal-scroll">
+        <div class="usr-modal-body">
+
+          <!-- Stats rápidas -->
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:7px">
+            <div class="usr-detail-item" style="text-align:center"><div style="font-size:1.4rem;font-weight:700;color:var(--ember)">${completadas}</div><div class="usr-detail-lbl">Complet.</div></div>
+            <div class="usr-detail-item" style="text-align:center"><div style="font-size:1.4rem;font-weight:700;color:var(--cream)">${rsvs.length}</div><div class="usr-detail-lbl">Reservas</div></div>
+            <div class="usr-detail-item" style="text-align:center"><div style="font-size:1.4rem;font-weight:700;color:#fbbf24">${pendientes}</div><div class="usr-detail-lbl">Pendient.</div></div>
+            <div class="usr-detail-item" style="text-align:center"><div style="font-size:1.4rem;font-weight:700;color:#f87171">${canceladas}</div><div class="usr-detail-lbl">Cancelad.</div></div>
+          </div>
+
+          <!-- Datos del perfil -->
+          <div>
+            <div class="usr-section-lbl">Datos personales</div>
+            <div class="usr-detail-grid">
+              <div class="usr-detail-item">
+                <div class="usr-detail-lbl">Nombre completo</div>
+                <div class="usr-detail-val" id="umd-nombre">${p.nombre_completo||'—'}</div>
+                <div id="umd-nombre-edit" style="display:none">
+                  <div class="usr-inline-edit">
+                    <input id="umd-nombre-inp" value="${nEsc(p.nombre_completo)}" placeholder="Nombre completo">
+                    <button class="usr-action-btn btn-ok" style="padding:4px 10px;font-size:.5rem" onclick="guardarNombre('${p.id}')">OK</button>
+                  </div>
+                </div>
+              </div>
+              <div class="usr-detail-item">
+                <div class="usr-detail-lbl">Correo electrónico</div>
+                <div class="usr-detail-val" style="font-size:.72rem">${au.email||'—'}</div>
+              </div>
+              <div class="usr-detail-item">
+                <div class="usr-detail-lbl">Nivel</div>
+                <div class="usr-detail-val">${nivelN(completadas)}</div>
+              </div>
+              <div class="usr-detail-item">
+                <div class="usr-detail-lbl">Email verificado</div>
+                <div class="usr-detail-val">${au.email_confirmed_at?'Sí':'No'}</div>
+              </div>
+              <div class="usr-detail-item">
+                <div class="usr-detail-lbl">Registrado</div>
+                <div class="usr-detail-val" style="font-size:.72rem">${dateF(p.created_at||au.created_at)}</div>
+              </div>
+              <div class="usr-detail-item">
+                <div class="usr-detail-lbl">Último acceso</div>
+                <div class="usr-detail-val" style="font-size:.72rem">${au.last_sign_in_at?dateF(au.last_sign_in_at):'Nunca'}</div>
+              </div>
+              ${p.tipo_sangre?`<div class="usr-detail-item"><div class="usr-detail-lbl">Tipo de sangre</div><div class="usr-detail-val" style="color:#fca5a5">${p.tipo_sangre}</div></div>`:''}
+              <div class="usr-detail-item ${p.tipo_sangre?'':''}">
+                <div class="usr-detail-lbl">Contacto de emergencia</div>
+                <div class="usr-detail-val" id="umd-emerg">${p.contacto_emergencia||'—'}</div>
+                <div id="umd-emerg-edit" style="display:none">
+                  <div class="usr-inline-edit">
+                    <input id="umd-emerg-inp" value="${nEsc(p.contacto_emergencia)}" placeholder="Nombre y teléfono">
+                    <button class="usr-action-btn btn-ok" style="padding:4px 10px;font-size:.5rem" onclick="guardarEmergencia('${p.id}')">OK</button>
+                  </div>
+                </div>
+              </div>
+              <div class="usr-detail-item" style="grid-column:1/-1">
+                <div class="usr-detail-lbl">ID de usuario</div>
+                <div class="usr-detail-val" style="font-family:var(--mono);font-size:.6rem;color:var(--muted)">${p.id}</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Acciones de administrador -->
+          <div>
+            <div class="usr-section-lbl">Acciones de administrador</div>
+            <div class="usr-action-grid">
+              <button class="usr-action-btn" onclick="toggleEditNombre()">${svgEdit} Editar nombre</button>
+              <button class="usr-action-btn" onclick="toggleEditEmergencia()">${svgPhone} Editar emergencia</button>
+              ${isBanned
+                ?`<button class="usr-action-btn btn-ok" onclick="desbanearUsr('${p.id}','${nEsc(p.nombre_completo||au.email)}')">${svgUnlock} Desbanear</button>`
+                :`<button class="usr-action-btn btn-warn" onclick="banearUsr('${p.id}','${nEsc(p.nombre_completo||au.email)}')">${svgBan} Banear</button>`
+              }
+              <button class="usr-action-btn btn-danger" onclick="eliminarUsr('${p.id}','${nEsc(p.nombre_completo||au.email)}')">${svgTrash} Eliminar cuenta</button>
+            </div>
+          </div>
+
+          <!-- Historial de reservaciones -->
+          <div>
+            <div class="usr-section-lbl">Historial de reservaciones (${rsvs.length})</div>
+            ${rsvs.length?rsvs.map(r=>`
+              <div class="usr-rsv-item">
+                <div class="usr-rsv-status">${r.asistio?svgCheck:r.estado==='cancelada'?svgX:svgClock}</div>
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:.78rem;color:var(--cream);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${r.actividad_nombre||'—'}</div>
+                  <div style="font-family:var(--mono);font-size:.48rem;color:var(--muted)">${r.fecha_evento||'s/f'}${r.precio?' · $'+r.precio:''} · ${r.asistio?'Asistió':r.estado==='cancelada'?'Cancelada':'Pendiente'}</div>
+                </div>
+                <div style="display:flex;gap:4px;flex-shrink:0">
+                  ${!r.asistio&&r.estado!=='cancelada'?`<button class="usr-action-btn btn-ok" style="padding:4px 9px;font-size:.46rem;text-transform:none" onclick="confirmarAsistModal('${r.id}','${p.id}')">Confirmar</button>`:''}
+                  ${r.estado!=='cancelada'?`<button class="usr-action-btn btn-danger" style="padding:4px 9px;font-size:.46rem;text-transform:none" onclick="cancelarRsvModal('${r.id}','${p.id}')">Cancelar</button>`:''}
+                </div>
+              </div>`).join('')
+            :'<p style="color:var(--muted);font-size:.78rem;padding:8px 0">Sin reservaciones aún.</p>'}
+          </div>
+
+        </div>
+      </div>
+    </div>`;
+  document.body.appendChild(bd);
+}
+
+function closeUsrModal(){const m=document.getElementById('usr-modal');if(m)m.remove();}
+
+function toggleEditNombre(){
+  const v=document.getElementById('umd-nombre');
+  const e=document.getElementById('umd-nombre-edit');
+  if(!v||!e)return;
+  const hidden=e.style.display==='none';
+  e.style.display=hidden?'block':'none';
+  v.style.display=hidden?'none':'block';
+  if(hidden)document.getElementById('umd-nombre-inp')?.focus();
+}
+function toggleEditEmergencia(){
+  const v=document.getElementById('umd-emerg');
+  const e=document.getElementById('umd-emerg-edit');
+  if(!v||!e)return;
+  const hidden=e.style.display==='none';
+  e.style.display=hidden?'block':'none';
+  v.style.display=hidden?'none':'block';
+  if(hidden)document.getElementById('umd-emerg-inp')?.focus();
+}
+
+async function guardarNombre(userId){
+  const sb=initAdminSb();if(!sb)return;
+  const val=(document.getElementById('umd-nombre-inp')?.value||'').trim();
+  if(!val){toast('error','Nombre vacío','');return;}
+  const{error}=await sb.from('profiles').update({nombre_completo:val}).eq('id',userId);
+  if(error){toast('error','Error al guardar',error.message);return;}
+  const vEl=document.getElementById('umd-nombre');if(vEl)vEl.textContent=val;
+  toggleEditNombre();
+  toast('success','Nombre actualizado','');
+  const u=usrData.find(x=>x.profile.id===userId);if(u)u.profile.nombre_completo=val;
+  renderUsrTable(document.getElementById('usr-search')?.value||'');
+}
+
+async function guardarEmergencia(userId){
+  const sb=initAdminSb();if(!sb)return;
+  const val=(document.getElementById('umd-emerg-inp')?.value||'').trim();
+  const{error}=await sb.from('profiles').update({contacto_emergencia:val}).eq('id',userId);
+  if(error){toast('error','Error al guardar',error.message);return;}
+  const vEl=document.getElementById('umd-emerg');if(vEl)vEl.textContent=val||'—';
+  toggleEditEmergencia();
+  toast('success','Emergencia actualizada','');
+  const u=usrData.find(x=>x.profile.id===userId);if(u)u.profile.contacto_emergencia=val;
+}
+
+async function banearUsr(userId,nombre){
+  if(!confirm('¿Banear a '+nombre+'?\nNo podrá iniciar sesión hasta que lo desbanees.'))return;
+  const sb=initAdminSb();if(!sb)return;
+  const{error}=await sb.auth.admin.updateUserById(userId,{ban_duration:'87600h'});
+  if(error){toast('error','Error al banear',error.message);return;}
+  toast('success','Usuario baneado',nombre+' no puede iniciar sesión.');
+  closeUsrModal();await cargarUsuarios();
+}
+
+async function desbanearUsr(userId,nombre){
+  const sb=initAdminSb();if(!sb)return;
+  const{error}=await sb.auth.admin.updateUserById(userId,{ban_duration:'none'});
+  if(error){toast('error','Error al desbanear',error.message);return;}
+  toast('success','Usuario desbaneado',nombre+' puede iniciar sesión nuevamente.');
+  closeUsrModal();await cargarUsuarios();
+}
+
+async function eliminarUsr(userId,nombre){
+  if(!confirm('¿ELIMINAR permanentemente la cuenta de '+nombre+'?\n\nEsta acción NO se puede deshacer.\nSe borrará el perfil y todas las credenciales.'))return;
+  const sb=initAdminSb();if(!sb)return;
+  await sb.from('profiles').delete().eq('id',userId);
+  const{error}=await sb.auth.admin.deleteUser(userId);
+  if(error){toast('error','Error al eliminar',error.message);return;}
+  toast('success','Cuenta eliminada','La cuenta fue eliminada permanentemente.');
+  closeUsrModal();await cargarUsuarios();
+}
+
+async function confirmarAsistModal(rsvId,userId){
+  const sb=initAdminSb();if(!sb)return;
+  const{error}=await sb.from('reservaciones').update({asistio:true}).eq('id',rsvId);
+  if(error){toast('error','Error',error.message);return;}
+  toast('success','Asistencia confirmada','');
+  closeUsrModal();await cargarUsuarios();openUsrModal(userId);
+}
+
+async function cancelarRsvModal(rsvId,userId){
+  if(!confirm('¿Cancelar esta reservación?'))return;
+  const sb=initAdminSb();if(!sb)return;
+  const{error}=await sb.from('reservaciones').update({estado:'cancelada'}).eq('id',rsvId);
+  if(error){toast('error','Error',error.message);return;}
+  toast('success','Reservación cancelada','');
+  closeUsrModal();await cargarUsuarios();openUsrModal(userId);
 }
 
 async function marcarAsistencia(rsvId,userId){
