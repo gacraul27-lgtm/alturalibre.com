@@ -56,6 +56,7 @@ button,input,textarea,select{font-family:inherit;}
 .changes-badge.show{display:flex;}
 .bdot{width:5px;height:5px;border-radius:50%;background:currentColor;animation:pulse-dot 1.5s ease-in-out infinite;}
 @keyframes pulse-dot{0%,100%{opacity:1;}50%{opacity:.4;}}
+@keyframes spin{to{transform:rotate(360deg);}}
 .btn-tb{display:flex;align-items:center;gap:6px;padding:8px 16px;border-radius:7px;font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:all .2s;border:1px solid transparent;white-space:nowrap;}
 .btn-save{background:rgba(134,239,172,.08);border-color:var(--faint);color:var(--moss);}
 .btn-save:hover{background:rgba(134,239,172,.15);}
@@ -595,8 +596,8 @@ html[data-admin-mode="light"] .changes-badge{background:rgba(180,83,9,.1);border
         <div class="preview-toolbar">
           <div class="preview-label">Vista previa en tiempo real</div>
           <div class="device-toggle">
-            <button class="device-btn active" onclick="setDevice('desktop',this)">🖥</button>
-            <button class="device-btn" onclick="setDevice('mobile',this)">📱</button>
+            <button class="device-btn active" onclick="setDevice('desktop',this)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></button>
+            <button class="device-btn" onclick="setDevice('mobile',this)"><svg width="12" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></button>
           </div>
         </div>
         <div class="preview-viewport">
@@ -610,7 +611,7 @@ html[data-admin-mode="light"] .changes-badge{background:rgba(180,83,9,.1);border
 <!-- LAUNCH MODAL -->
 <div class="modal-overlay" id="modal">
   <div class="modal">
-    <div class="modal-badge">🚀 Publicación</div>
+    <div class="modal-badge"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 00-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 012-3.95A12.88 12.88 0 0122 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 01-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>Publicación</div>
     <div class="modal-title">¿Publicar el sitio en producción?</div>
     <div class="modal-body">Fusiona <code>dev</code> → <code>main</code> y reemplaza la página de próximamente.</div>
     <div class="modal-steps">
@@ -620,7 +621,7 @@ html[data-admin-mode="light"] .changes-badge{background:rgba(180,83,9,.1);border
     </div>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
-      <button class="btn-confirm" onclick="launchSite()">🚀 Publicar ahora</button>
+      <button class="btn-confirm" onclick="launchSite()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 00-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 012-3.95A12.88 12.88 0 0122 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 01-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>Publicar ahora</button>
     </div>
   </div>
 </div>
@@ -628,7 +629,7 @@ html[data-admin-mode="light"] .changes-badge{background:rgba(180,83,9,.1);border
 <!-- ADD SECTION MODAL -->
 <div class="modal-overlay" id="add-sec-modal">
   <div class="modal">
-    <div class="modal-badge">📄 Nueva sección</div>
+    <div class="modal-badge"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>Nueva sección</div>
     <div class="modal-title">Elige el tipo de sección</div>
     <div class="sec-templates" id="sec-templates"></div>
     <div class="modal-actions">
@@ -637,7 +638,7 @@ html[data-admin-mode="light"] .changes-badge{background:rgba(180,83,9,.1);border
   </div>
 </div>
 
-<div id="launch-overlay"><div class="launch-emoji">🚀</div><div class="launch-text" id="launch-status">Publicando sitio...</div></div>
+<div id="launch-overlay"><div class="launch-emoji"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 00-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 012-3.95A12.88 12.88 0 0122 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 01-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg></div><div class="launch-text" id="launch-status">Publicando sitio...</div></div>
 <div id="toast"><div class="toast-ico" id="t-ico"></div><div><div class="toast-title" id="t-title"></div><div class="toast-body" id="t-body"></div></div></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -665,11 +666,11 @@ const FONDOS_IMAGEN=[
   {url:'https://images.unsplash.com/photo-1570641963303-92ce4845ed4c?w=1920&q=80',label:'Amanecer épico'},
 ];
 const FONDOS_VIDEO=[
-  {url:'https://videos.pexels.com/video-files/854675/854675-hd_1920_1080_25fps.mp4',label:'Montañas al atardecer',ico:'🏔'},
+  {url:'https://videos.pexels.com/video-files/854675/854675-hd_1920_1080_25fps.mp4',label:'Montañas al atardecer',ico:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18L13 4a1 1 0 00-1.74 0L3 20z"/></svg>'},
   {url:'https://videos.pexels.com/video-files/855648/855648-hd_1920_1080_30fps.mp4',label:'Nubes en cima',ico:'☁️'},
-  {url:'https://videos.pexels.com/video-files/1448735/1448735-hd_1920_1080_25fps.mp4',label:'Bosque en movimiento',ico:'🌲'},
+  {url:'https://videos.pexels.com/video-files/1448735/1448735-hd_1920_1080_25fps.mp4',label:'Bosque en movimiento',ico:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L4 10h3l-3 5h4l-3 5h10l-3-5h4l-3-5h3L12 2z"/><line x1="12" y1="20" x2="12" y2="22"/></svg>'},
   {url:'https://videos.pexels.com/video-files/3571264/3571264-hd_1920_1080_30fps.mp4',label:'Río de montaña',ico:'💧'},
-  {url:'https://videos.pexels.com/video-files/857251/857251-hd_1920_1080_25fps.mp4',label:'Cielo estrellado',ico:'⭐'},
+  {url:'https://videos.pexels.com/video-files/857251/857251-hd_1920_1080_25fps.mp4',label:'Cielo estrellado',ico:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>'},
 ];
 const BTN_TEMPLATES=[
   {texto:'Explorar aventuras',url:'#srv1',estilo:'primary',icono:'🏔',icono_pos:'left',tamano:'md',forma:'rounded',label:'Primario con ícono'},
@@ -684,18 +685,18 @@ const BTN_TEMPLATES=[
 
 /* ── SECTION TYPES META ── */
 const SEC_TYPES={
-  nosotros:   {ico:'👥',name:'Quiénes somos',     desc:'Texto y estadísticas del equipo'},
-  servicios:  {ico:'⚙️',name:'Servicios',          desc:'Tarjetas de servicios ofrecidos'},
-  contacto:   {ico:'📬',name:'Contacto',            desc:'Información y formulario de contacto'},
-  galeria:    {ico:'🖼',name:'Galería',             desc:'Grid de imágenes fotográficas'},
-  testimonios:{ico:'💬',name:'Testimonios',         desc:'Opiniones de clientes'},
-  cta:        {ico:'📣',name:'Llamada a acción',    desc:'Banner con botón prominente'},
-  texto:      {ico:'📝',name:'Bloque de texto',     desc:'Párrafo libre con título'},
-  faq:        {ico:'❓',name:'Preguntas frecuentes',desc:'Lista expandible de Q&A'},
-  precios:    {ico:'💳',name:'Precios',             desc:'Tarjetas de planes o precios'},
-  actividades:{ico:'🗓',name:'Actividades',         desc:'Calendario de próximas actividades'},
-  staff:      {ico:'🧑‍🤝‍🧑',name:'Nuestro Staff',     desc:'Fotos y mensajes del equipo por disciplina'},
-  login:      {ico:'🔐',name:'Login & Cuenta',    desc:'Registro, inicio de sesión y reservaciones'},
+  nosotros:   {ico:'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>',name:'Quiénes somos',     desc:'Texto y estadísticas del equipo'},
+  servicios:  {ico:'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>',name:'Servicios',          desc:'Tarjetas de servicios ofrecidos'},
+  contacto:   {ico:'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>',name:'Contacto',            desc:'Información y formulario de contacto'},
+  galeria:    {ico:'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>',name:'Galería',             desc:'Grid de imágenes fotográficas'},
+  testimonios:{ico:'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>',name:'Testimonios',         desc:'Opiniones de clientes'},
+  cta:        {ico:'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg>',name:'Llamada a acción',    desc:'Banner con botón prominente'},
+  texto:      {ico:'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>',name:'Bloque de texto',     desc:'Párrafo libre con título'},
+  faq:        {ico:'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',name:'Preguntas frecuentes',desc:'Lista expandible de Q&A'},
+  precios:    {ico:'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>',name:'Precios',             desc:'Tarjetas de planes o precios'},
+  actividades:{ico:'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v3M8 2v3M3 10h18"/></svg>',name:'Actividades',         desc:'Calendario de próximas actividades'},
+  staff:      {ico:'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>',name:'Nuestro Staff',     desc:'Fotos y mensajes del equipo por disciplina'},
+  login:      {ico:'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>',name:'Login & Cuenta',    desc:'Registro, inicio de sesión y reservaciones'},
 };
 
 const SEC_DEFAULTS={
@@ -713,7 +714,12 @@ const SEC_DEFAULTS={
   login:      {titulo:'Únete a la aventura',subtitulo:'Reserva actividades y lleva el seguimiento de tus expediciones.'},
 };
 
-const TIPO_ICONS={hike:'🥾',campamento:'⛺',rapel:'🧗','social-run':'🏃'};
+const TIPO_ICONS={
+  hike:'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18L13 4a1 1 0 00-1.74 0L3 20z"/><path d="M10 20l2-4 2 4"/></svg>',
+  campamento:'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M12 3L2 21h20L12 3z"/><path d="M12 9v6"/></svg>',
+  rapel:'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="3"/><line x1="12" y1="22" x2="12" y2="8"/><path d="M5 12H2a10 10 0 0020 0h-3"/></svg>',
+  'social-run':'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>'
+};
 const TIPO_LABELS={hike:'Hike',campamento:'Campamento',rapel:'Rápel','social-run':'Social Run'};
 const TEMAS={
   cumbre:{nombre:'Cumbre',desc:'Bosque nocturno — llama naranja',swatches:['#f97316','#86efac','#03050a']},
@@ -897,14 +903,14 @@ async function doSave(commitMsg){
 async function saveChanges(){
   if(saving)return;
   const btn=document.getElementById('btn-save');
-  btn.textContent='💾 Guardando...';btn.disabled=true;
+  btn.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation:spin .7s linear infinite"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg> Guardando...';btn.disabled=true;
   const ok=await doSave('Actualizar contenido del sitio');
   if(ok){
     const n=new Date();
     document.getElementById('saved-at').textContent=`Guardado ${n.getHours()}:${String(n.getMinutes()).padStart(2,'0')}`;
     toast('success','Cambios guardados','El contenido se actualizó en GitHub.');
   }
-  btn.textContent='💾 Guardar';btn.disabled=false;
+  btn.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Guardar';btn.disabled=false;
 }
 
 /* ── LAUNCH ── */
@@ -912,15 +918,15 @@ function openModal(){document.getElementById('modal').classList.add('open');}
 function closeModal(){document.getElementById('modal').classList.remove('open');}
 async function launchSite(){
   closeModal();
-  const ok=await doSave('🚀 Lanzar sitio');
-  if(ok)toast('success','¡Sitio publicado! 🚀','En 1-2 minutos estará live en GitHub Pages.');
+  const ok=await doSave('Publicar sitio');
+  if(ok)toast('success','¡Sitio publicado!','En 1-2 minutos estará live en GitHub Pages.');
 }
 
 /* ── SIDEBAR SECTIONS ── */
 function renderSidebarSections(){
   const list=document.getElementById('sec-list');
   list.innerHTML=(content.secciones||[]).map((s,i)=>{
-    const t=SEC_TYPES[s.tipo]||{ico:'📄',name:s.tipo};
+    const t=SEC_TYPES[s.tipo]||{ico:'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>',name:s.tipo};
     const isActive=currentView==='section'&&currentSecId===s.id;
     return `<div class="nav-item${isActive?' active':''}" id="si-sec-${s.id}"
       draggable="true"
@@ -932,7 +938,7 @@ function renderSidebarSections(){
         <span class="nav-label${s.visible===false?' eye-off':''}">${s.titulo||t.name}</span>
       </div>
       <div class="nav-actions">
-        <button class="nav-action-btn warn-btn" title="${s.visible===false?'Mostrar':'Ocultar'}" onclick="event.stopPropagation();toggleVisible(${i})">${s.visible===false?'🙈':'👁'}</button>
+        <button class="nav-action-btn warn-btn" title="${s.visible===false?'Mostrar':'Ocultar'}" onclick="event.stopPropagation();toggleVisible(${i})">${s.visible===false?'<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>':'<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>'}</button>
         <button class="nav-action-btn danger" title="Eliminar" onclick="event.stopPropagation();deleteSection(${i})">✕</button>
       </div>
     </div>`;
@@ -1000,7 +1006,7 @@ function navSection(id,el){
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   const sec=content.secciones.find(s=>s.id===id);
   if(!sec)return;
-  const t=SEC_TYPES[sec.tipo]||{ico:'📄',name:sec.tipo};
+  const t=SEC_TYPES[sec.tipo]||{ico:'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>',name:sec.tipo};
   if(el)el.classList.add('active');
   else{const e=document.getElementById('si-sec-'+id);if(e)e.classList.add('active');}
   document.getElementById('bc-title').textContent=sec.titulo||t.name;
@@ -1055,7 +1061,7 @@ function fTemas(b){
   const actualAdmin=localStorage.getItem('al_admin_tema')||'bosque';
   const accentHex=content.dash_accent||'#8b5cf6';
   b.innerHTML=`
-    <div class="section-subtitle">🌐 Tema del sitio público</div>
+    <div class="section-subtitle">Tema del sitio público</div>
     <p style="font-size:.82rem;color:var(--muted);margin:4px 0 14px">Paleta de colores visible para los visitantes. Guarda y publica para aplicar.</p>
     <div class="temas-grid">
       ${Object.entries(TEMAS).map(([key,t])=>`
@@ -1074,7 +1080,7 @@ function fTemas(b){
 
     <div class="divider" style="margin:10px 0"></div>
 
-    <div class="section-subtitle">🖥 Tema del panel administrativo</div>
+    <div class="section-subtitle">Tema del panel administrativo</div>
     <p style="font-size:.82rem;color:var(--muted);margin:4px 0 14px">Cambia la apariencia de este panel. Solo afecta tu sesión — no altera el sitio.</p>
     <div class="temas-grid">
       ${Object.entries(ADMIN_TEMAS).map(([key,t])=>`
@@ -1093,7 +1099,7 @@ function fTemas(b){
 
     <div class="divider" style="margin:14px 0"></div>
 
-    <div class="section-subtitle">🎨 Acento del panel de usuarios</div>
+    <div class="section-subtitle">Acento del panel de usuarios</div>
     <p style="font-size:.82rem;color:var(--muted);margin:4px 0 14px">
       Color de botones, insignias y progreso en el dashboard donde los aventureros ven sus reservas. Guarda y publica para aplicar.
     </p>
@@ -1149,13 +1155,13 @@ function fFondo(b){
   b.innerHTML=`
     <div class="section-subtitle">Tipo de fondo</div>
     <div class="tabs">
-      <button class="tab ${f.tipo==='gradiente'?'active':''}" onclick="setFondoTipo('gradiente',this)">🌌 Gradiente</button>
-      <button class="tab ${f.tipo==='imagen'?'active':''}" onclick="setFondoTipo('imagen',this)">🖼 Imagen</button>
-      <button class="tab ${f.tipo==='video'?'active':''}" onclick="setFondoTipo('video',this)">🎬 Video</button>
+      <button class="tab ${f.tipo==='gradiente'?'active':''}" onclick="setFondoTipo('gradiente',this)">Gradiente</button>
+      <button class="tab ${f.tipo==='imagen'?'active':''}" onclick="setFondoTipo('imagen',this)">Imagen</button>
+      <button class="tab ${f.tipo==='video'?'active':''}" onclick="setFondoTipo('video',this)">Video</button>
     </div>
     <div class="tab-content ${f.tipo==='gradiente'?'active':''}" id="fnd-gradiente">
       <div style="padding:20px;background:linear-gradient(to bottom,#020609,#091a16);border-radius:8px;text-align:center;border:1px solid var(--border)">
-        <div style="font-size:2rem;margin-bottom:8px">🌌</div>
+        <div style="margin-bottom:8px;opacity:.4"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#86efac" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
         <div style="font-size:.84rem;color:var(--muted)">Fondo animado con aurora boreal y estrellas.</div>
       </div>
     </div>
@@ -1163,7 +1169,7 @@ function fFondo(b){
       <div class="field"><label>URL de imagen personalizada</label>
         <input class="fi" id="fnd-img-url" type="url" value="${esc(f.imagen_url||'')}" placeholder="https://..." oninput="content.fondo.imagen_url=this.value;mk();up()">
       </div>
-      <div class="section-subtitle">📸 Fondos gratis (Unsplash)</div>
+      <div class="section-subtitle">Fondos gratis (Unsplash)</div>
       <div class="img-grid">${FONDOS_IMAGEN.map(im=>`
         <div class="img-thumb ${f.imagen_url===im.url?'selected':''}" onclick="selectImg('${im.url}')">
           <img src="${im.url.replace('w=1920','w=400')}" alt="${im.label}" loading="lazy">
@@ -1174,7 +1180,7 @@ function fFondo(b){
       <div class="field"><label>URL de video personalizado (.mp4)</label>
         <input class="fi" id="fnd-vid-url" type="url" value="${esc(f.video_url||'')}" placeholder="https://...mp4" oninput="content.fondo.video_url=this.value;mk();up()">
       </div>
-      <div class="section-subtitle">🎬 Videos gratis (Pexels)</div>
+      <div class="section-subtitle">Videos gratis (Pexels)</div>
       <div style="display:flex;flex-direction:column;gap:8px">${FONDOS_VIDEO.map(v=>`
         <div class="video-card ${f.video_url===v.url?'selected':''}" onclick="selectVid('${v.url}')">
           <div class="video-thumb">${v.ico}</div>
@@ -1200,7 +1206,7 @@ function selectVid(url){content.fondo.video_url=url;mk();document.querySelectorA
 function fBotones(b){
   if(!content.botones)content.botones=[];
   b.innerHTML=`
-    <div class="section-subtitle">📦 Catálogo de plantillas</div>
+    <div class="section-subtitle">Catálogo de plantillas</div>
     <div class="fi-hint" style="margin-top:-8px">Click para agregar al hero.</div>
     <div class="btn-catalog">${BTN_TEMPLATES.map((t,i)=>`
       <div class="btn-template" onclick="addFromTemplate(${i})">
@@ -1238,9 +1244,9 @@ function renderBtns(){
       <div class="row3" style="margin-top:10px">
         <div class="field"><label>Estilo</label>
           <select class="fi" onchange="content.botones[${i}].estilo=this.value;mk();renderBtns();up()">
-            <option value="primary" ${b.estilo==='primary'?'selected':''}>🟠 Primario</option>
-            <option value="outline" ${b.estilo==='outline'?'selected':''}>⬜ Outline</option>
-            <option value="secondary" ${b.estilo==='secondary'?'selected':''}>🟢 Verde</option>
+            <option value="primary" ${b.estilo==='primary'?'selected':''}>Primario</option>
+            <option value="outline" ${b.estilo==='outline'?'selected':''}>Outline</option>
+            <option value="secondary" ${b.estilo==='secondary'?'selected':''}>Verde</option>
           </select></div>
         <div class="field"><label>Tamaño</label>
           <select class="fi" onchange="content.botones[${i}].tamano=this.value;mk();renderBtns();up()">
@@ -1265,7 +1271,7 @@ function removeBtn(i){content.botones.splice(i,1);renderBtns();mk();up();}
 function fMedia(b){
   b.innerHTML=`
     <div class="section-subtitle">Agregar archivo</div>
-    <div class="tabs"><button class="tab active" onclick="mediaTab('img',this)">🖼 Imagen</button><button class="tab" onclick="mediaTab('vid',this)">🎬 Video</button></div>
+    <div class="tabs"><button class="tab active" onclick="mediaTab('img',this)">Imagen</button><button class="tab" onclick="mediaTab('vid',this)">Video</button></div>
     <div class="tab-content active" id="media-img-form">
       <div class="field"><label>URL de imagen</label><input class="fi" id="mi-url" type="url" placeholder="https://images.unsplash.com/..."></div>
       <div class="field"><label>Nombre</label><input class="fi" id="mi-name" placeholder="Foto hero montaña"></div>
@@ -1286,7 +1292,7 @@ function mediaTab(t,btn){document.querySelectorAll('.tabs .tab').forEach(b=>b.cl
 function addMedia(tipo){const url=document.getElementById(tipo==='imagen'?'mi-url':'mv-url').value.trim();const nombre=document.getElementById(tipo==='imagen'?'mi-name':'mv-name').value.trim();if(!url){toast('error','Ingresa una URL','');return;}if(!content.media)content.media=[];content.media.push({id:Date.now().toString(36),tipo,url,nombre:nombre||'Sin nombre'});document.getElementById(tipo==='imagen'?'mi-url':'mv-url').value='';document.getElementById(tipo==='imagen'?'mi-name':'mv-name').value='';renderMediaGrid();mk();toast('success','Archivo agregado','');}
 function removeMedia(id){content.media=content.media.filter(m=>m.id!==id);renderMediaGrid();mk();}
 function useAsHeroBg(item){content.fondo.tipo=item.tipo==='imagen'?'imagen':'video';if(item.tipo==='imagen')content.fondo.imagen_url=item.url;else content.fondo.video_url=item.url;mk();toast('success','Fondo aplicado','Ve a "Fondo del hero" para ajustar.');}
-function renderMediaGrid(){const wrap=document.getElementById('media-grid-wrap');if(!wrap)return;if(!content.media||!content.media.length){wrap.innerHTML='<div class="empty-state">📭 Sin archivos todavía.</div>';return;}wrap.innerHTML=`<div class="media-grid">${content.media.map(m=>`<div class="media-item">${m.tipo==='imagen'?`<img src="${m.url}" alt="${m.nombre}" loading="lazy">`:`<video src="${m.url}" muted preload="metadata"></video>`}<div class="media-type-badge ${m.tipo==='imagen'?'img':'vid'}">${m.tipo==='imagen'?'IMG':'VID'}</div><div class="media-item-overlay"><div class="media-item-name">${m.nombre}</div><div class="media-item-actions"><button class="btn-media-use" onclick="useAsHeroBg(${JSON.stringify(m).replace(/"/g,'&quot;')})">Usar fondo</button><button class="btn-media-del" onclick="removeMedia('${m.id}')">🗑</button></div></div></div>`).join('')}</div>`;}
+function renderMediaGrid(){const wrap=document.getElementById('media-grid-wrap');if(!wrap)return;if(!content.media||!content.media.length){wrap.innerHTML='<div class="empty-state">📭 Sin archivos todavía.</div>';return;}wrap.innerHTML=`<div class="media-grid">${content.media.map(m=>`<div class="media-item">${m.tipo==='imagen'?`<img src="${m.url}" alt="${m.nombre}" loading="lazy">`:`<video src="${m.url}" muted preload="metadata"></video>`}<div class="media-type-badge ${m.tipo==='imagen'?'img':'vid'}">${m.tipo==='imagen'?'IMG':'VID'}</div><div class="media-item-overlay"><div class="media-item-name">${m.nombre}</div><div class="media-item-actions"><button class="btn-media-use" onclick="useAsHeroBg(${JSON.stringify(m).replace(/"/g,'&quot;')})">Usar fondo</button><button class="btn-media-del" onclick="removeMedia('${m.id}')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg></button></div></div></div>`).join('')}</div>`;}
 
 /* ── SECTION FORMS ── */
 function fSection(sec,b){
@@ -1398,9 +1404,9 @@ function fSecCTA(sec,b){
     </div>
     <div class="field"><label>Estilo del botón</label>
       <select class="fi" id="sec-boton_estilo" oninput="sSet('boton_estilo',this.value)">
-        <option value="primary" ${sec.boton_estilo==='primary'?'selected':''}>🟠 Primario</option>
-        <option value="outline" ${sec.boton_estilo==='outline'?'selected':''}>⬜ Outline</option>
-        <option value="secondary" ${sec.boton_estilo==='secondary'?'selected':''}>🟢 Verde</option>
+        <option value="primary" ${sec.boton_estilo==='primary'?'selected':''}>Primario</option>
+        <option value="outline" ${sec.boton_estilo==='outline'?'selected':''}>Outline</option>
+        <option value="secondary" ${sec.boton_estilo==='secondary'?'selected':''}>Verde</option>
       </select></div>
   `;
 }
@@ -1458,7 +1464,7 @@ function fSecActividades(sec,b){
     ${mkF('URL del botón "Ver más"','sec-cta_url','text',sec.cta_url||'#cnt1','')}
     <div class="divider"></div>
     <div style="padding:12px;background:rgba(249,115,22,.05);border:1px solid rgba(249,115,22,.15);border-radius:7px;font-size:.78rem;color:rgba(249,115,22,.7);line-height:1.6">
-      💡 Las actividades y fechas se gestionan en <strong>Catálogo</strong> y <strong>Calendario</strong> en el menú lateral.
+      Las actividades y fechas se gestionan en <strong>Catálogo</strong> y <strong>Calendario</strong> en el menú lateral.
     </div>
   `;
 }
@@ -1469,7 +1475,7 @@ function fSecLogin(sec,b){
     ${mkF('Subtítulo','sec-subtitulo','text',sec.subtitulo||'','',150)}
     <div class="divider"></div>
     <div style="padding:14px;background:rgba(59,130,246,.05);border:1px solid rgba(59,130,246,.15);border-radius:8px;font-size:.78rem;color:rgba(93,163,250,.75);line-height:1.65">
-      🔐 <strong>Requiere Supabase configurado.</strong><br>
+      <strong>Requiere Supabase configurado.</strong><br>
       Crea un proyecto gratis en <strong>supabase.com</strong> y reemplaza las constantes <code>SB_URL</code> y <code>SB_KEY</code> en el código del sitio.
     </div>
   `;
@@ -1489,8 +1495,8 @@ function fSecStaff(sec,b){
       <div class="field"><label>Nombre</label><input class="fi" value="${esc(m.nombre||'')}" oninput="setItemField('items',${i},'nombre',this.value)"></div>
       <div class="field"><label>Equipo</label>
         <select class="fi" onchange="setItemField('items',${i},'equipo',this.value)">
-          <option value="hike" ${!m.equipo||m.equipo==='hike'?'selected':''}>🥾 Hike</option>
-          <option value="social-run" ${m.equipo==='social-run'?'selected':''}>🏃 Social Run</option>
+          <option value="hike" ${!m.equipo||m.equipo==='hike'?'selected':''}>Hike</option>
+          <option value="social-run" ${m.equipo==='social-run'?'selected':''}>Social Run</option>
         </select>
       </div>
     </div>
@@ -1507,7 +1513,7 @@ function fCatalogo(b){
   if(!content.actividades_catalogo)content.actividades_catalogo=[];
   if(catEditIdx!==null){fCatForm(b);return;}
   b.innerHTML=`
-    <div class="section-subtitle">📋 Catálogo de actividades</div>
+    <div class="section-subtitle">Catálogo de actividades</div>
     <div class="fi-hint" style="margin-top:-8px">Define actividades base para reutilizar en el calendario.</div>
     <button class="btn-add" onclick="openCatForm(-1)">+ Nueva actividad</button>
     <div id="cat-list" style="display:flex;flex-direction:column;gap:10px;margin-top:4px"></div>
@@ -1517,13 +1523,13 @@ function fCatalogo(b){
 function renderCatList(){
   const l=document.getElementById('cat-list');if(!l)return;
   const cat=content.actividades_catalogo||[];
-  if(!cat.length){l.innerHTML='<div class="empty-state">🗓 Sin actividades en el catálogo.<br>Crea una para empezar.</div>';return;}
+  if(!cat.length){l.innerHTML='<div class="empty-state">Sin actividades en el catálogo.<br>Crea una para empezar.</div>';return;}
   l.innerHTML=cat.map((a,i)=>`
     <div class="drag-item">
       <div class="drag-item-header">
-        <span class="drag-num">${TIPO_ICONS[a.tipo]||'🏔'} ${a.nombre||'Sin nombre'}</span>
+        <span class="drag-num">${TIPO_ICONS[a.tipo]||'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18L13 4a1 1 0 00-1.74 0L3 20z"/></svg>'} ${a.nombre||'Sin nombre'}</span>
         <div style="display:flex;gap:6px">
-          <button class="btn-del" style="border-color:rgba(249,115,22,.25);color:var(--ember)" onclick="openCatForm(${i})">✏ Editar</button>
+          <button class="btn-del" style="border-color:rgba(249,115,22,.25);color:var(--ember)" onclick="openCatForm(${i})<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Editar</button>
           <button class="btn-del" onclick="deleteCatActividad(${i})">× Eliminar</button>
         </div>
       </div>
@@ -1532,7 +1538,7 @@ function renderCatList(){
         <span style="font-family:var(--mono);font-size:.52rem;padding:2px 7px;border-radius:10px;background:rgba(249,115,22,.12);color:var(--ember)">${TIPO_LABELS[a.tipo]||a.tipo||'—'}</span>
         ${a.distancia?`<span style="font-family:var(--mono);font-size:.52rem;padding:2px 7px;border-radius:10px;background:rgba(134,239,172,.06);color:var(--muted)">📍 ${a.distancia}</span>`:''}
         ${a.tiempo?`<span style="font-family:var(--mono);font-size:.52rem;padding:2px 7px;border-radius:10px;background:rgba(134,239,172,.06);color:var(--muted)">⏱ ${a.tiempo}</span>`:''}
-        ${a.capacidad?`<span style="font-family:var(--mono);font-size:.52rem;padding:2px 7px;border-radius:10px;background:rgba(134,239,172,.06);color:var(--muted)">👥 máx ${a.capacidad}</span>`:''}
+        ${a.capacidad?`<span style="font-family:var(--mono);font-size:.52rem;padding:2px 7px;border-radius:10px;background:rgba(134,239,172,.06);color:var(--muted)">máx ${a.capacidad}</span>`:''}
       </div>
     </div>`).join('');
 }
@@ -1548,10 +1554,10 @@ function fCatForm(b){
     ${mkF('Nombre de la actividad','cat-nombre','text',a.nombre||'')}
     <div class="field"><label>Tipo</label>
       <select class="fi" id="cat-tipo">
-        <option value="hike" ${a.tipo==='hike'?'selected':''}>🥾 Hike</option>
-        <option value="campamento" ${a.tipo==='campamento'?'selected':''}>⛺ Campamento</option>
-        <option value="rapel" ${a.tipo==='rapel'?'selected':''}>🧗 Rápel</option>
-        <option value="social-run" ${a.tipo==='social-run'?'selected':''}>🏃 Social Run</option>
+        <option value="hike" ${a.tipo==='hike'?'selected':''}>Hike</option>
+        <option value="campamento" ${a.tipo==='campamento'?'selected':''}>Campamento</option>
+        <option value="rapel" ${a.tipo==='rapel'?'selected':''}>Rápel</option>
+        <option value="social-run" ${a.tipo==='social-run'?'selected':''}>Social Run</option>
       </select>
     </div>
     ${mkF('URL de cover (imagen)','cat-cover','url',a.cover_url||'','Imagen que aparece en la tarjeta de la actividad.')}
@@ -1568,10 +1574,10 @@ function fCatForm(b){
       ${mkF('Capacidad máx.','cat-cap','number',a.capacidad||'')}
       <div class="field"><label>Dificultad</label>
         <select class="fi" id="cat-dif">
-          <option value="fácil" ${a.dificultad==='fácil'?'selected':''}>🟢 Fácil</option>
-          <option value="moderada" ${a.dificultad==='moderada'?'selected':''}>🟡 Moderada</option>
-          <option value="difícil" ${a.dificultad==='difícil'?'selected':''}>🔴 Difícil</option>
-          <option value="experto" ${a.dificultad==='experto'?'selected':''}>⚫ Experto</option>
+          <option value="fácil" ${a.dificultad==='fácil'?'selected':''}>Fácil</option>
+          <option value="moderada" ${a.dificultad==='moderada'?'selected':''}>Moderada</option>
+          <option value="difícil" ${a.dificultad==='difícil'?'selected':''}>Difícil</option>
+          <option value="experto" ${a.dificultad==='experto'?'selected':''}>Experto</option>
         </select>
       </div>
     </div>
@@ -1604,9 +1610,9 @@ function fCalendario(b){
   if(calEditIdx!==null){fCalForm(b);return;}
   const hasCat=content.actividades_catalogo&&content.actividades_catalogo.length;
   b.innerHTML=`
-    <div class="section-subtitle">📅 Calendario de eventos</div>
+    <div class="section-subtitle">Calendario de eventos</div>
     <div class="fi-hint" style="margin-top:-8px">Programa actividades del catálogo en fechas específicas.</div>
-    ${hasCat?`<button class="btn-add" onclick="openCalForm(-1)">+ Programar actividad</button>`:`<div class="empty-state" style="margin-top:0">⚠️ Primero crea actividades en el <strong>Catálogo</strong>.</div>`}
+    ${hasCat?`<button class="btn-add" onclick="openCalForm(-1)">+ Programar actividad</button>`:`<div class="empty-state" style="margin-top:0">Primero crea actividades en el <strong>Catálogo</strong>.</div>`}
     <div id="cal-list" style="display:flex;flex-direction:column;gap:10px;margin-top:4px"></div>
   `;
   renderCalList();
@@ -1614,7 +1620,7 @@ function fCalendario(b){
 function renderCalList(){
   const l=document.getElementById('cal-list');if(!l)return;
   const cal=content.calendario||[];
-  if(!cal.length){l.innerHTML='<div class="empty-state">📅 Sin eventos programados aún.</div>';return;}
+  if(!cal.length){l.innerHTML='<div class="empty-state">Sin eventos programados aún.</div>';return;}
   const sorted=cal.map((e,i)=>({...e,_i:i})).sort((a,b)=>new Date(a.fecha)-new Date(b.fecha));
   const estadoBg={programado:'rgba(249,115,22,.12)',confirmado:'rgba(34,197,94,.12)',cancelado:'rgba(239,68,68,.1)',completo:'rgba(134,239,172,.06)'};
   const estadoCol={programado:'var(--ember)',confirmado:'#86efac',cancelado:'var(--err)',completo:'var(--muted)'};
@@ -1623,18 +1629,18 @@ function renderCalList(){
     const i=e._i;
     return `<div class="drag-item">
       <div class="drag-item-header">
-        <span class="drag-num">${TIPO_ICONS[act.tipo]||'🏔'} ${act.nombre||e.actividad_id||'—'}</span>
+        <span class="drag-num">${TIPO_ICONS[act.tipo]||'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18L13 4a1 1 0 00-1.74 0L3 20z"/></svg>'} ${act.nombre||e.actividad_id||'—'}</span>
         <div style="display:flex;gap:6px">
-          <button class="btn-del" style="border-color:rgba(249,115,22,.25);color:var(--ember)" onclick="openCalForm(${i})">✏ Editar</button>
+          <button class="btn-del" style="border-color:rgba(249,115,22,.25);color:var(--ember)" onclick="openCalForm(${i})<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Editar</button>
           <button class="btn-del" onclick="deleteCalEvento(${i})">× Eliminar</button>
         </div>
       </div>
       <div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:4px">
         <span style="font-family:var(--mono);font-size:.52rem;padding:2px 7px;border-radius:10px;background:${estadoBg[e.estado]||'var(--border)'};color:${estadoCol[e.estado]||'var(--muted)'}">${e.estado||'programado'}</span>
-        <span style="font-family:var(--mono);font-size:.52rem;padding:2px 7px;border-radius:10px;background:rgba(134,239,172,.06);color:var(--muted)">📅 ${e.fecha||'—'}</span>
+        <span style="font-family:var(--mono);font-size:.52rem;padding:2px 7px;border-radius:10px;background:rgba(134,239,172,.06);color:var(--muted)">${e.fecha||'—'}</span>
         ${e.hora?`<span style="font-family:var(--mono);font-size:.52rem;padding:2px 7px;border-radius:10px;background:rgba(134,239,172,.06);color:var(--muted)">⏰ ${e.hora}</span>`:''}
         ${e.precio?`<span style="font-family:var(--mono);font-size:.52rem;padding:2px 7px;border-radius:10px;background:rgba(134,239,172,.06);color:var(--muted)">💰 $${e.precio}</span>`:''}
-        ${e.cupos_disponibles!=null?`<span style="font-family:var(--mono);font-size:.52rem;padding:2px 7px;border-radius:10px;background:rgba(134,239,172,.06);color:var(--muted)">👥 ${e.cupos_disponibles} cupos</span>`:''}
+        ${e.cupos_disponibles!=null?`<span style="font-family:var(--mono);font-size:.52rem;padding:2px 7px;border-radius:10px;background:rgba(134,239,172,.06);color:var(--muted)">${e.cupos_disponibles} cupos</span>`:''}
       </div>
     </div>`;
   }).join('');
@@ -1652,7 +1658,7 @@ function fCalForm(b){
     <div class="field"><label>Actividad</label>
       <select class="fi" id="cal-actid">
         <option value="">— Selecciona actividad —</option>
-        ${cat.map(a=>`<option value="${esc(a.nombre)}" ${e.actividad_id===a.nombre?'selected':''}>${TIPO_ICONS[a.tipo]||'🏔'} ${a.nombre}</option>`).join('')}
+        ${cat.map(a=>`<option value="${esc(a.nombre)}" ${e.actividad_id===a.nombre?'selected':''}>${a.nombre}</option>`).join('')}
       </select>
     </div>
     <div class="row2">
@@ -1666,10 +1672,10 @@ function fCalForm(b){
     ${mkF('Punto de encuentro','cal-punto','text',e.punto_encuentro||'','Ej: Estacionamiento Walmart Cumbres')}
     <div class="field"><label>Estado</label>
       <select class="fi" id="cal-estado">
-        <option value="programado" ${!e.estado||e.estado==='programado'?'selected':''}>🟡 Programado</option>
-        <option value="confirmado" ${e.estado==='confirmado'?'selected':''}>🟢 Confirmado</option>
-        <option value="completo" ${e.estado==='completo'?'selected':''}>✅ Completo</option>
-        <option value="cancelado" ${e.estado==='cancelado'?'selected':''}>🔴 Cancelado</option>
+        <option value="programado" ${!e.estado||e.estado==='programado'?'selected':''}>Programado</option>
+        <option value="confirmado" ${e.estado==='confirmado'?'selected':''}>Confirmado</option>
+        <option value="completo" ${e.estado==='completo'?'selected':''}>Completo</option>
+        <option value="cancelado" ${e.estado==='cancelado'?'selected':''}>Cancelado</option>
       </select>
     </div>
     <button class="btn-confirm" style="width:100%;padding:12px;border-radius:7px;font-size:.65rem;letter-spacing:.15em;margin-top:4px" onclick="saveCalEvento()">
@@ -1899,7 +1905,7 @@ function initAdminSb(){
 function fUsuarios(b){
   b.innerHTML=`
     <div class="form-section-title">Aventureros Registrados</div>
-    <button class="btn-save" onclick="cargarUsuarios()">🔍 Actualizar lista</button>
+    <button class="btn-save" onclick="cargarUsuarios()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg> Actualizar lista</button>
     <div id="usuarios-lista" style="margin-top:18px"><p style="color:var(--muted);font-size:.8rem">Cargando…</p></div>`;
   cargarUsuarios();
 }
