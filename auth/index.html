@@ -91,10 +91,12 @@ body{font-family:var(--sans);background:var(--bg);color:var(--cream);display:fle
 .features{position:relative;z-index:2;display:flex;flex-direction:column;gap:14px;margin-top:32px;}
 .feat{display:flex;align-items:center;gap:12px;}
 .feat-ico{
-  width:32px;height:32px;border-radius:8px;flex-shrink:0;
-  background:var(--moss-dim);border:1px solid var(--border);
-  display:flex;align-items:center;justify-content:center;font-size:.85rem;
+  width:34px;height:34px;border-radius:9px;flex-shrink:0;
+  background:var(--moss-dim);border:1px solid rgba(74,222,128,.14);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--moss);
 }
+.feat-ico svg{display:block;}
 .feat-text{font-size:.82rem;color:var(--muted);}
 .feat-text b{color:var(--cream);}
 
@@ -673,9 +675,39 @@ body.in-dash.light-mode .db-bn-item.active{color:#7c3aed;}
     <p class="brand-sub">Únete a la comunidad de aventureros del noreste. Reserva expediciones, lleva tu historial y escala de nivel.</p>
 
     <div class="features">
-      <div class="feat"><div class="feat-ico">🗺</div><div class="feat-text"><b>Reserva actividades</b> — hikes, campamentos, rápel y más</div></div>
-      <div class="feat"><div class="feat-ico">📊</div><div class="feat-text"><b>Rastrea tu progreso</b> — historial y nivel de aventurero</div></div>
-      <div class="feat"><div class="feat-ico">📱</div><div class="feat-text"><b>QR de asistencia</b> — check-in digital en cada expedición</div></div>
+      <div class="feat">
+        <div class="feat-ico">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+            <polyline points="9 16 11 18 15 14"/>
+          </svg>
+        </div>
+        <div class="feat-text"><b>Reserva actividades</b> — hikes, campamentos, rápel y más</div>
+      </div>
+      <div class="feat">
+        <div class="feat-ico">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>
+            <polyline points="16 7 22 7 22 13"/>
+          </svg>
+        </div>
+        <div class="feat-text"><b>Rastrea tu progreso</b> — historial y nivel de aventurero</div>
+      </div>
+      <div class="feat">
+        <div class="feat-ico">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+            <rect x="3" y="14" width="7" height="7" rx="1"/>
+            <rect x="5" y="5" width="3" height="3" fill="currentColor" stroke="none"/>
+            <rect x="16" y="5" width="3" height="3" fill="currentColor" stroke="none"/>
+            <rect x="5" y="16" width="3" height="3" fill="currentColor" stroke="none"/>
+            <path d="M14 14h3v3m0 4h4m0-4v4m-4-4h1"/>
+          </svg>
+        </div>
+        <div class="feat-text"><b>QR de asistencia</b> — check-in digital en cada expedición</div>
+      </div>
     </div>
   </div>
 
