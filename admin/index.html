@@ -67,15 +67,27 @@ button,input,textarea,select{font-family:inherit;}
 .body{flex:1;display:flex;overflow:hidden;}
 
 /* SIDEBAR */
-.sidebar{width:230px;flex-shrink:0;background:var(--side);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;}
-.sidebar-section{padding:18px 12px 6px;font-family:var(--mono);font-size:.55rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(134,239,172,.22);}
-.nav-item{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border-radius:8px;cursor:pointer;font-size:.82rem;color:var(--muted);transition:all .15s;margin:1px 4px;border:1px solid transparent;}
+.sidebar{width:240px;flex-shrink:0;background:var(--side);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;}
+.sb-brand{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.sb-brand img{width:26px;height:26px;border-radius:6px;object-fit:cover;}
+.sb-brand-name{font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;color:var(--ember);line-height:1;}
+.sb-brand-sub{font-size:.6rem;color:var(--muted);margin-top:2px;letter-spacing:.04em;}
+.nav-group{padding:14px 0 4px;}
+.nav-group+.nav-group{border-top:1px solid var(--border);padding-top:12px;}
+.nav-group-hdr{display:flex;align-items:center;gap:7px;padding:0 16px 8px;}
+.nav-group-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.nav-group-lbl{font-family:var(--mono);font-size:.52rem;letter-spacing:.24em;text-transform:uppercase;font-weight:600;}
+.nav-item{display:flex;align-items:center;gap:9px;padding:8px 12px 8px 16px;border-radius:8px;cursor:pointer;color:var(--muted);transition:all .15s;margin:1px 8px;border:1px solid transparent;position:relative;}
 .nav-item:hover{background:rgba(134,239,172,.05);color:var(--text);border-color:var(--border);}
-.nav-item.active{background:rgba(249,115,22,.1);color:var(--ember);border-color:rgba(249,115,22,.2);}
-.nav-item-l{display:flex;align-items:center;gap:8px;min-width:0;flex:1;}
-.nav-ico{font-size:.9rem;width:18px;text-align:center;flex-shrink:0;}
-.nav-label{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:.8rem;}
-.nav-actions{display:flex;align-items:center;gap:3px;flex-shrink:0;}
+.nav-item.active{background:rgba(249,115,22,.09);color:var(--ember);border-color:rgba(249,115,22,.18);}
+.nav-item.active::before{content:'';position:absolute;left:-1px;top:20%;bottom:20%;width:2.5px;background:var(--ember);border-radius:0 3px 3px 0;}
+.nav-ico{display:flex;align-items:center;justify-content:center;width:16px;height:16px;flex-shrink:0;opacity:.65;transition:opacity .15s;}
+.nav-ico svg{display:block;}
+.nav-item:hover .nav-ico{opacity:.9;}
+.nav-item.active .nav-ico{opacity:1;}
+.nav-item-l{display:flex;align-items:center;gap:9px;min-width:0;flex:1;}
+.nav-label{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:.8rem;line-height:1;}
+.nav-actions{display:flex;align-items:center;gap:2px;flex-shrink:0;}
 .nav-action-btn{width:20px;height:20px;display:flex;align-items:center;justify-content:center;border:none;background:transparent;color:var(--muted);cursor:pointer;border-radius:4px;font-size:.7rem;transition:all .15s;padding:0;}
 .nav-action-btn:hover{background:rgba(134,239,172,.1);color:var(--moss);}
 .nav-action-btn.danger:hover{background:rgba(239,68,68,.12);color:var(--err);}
@@ -84,19 +96,20 @@ button,input,textarea,select{font-family:inherit;}
 .drag-handle-sb:hover{color:rgba(134,239,172,.5);}
 .sec-item-dragging{opacity:.4;}
 .sec-item-drag-over{border-color:rgba(249,115,22,.4)!important;}
-.btn-add-sec{display:flex;align-items:center;justify-content:center;gap:6px;padding:9px 12px;margin:4px 8px;background:transparent;border:1px dashed rgba(134,239,172,.18);border-radius:7px;color:rgba(134,239,172,.4);font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:all .2s;}
-.btn-add-sec:hover{background:rgba(134,239,172,.06);border-color:rgba(134,239,172,.3);color:var(--moss);}
-.sidebar-footer{margin-top:auto;padding:12px;border-top:1px solid var(--border);}
-.sidebar-link{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:7px;font-size:.78rem;color:var(--muted);text-decoration:none;border:1px solid var(--border);transition:all .2s;}
-.sidebar-link:hover{border-color:var(--faint);color:var(--text);}
+.btn-add-sec{display:flex;align-items:center;justify-content:center;gap:6px;padding:7px 12px;margin:4px 8px;background:transparent;border:1px dashed rgba(134,239,172,.16);border-radius:7px;color:rgba(134,239,172,.38);font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .2s;}
+.btn-add-sec:hover{background:rgba(134,239,172,.05);border-color:rgba(134,239,172,.28);color:var(--moss);}
+.sidebar-footer{margin-top:auto;padding:10px 8px;border-top:1px solid var(--border);}
+.sb-link{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:7px;font-size:.78rem;color:var(--muted);text-decoration:none;border:1px solid var(--border);transition:all .18s;}
+.sb-link:hover{border-color:var(--faint);color:var(--text);background:rgba(134,239,172,.03);}
+.sb-link svg{flex-shrink:0;opacity:.7;}
 .eye-off{opacity:.35;}
 
 /* WORKSPACE */
 .workspace{flex:1;display:flex;overflow:hidden;}
 .editor-pane{width:440px;flex-shrink:0;display:flex;flex-direction:column;border-right:1px solid var(--border);}
-.pane-header{padding:18px 24px 14px;border-bottom:1px solid var(--border);flex-shrink:0;}
-.pane-title{font-size:1rem;font-weight:600;color:var(--cream);margin-bottom:3px;display:flex;align-items:center;gap:8px;}
-.tipo-badge{font-family:var(--mono);font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;padding:3px 9px;border-radius:10px;background:rgba(249,115,22,.12);color:var(--ember);border:1px solid rgba(249,115,22,.2);}
+.pane-header{padding:16px 22px 12px;border-bottom:1px solid var(--border);flex-shrink:0;}
+.pane-title{font-size:.98rem;font-weight:600;color:var(--cream);margin-bottom:3px;display:flex;align-items:center;gap:8px;}
+.tipo-badge{font-family:var(--mono);font-size:.5rem;letter-spacing:.14em;text-transform:uppercase;padding:3px 8px;border-radius:8px;background:rgba(249,115,22,.1);color:var(--ember);border:1px solid rgba(249,115,22,.18);}
 .pane-desc{font-size:.78rem;color:var(--muted);line-height:1.5;}
 .editor-body{flex:1;overflow-y:auto;padding:20px 24px;display:flex;flex-direction:column;gap:18px;}
 
@@ -231,18 +244,14 @@ html[data-admin-mode="light"] .btn-icon{background:transparent;border-color:var(
 html[data-admin-mode="light"] .btn-icon:hover{border-color:rgba(0,0,0,.2);color:var(--text);}
 /* Sidebar */
 html[data-admin-mode="light"] .sidebar{background:var(--side);border-right-color:var(--border);}
-html[data-admin-mode="light"] .sidebar-section{color:rgba(15,23,42,.2);}
+html[data-admin-mode="light"] .nav-group+.nav-group{border-top-color:var(--border);}
+html[data-admin-mode="light"] .nav-group-lbl{color:rgba(15,23,42,.3);}
 html[data-admin-mode="light"] .nav-item{color:var(--muted);}
-html[data-admin-mode="light"] .nav-item:hover{background:rgba(0,0,0,.04);color:var(--text);border-color:var(--border);}
-html[data-admin-mode="light"] .nav-item.active{background:rgba(224,98,0,.08);color:var(--ember);border-color:rgba(224,98,0,.2);}
-html[data-admin-mode="light"] .nav-action-btn:hover{background:rgba(0,0,0,.07);color:var(--text);}
-html[data-admin-mode="light"] .drag-handle-sb{color:rgba(0,0,0,.18);}
-html[data-admin-mode="light"] .drag-handle-sb:hover{color:rgba(0,0,0,.4);}
-html[data-admin-mode="light"] .btn-add-sec{border-color:rgba(0,0,0,.12);color:rgba(15,23,42,.3);}
-html[data-admin-mode="light"] .btn-add-sec:hover{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.22);color:var(--text);}
+html[data-admin-mode="light"] .nav-item:hover{background:rgba(0,0,0,.03);color:var(--text);border-color:var(--border);}
+html[data-admin-mode="light"] .nav-item.active{background:rgba(224,98,0,.07);color:var(--ember);border-color:rgba(224,98,0,.18);}
 html[data-admin-mode="light"] .sidebar-footer{border-top-color:var(--border);}
-html[data-admin-mode="light"] .sidebar-link{border-color:var(--border);color:var(--muted);}
-html[data-admin-mode="light"] .sidebar-link:hover{border-color:rgba(0,0,0,.18);color:var(--text);}
+html[data-admin-mode="light"] .sb-link{border-color:var(--border);color:var(--muted);}
+html[data-admin-mode="light"] .sb-link:hover{border-color:rgba(0,0,0,.18);color:var(--text);}
 /* Editor */
 html[data-admin-mode="light"] .editor-pane{border-right-color:var(--border);}
 html[data-admin-mode="light"] .pane-header{border-bottom-color:var(--border);}
@@ -440,71 +449,154 @@ html[data-admin-mode="light"] .changes-badge{background:rgba(180,83,9,.1);border
 <div id="app">
   <div class="topbar">
     <div class="topbar-left">
-      <a class="topbar-logo" href="#"><img src="../logo.jpg" alt=""><span class="topbar-logo-name">ALTURA LIBRE</span></a>
-      <div class="topbar-sep"></div>
-      <div class="topbar-breadcrumb">Editor / <span id="bc-title">Hero</span></div>
+      <div class="topbar-breadcrumb">
+        <span id="bc-section" style="opacity:.45">—</span>
+        <span style="opacity:.25;margin:0 6px">/</span>
+        <span id="bc-title">Hero</span>
+      </div>
     </div>
     <div class="topbar-right">
-      <div class="changes-badge" id="chg-badge"><span class="bdot"></span><span id="chg-count">0</span> sin guardar</div>
+      <div class="changes-badge" id="chg-badge"><span class="bdot"></span><span id="chg-count">0</span> cambios sin guardar</div>
       <div class="saved-at" id="saved-at"></div>
-      <button class="btn-tb" style="background:rgba(59,130,246,.08);border-color:rgba(59,130,246,.2);color:#60a5fa" onclick="window.open('../','_blank')">👁 Preview</button>
-      <button class="btn-tb btn-save" id="btn-save" onclick="saveChanges()">💾 Guardar</button>
-      <button class="btn-tb btn-launch" onclick="openModal()">🚀 Lanzar sitio</button>
-      <button class="btn-mode" id="admin-mode-btn" onclick="toggleAdminMode()" title="Modo claro / oscuro">☀️</button>
-      <button class="btn-tb btn-icon" onclick="logout()" title="Salir">↩</button>
+      <button class="btn-tb" style="background:rgba(59,130,246,.07);border-color:rgba(59,130,246,.18);color:#60a5fa" onclick="window.open('../','_blank')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        Preview
+      </button>
+      <button class="btn-tb btn-save" id="btn-save" onclick="saveChanges()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        Guardar
+      </button>
+      <button class="btn-tb btn-launch" onclick="openModal()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 00-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 012-3.95A12.88 12.88 0 0122 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 01-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
+        Publicar
+      </button>
+      <button class="btn-mode" id="admin-mode-btn" onclick="toggleAdminMode()" title="Cambiar tema">
+        <svg id="mode-ico" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      </button>
+      <button class="btn-tb btn-icon" onclick="logout()" title="Cerrar sesión">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      </button>
     </div>
   </div>
 
   <div class="body">
     <aside class="sidebar" id="sidebar">
-      <div class="sidebar-section">Página</div>
-      <div class="nav-item active" id="si-hero" onclick="navFixed('hero',this)">
-        <div class="nav-item-l"><span class="nav-ico">🏔</span><span class="nav-label">Hero</span></div>
+      <!-- brand -->
+      <div class="sb-brand">
+        <img src="../logo.jpg" alt="Altura Libre">
+        <div>
+          <div class="sb-brand-name">ALTURA LIBRE</div>
+          <div class="sb-brand-sub">Panel de administración</div>
+        </div>
       </div>
 
-      <div class="sidebar-section">Secciones</div>
-      <div id="sec-list"></div>
-      <button class="btn-add-sec" onclick="openAddSecModal()">＋ Agregar sección</button>
+      <!-- Grupo: Sitio Web -->
+      <div class="nav-group">
+        <div class="nav-group-hdr">
+          <div class="nav-group-dot" style="background:#60a5fa"></div>
+          <span class="nav-group-lbl" style="color:rgba(96,165,250,.5)">Sitio Web</span>
+        </div>
+        <div class="nav-item active" id="si-hero" onclick="navFixed('hero',this)">
+          <div class="nav-item-l">
+            <span class="nav-ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1v-9.5z"/><path d="M9 21V12h6v9"/></svg></span>
+            <span class="nav-label">Hero principal</span>
+          </div>
+        </div>
 
-      <div class="sidebar-section">Pie</div>
-      <div class="nav-item" id="si-footer" onclick="navFixed('footer',this)">
-        <div class="nav-item-l"><span class="nav-ico">📋</span><span class="nav-label">Footer</span></div>
+        <div class="nav-item" id="si-fondo" onclick="navFixed('fondo',this)">
+          <div class="nav-item-l">
+            <span class="nav-ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2.5"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></span>
+            <span class="nav-label">Fondo del hero</span>
+          </div>
+        </div>
+
+        <div class="nav-item" id="si-botones" onclick="navFixed('botones',this)">
+          <div class="nav-item-l">
+            <span class="nav-ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="9" width="22" height="6" rx="3"/><circle cx="7" cy="12" r="1.5" fill="currentColor" stroke="none"/></svg></span>
+            <span class="nav-label">Botones & CTA</span>
+          </div>
+        </div>
+
+        <div class="nav-item" id="si-footer" onclick="navFixed('footer',this)">
+          <div class="nav-item-l">
+            <span class="nav-ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><line x1="3" y1="20" x2="21" y2="20"/></svg></span>
+            <span class="nav-label">Footer</span>
+          </div>
+        </div>
+
+        <div style="padding:8px 16px 4px;font-family:var(--mono);font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(134,239,172,.22);">Secciones del sitio</div>
+        <div id="sec-list"></div>
+        <button class="btn-add-sec" onclick="openAddSecModal()">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Agregar sección
+        </button>
       </div>
 
-      <div class="sidebar-section">Diseño</div>
-      <div class="nav-item" id="si-fondo" onclick="navFixed('fondo',this)">
-        <div class="nav-item-l"><span class="nav-ico">🖼</span><span class="nav-label">Fondo del hero</span></div>
-      </div>
-      <div class="nav-item" id="si-botones" onclick="navFixed('botones',this)">
-        <div class="nav-item-l"><span class="nav-ico">🔘</span><span class="nav-label">Botones</span></div>
-      </div>
-      <div class="nav-item" id="si-temas" onclick="navFixed('temas',this)">
-        <div class="nav-item-l"><span class="nav-ico">🎨</span><span class="nav-label">Temas de color</span></div>
-      </div>
-
-      <div class="sidebar-section">Archivos</div>
-      <div class="nav-item" id="si-media" onclick="navFixed('media',this)">
-        <div class="nav-item-l"><span class="nav-ico">📸</span><span class="nav-label">Biblioteca de media</span></div>
-      </div>
-
-      <div class="sidebar-section">Actividades</div>
-      <div class="nav-item" id="si-catalogo" onclick="navFixed('catalogo',this)">
-        <div class="nav-item-l"><span class="nav-ico">📋</span><span class="nav-label">Catálogo</span></div>
-      </div>
-      <div class="nav-item" id="si-calendario" onclick="navFixed('calendario',this)">
-        <div class="nav-item-l"><span class="nav-ico">📅</span><span class="nav-label">Calendario</span></div>
+      <!-- Grupo: Diseño -->
+      <div class="nav-group">
+        <div class="nav-group-hdr">
+          <div class="nav-group-dot" style="background:#c084fc"></div>
+          <span class="nav-group-lbl" style="color:rgba(192,132,252,.5)">Diseño & Medios</span>
+        </div>
+        <div class="nav-item" id="si-temas" onclick="navFixed('temas',this)">
+          <div class="nav-item-l">
+            <span class="nav-ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 011.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg></span>
+            <span class="nav-label">Temas y colores</span>
+          </div>
+        </div>
+        <div class="nav-item" id="si-media" onclick="navFixed('media',this)">
+          <div class="nav-item-l">
+            <span class="nav-ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg></span>
+            <span class="nav-label">Biblioteca de media</span>
+          </div>
+        </div>
       </div>
 
-      <div class="sidebar-section">Aventureros</div>
-      <div class="nav-item" id="si-usuarios" onclick="navFixed('usuarios',this)">
-        <div class="nav-item-l"><span class="nav-ico">👥</span><span class="nav-label">Perfiles y reservas</span></div>
+      <!-- Grupo: Actividades -->
+      <div class="nav-group">
+        <div class="nav-group-hdr">
+          <div class="nav-group-dot" style="background:#4ade80"></div>
+          <span class="nav-group-lbl" style="color:rgba(74,222,128,.5)">Actividades</span>
+        </div>
+        <div class="nav-item" id="si-catalogo" onclick="navFixed('catalogo',this)">
+          <div class="nav-item-l">
+            <span class="nav-ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></span>
+            <span class="nav-label">Catálogo</span>
+          </div>
+        </div>
+        <div class="nav-item" id="si-calendario" onclick="navFixed('calendario',this)">
+          <div class="nav-item-l">
+            <span class="nav-ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2.5"/><path d="M16 2v3M8 2v3M3 10h18"/><rect x="7" y="14" width="3" height="3" rx=".5"/></svg></span>
+            <span class="nav-label">Calendario</span>
+          </div>
+        </div>
       </div>
-      <div class="nav-item" id="si-asistencia" onclick="navFixed('asistencia',this)">
-        <div class="nav-item-l"><span class="nav-ico">✅</span><span class="nav-label">Tomar asistencia</span></div>
+
+      <!-- Grupo: Comunidad -->
+      <div class="nav-group">
+        <div class="nav-group-hdr">
+          <div class="nav-group-dot" style="background:#f97316"></div>
+          <span class="nav-group-lbl" style="color:rgba(249,115,22,.5)">Comunidad</span>
+        </div>
+        <div class="nav-item" id="si-usuarios" onclick="navFixed('usuarios',this)">
+          <div class="nav-item-l">
+            <span class="nav-ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></span>
+            <span class="nav-label">Aventureros</span>
+          </div>
+        </div>
+        <div class="nav-item" id="si-asistencia" onclick="navFixed('asistencia',this)">
+          <div class="nav-item-l">
+            <span class="nav-ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg></span>
+            <span class="nav-label">Asistencia QR</span>
+          </div>
+        </div>
       </div>
 
       <div class="sidebar-footer">
-        <a class="sidebar-link" href="../" target="_blank">👁 Ver sitio</a>
+        <a class="sb-link" href="../" target="_blank">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Ver sitio web
+        </a>
       </div>
     </aside>
 
@@ -913,6 +1005,8 @@ function navFixed(view,el){
   el.classList.add('active');
   const titles={hero:'Hero principal',footer:'Footer',fondo:'Fondo del hero',botones:'Botones & Diseño',temas:'Temas de color',media:'Biblioteca de media',catalogo:'Catálogo de actividades',calendario:'Calendario de eventos',usuarios:'Perfiles y reservas',asistencia:'Tomar asistencia'};
   const descs={hero:'Primera pantalla que ven los visitantes.',footer:'Texto inferior del sitio.',fondo:'Imagen, video o gradiente del fondo del hero.',botones:'Botones CTA con íconos, tamaños y formas.',temas:'Paleta de colores de todo el sitio.',media:'Gestiona imágenes y videos.',catalogo:'Define actividades reutilizables: hike, campamento, rápel, social run.',calendario:'Programa fechas y asigna actividades del catálogo.',usuarios:'Consulta perfiles y reservaciones de aventureros.',asistencia:'Confirma asistencia via código QR del aventurero.'};
+  const sections={hero:'Sitio Web',footer:'Sitio Web',fondo:'Diseño',botones:'Diseño',temas:'Diseño',media:'Diseño',catalogo:'Actividades',calendario:'Actividades',usuarios:'Comunidad',asistencia:'Comunidad'};
+  const bcSec=document.getElementById('bc-section');if(bcSec)bcSec.textContent=sections[view]||'Editor';
   document.getElementById('bc-title').textContent=titles[view]||view;
   document.getElementById('pane-title').innerHTML=titles[view]||view;
   document.getElementById('pane-desc').textContent=descs[view]||'';
@@ -1940,8 +2034,13 @@ function toggleAdminMode(){
   const next=cur==='dark'?'light':'dark';
   document.documentElement.setAttribute('data-admin-mode',next);
   localStorage.setItem('al_admin_mode',next);
-  const btn=document.getElementById('admin-mode-btn');
-  if(btn)btn.textContent=next==='dark'?'☀️':'🌙';
+  const modeIco=document.getElementById('mode-ico');
+  if(modeIco){
+    const isLight=next==='light';
+    modeIco.outerHTML=isLight
+      ?'<svg id="mode-ico" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>'
+      :'<svg id="mode-ico" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>';
+  }
   /* Re-aplicar tema para recalcular vars con el nuevo modo */
   aplicarAdminTema(localStorage.getItem('al_admin_tema')||'bosque');
 }
@@ -1951,8 +2050,13 @@ window.addEventListener('DOMContentLoaded',()=>{
   // Aplicar modo (claro/oscuro)
   const m=localStorage.getItem('al_admin_mode')||'dark';
   if(m==='light')document.documentElement.setAttribute('data-admin-mode','light');
-  const btn=document.getElementById('admin-mode-btn');
-  if(btn)btn.textContent=m==='light'?'🌙':'☀️';
+  const modeIcoInit=document.getElementById('mode-ico');
+  if(modeIcoInit){
+    const isLightInit=m==='light';
+    modeIcoInit.outerHTML=isLightInit
+      ?'<svg id="mode-ico" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>'
+      :'<svg id="mode-ico" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>';
+  }
   // Aplicar paleta de color del admin
   aplicarAdminTema(localStorage.getItem('al_admin_tema')||'bosque');
   // Auto-login
