@@ -513,29 +513,42 @@ body.in-dash.light-mode .db-bn-item.active{color:#7c3aed;}
   .brand-headline{font-size:1.8rem;}
   .auth-panel{padding:32px 20px;min-height:100vh;justify-content:flex-start;}
 
-  /* Dashboard */
+  /* Dashboard mobile
+     Estrategia: sacar topbar, content y bottom-nav del flujo flex por completo
+     usando position:fixed. El animation fade-up usa transform:translateY que
+     "atrapa" a los fixed children, así que lo quitamos en móvil. */
   body.in-dash{--sp-xl:16px;--sp-lg:14px;--sp-md:12px;--sp-sm:10px;--card-img-h:clamp(110px,32vw,160px);}
-  body.in-dash #block-dashboard{flex-direction:column;}
-  .db-side{display:none;}
+  body.in-dash #block-dashboard{animation:none;transform:none;flex-direction:column;}
+  body.in-dash .db-side{display:none;}
 
-  /* Topbar y bottom-nav fijos al viewport — evita problemas con 100vh en iOS Safari */
-  .db-topbar{
-    position:fixed;top:0;left:0;right:0;z-index:200;
-    height:54px;padding:0 16px;
-    background:rgba(13,13,13,.97);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  /* Topbar: anclada al viewport */
+  body.in-dash .db-topbar{
+    position:fixed;top:0;left:0;right:0;
+    height:54px;padding:0 16px;z-index:300;
+    display:flex;align-items:center;justify-content:space-between;
+    background:rgba(13,13,13,.97);
+    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+    border-bottom:1px solid var(--border);
   }
   body.in-dash.light-mode .db-topbar{background:rgba(255,255,255,.97);}
-  .db-topbar-brand{display:block;}
-  .db-topbar-sub{display:none;}
-  .db-back-site{display:none;}
-  .db-mobile-logout{display:flex;}
-  .db-bottom-nav{
-    display:flex;position:fixed;bottom:0;left:0;right:0;z-index:200;
-    height:62px;
-  }
+  body.in-dash .db-topbar-brand{display:flex;align-items:center;}
+  body.in-dash .db-topbar-sub{display:none;}
+  body.in-dash .db-back-site{display:none;}
+  body.in-dash .db-mobile-logout{display:flex;}
 
-  /* Content con padding para compensar barra fija superior e inferior */
-  .db-content{padding:calc(54px + 16px) 14px calc(62px + 16px);}
+  /* Contenido: ocupa exactamente el espacio entre topbar y bottom-nav */
+  body.in-dash .db-content{
+    position:fixed;top:54px;bottom:62px;left:0;right:0;
+    height:auto;overflow-y:auto;-webkit-overflow-scrolling:touch;
+    padding:16px 14px;background:var(--bg);
+  }
+  body.in-dash.light-mode .db-content{background:#f4f4f8;}
+
+  /* Bottom nav: anclada al viewport */
+  body.in-dash .db-bottom-nav{
+    position:fixed;bottom:0;left:0;right:0;
+    height:62px;z-index:300;display:flex;
+  }
   .db-stats{grid-template-columns:repeat(3,1fr);gap:10px;}
   .db-stat{padding:14px 10px;}
   .db-stat-v{font-size:clamp(1.3rem,6vw,1.8rem);}
