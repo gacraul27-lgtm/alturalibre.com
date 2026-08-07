@@ -193,6 +193,17 @@ html[data-admin-mode="light"] .estilo-card.active{border-color:var(--ember);back
 .admin-tc.selected{border-color:var(--ember);box-shadow:0 0 0 2px rgba(var(--ember-rgb,.5) , .25);}
 .admin-tc:hover{border-color:var(--faint);}
 
+/* DASH ACCENT PICKER */
+.dash-accent-presets{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin-bottom:12px;}
+.dap-swatch{height:36px;border-radius:9px;border:2px solid transparent;cursor:pointer;transition:all .18s;}
+.dap-swatch:hover{transform:scale(1.1);border-color:rgba(255,255,255,.35);}
+.dap-swatch.active{border-color:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.3);}
+.dap-custom-row{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--card2);border-radius:9px;border:1px solid var(--border);}
+.dap-custom-row label{font-family:var(--mono);font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);white-space:nowrap;flex-shrink:0;}
+input[type=color].dap-picker{width:32px;height:32px;padding:2px;border:1px solid var(--border2);border-radius:7px;background:var(--card);cursor:pointer;flex-shrink:0;}
+.dap-hex{font-family:var(--mono);font-size:.72rem;color:var(--muted);letter-spacing:.08em;}
+.dap-preview{width:40px;height:40px;border-radius:8px;flex-shrink:0;border:1px solid rgba(255,255,255,.12);margin-left:auto;}
+
 /* ── LIGHT MODE (admin) ── */
 html[data-admin-mode="light"]{
   --bg:#f0f4f8;--side:#ffffff;--card:#ffffff;--card2:#f5f7fa;
@@ -781,6 +792,7 @@ async function loadContent(){
     if(!content.actividades_catalogo)content.actividades_catalogo=[];
     if(!content.calendario)content.calendario=[];
     if(!content.tema)content.tema='cumbre';
+    if(!content.dash_accent)content.dash_accent='#8b5cf6';
     renderSidebarSections();
     renderView();
   }catch(e){toast('error','Error','No se pudo cargar el contenido.');}
@@ -955,9 +967,16 @@ function fFooter(b){
 }
 
 /* ── TEMAS FORM ── */
+const DASH_ACCENT_PRESETS=[
+  {l:'Violeta',  h:'#8b5cf6'},{l:'Índigo',   h:'#6366f1'},{l:'Azul',      h:'#3b82f6'},
+  {l:'Cian',     h:'#06b6d4'},{l:'Teal',     h:'#14b8a6'},{l:'Esmeralda', h:'#10b981'},
+  {l:'Lima',     h:'#84cc16'},{l:'Rosa',     h:'#ec4899'},{l:'Coral',     h:'#f43f5e'},
+  {l:'Naranja',  h:'#f97316'},{l:'Ámbar',    h:'#f59e0b'},{l:'Rojo',      h:'#ef4444'},
+];
 function fTemas(b){
   const actual=content.tema||'cumbre';
   const actualAdmin=localStorage.getItem('al_admin_tema')||'bosque';
+  const accentHex=content.dash_accent||'#8b5cf6';
   b.innerHTML=`
     <div class="section-subtitle">🌐 Tema del sitio público</div>
     <p style="font-size:.82rem;color:var(--muted);margin:4px 0 14px">Paleta de colores visible para los visitantes. Guarda y publica para aplicar.</p>
@@ -994,6 +1013,27 @@ function fTemas(b){
         </div>
       `).join('')}
     </div>
+
+    <div class="divider" style="margin:14px 0"></div>
+
+    <div class="section-subtitle">🎨 Acento del panel de usuarios</div>
+    <p style="font-size:.82rem;color:var(--muted);margin:4px 0 14px">
+      Color de botones, insignias y progreso en el dashboard donde los aventureros ven sus reservas. Guarda y publica para aplicar.
+    </p>
+    <div class="dash-accent-presets">
+      ${DASH_ACCENT_PRESETS.map(p=>`
+        <div class="dap-swatch ${accentHex.toLowerCase()===p.h.toLowerCase()?'active':''}"
+          style="background:${p.h}" title="${p.l}"
+          onclick="selectDashAccent('${p.h}',this)"></div>
+      `).join('')}
+    </div>
+    <div class="dap-custom-row">
+      <label>Personalizado</label>
+      <input type="color" class="dap-picker" id="dap-picker" value="${accentHex}"
+        oninput="selectDashAccent(this.value,null)">
+      <span class="dap-hex" id="dap-hex">${accentHex}</span>
+      <div class="dap-preview" id="dap-preview" style="background:${accentHex}"></div>
+    </div>
   `;
 }
 function selectTema(key){
@@ -1007,6 +1047,23 @@ function selectAdminTema(key){
   aplicarAdminTema(key);
   fTemas(document.getElementById('editor-body'));
   toast('success','Tema del panel',ADMIN_TEMAS[key].nombre+' aplicado.');
+}
+function selectDashAccent(hex,swatchEl){
+  if(!hex)return;
+  content.dash_accent=hex;
+  mk();up();
+  /* Actualizar UI sin re-renderizar todo */
+  if(swatchEl){
+    document.querySelectorAll('.dap-swatch').forEach(s=>s.classList.remove('active'));
+    swatchEl.classList.add('active');
+  }
+  const picker=document.getElementById('dap-picker');
+  const hexEl=document.getElementById('dap-hex');
+  const preview=document.getElementById('dap-preview');
+  if(picker)picker.value=hex;
+  if(hexEl)hexEl.textContent=hex;
+  if(preview)preview.style.background=hex;
+  toast('success','Acento del panel','Color actualizado — guarda para publicar.');
 }
 
 /* ── FONDO FORM ── */
