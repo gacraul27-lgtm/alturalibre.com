@@ -772,9 +772,9 @@ body.in-dash.light-mode .db-bn-item.active{color:#7c3aed;}
         <div class="field"><label>Apellido *</label><input class="fi" id="r-apellido" type="text" placeholder="Montaña" autocomplete="family-name"></div>
       </div>
       <div class="field-row">
-        <div class="field"><label>Fecha de nacimiento</label><input class="fi" id="r-dob" type="date" autocomplete="bday"></div>
-        <div class="field"><label>Tipo de sangre</label>
-          <select class="fi" id="r-sangre">
+        <div class="field"><label>Fecha de nacimiento *</label><input class="fi" id="r-dob" type="date" autocomplete="bday" required></div>
+        <div class="field"><label>Tipo de sangre *</label>
+          <select class="fi" id="r-sangre" required>
             <option value="">Selecciona</option>
             <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
             <option>AB+</option><option>AB-</option><option>O+</option><option>O-</option>
@@ -783,37 +783,37 @@ body.in-dash.light-mode .db-bn-item.active{color:#7c3aed;}
       </div>
       <div class="field-row">
         <div class="field">
-          <label>Celular</label>
-          <input class="fi" id="r-tel" type="tel" placeholder="81 1234 5678" autocomplete="tel">
+          <label>Celular *</label>
+          <input class="fi" id="r-tel" type="tel" placeholder="81 1234 5678" autocomplete="tel" required>
           <div class="field-hint" id="hint-tel"></div>
         </div>
-        <div class="field"><label>Género</label>
-          <select class="fi" id="r-genero">
+        <div class="field"><label>Género *</label>
+          <select class="fi" id="r-genero" required>
             <option value="">Selecciona</option>
             <option>Masculino</option><option>Femenino</option><option>No binario</option><option>Prefiero no decir</option>
           </select>
         </div>
       </div>
       <div class="field">
-        <label>Contacto de emergencia</label>
-        <input class="fi" id="r-emergencia" type="text" placeholder="Nombre y teléfono">
+        <label>Teléfono de contacto de emergencia *</label>
+        <input class="fi" id="r-emergencia" type="tel" placeholder="81 1234 5678" autocomplete="tel" inputmode="numeric" required>
       </div>
       <div class="field">
         <label>Correo electrónico *</label>
         <div class="fi-icon-wrap"><span class="fi-icon">✉</span>
-        <input class="fi" id="r-email" type="email" placeholder="tu@correo.com" autocomplete="email"></div>
+        <input class="fi" id="r-email" type="email" placeholder="tu@correo.com" autocomplete="email" required></div>
         <div class="field-hint" id="hint-email"></div>
       </div>
       <div class="field-row">
         <div class="field">
           <label>Contraseña *</label>
           <div class="fi-icon-wrap"><span class="fi-icon">🔒</span>
-          <input class="fi" id="r-pass" type="password" placeholder="Mín. 6 caracteres" autocomplete="new-password"></div>
+          <input class="fi" id="r-pass" type="password" placeholder="Mín. 6 caracteres" autocomplete="new-password" required></div>
         </div>
         <div class="field">
           <label>Confirmar contraseña *</label>
           <div class="fi-r-wrap">
-            <input class="fi" id="r-pass2" type="password" placeholder="Repite tu contraseña" autocomplete="new-password">
+            <input class="fi" id="r-pass2" type="password" placeholder="Repite tu contraseña" autocomplete="new-password" required>
             <span class="fi-icon-r" id="pass-match-ico"></span>
           </div>
         </div>
@@ -1168,16 +1168,28 @@ async function validatePhone(){
 
 async function doRegister(){
   clearErr('register');
-  const nombre=document.getElementById('r-nombre').value.trim();
-  const apellido=document.getElementById('r-apellido').value.trim();
-  const email=document.getElementById('r-email').value.trim();
-  const pass=document.getElementById('r-pass').value;
-  const pass2=document.getElementById('r-pass2').value;
-  const telefono=document.getElementById('r-tel').value.trim();
+  const nombre      = document.getElementById('r-nombre').value.trim();
+  const apellido    = document.getElementById('r-apellido').value.trim();
+  const email       = document.getElementById('r-email').value.trim();
+  const pass        = document.getElementById('r-pass').value;
+  const pass2       = document.getElementById('r-pass2').value;
+  const telefono    = document.getElementById('r-tel').value.trim();
+  const dob         = document.getElementById('r-dob').value;
+  const sangre      = document.getElementById('r-sangre').value;
+  const genero      = document.getElementById('r-genero').value;
+  const emergencia  = normPhone(document.getElementById('r-emergencia').value);
 
-  if(!nombre||!apellido||!email||!pass){showErr('register','Nombre, apellido, correo y contraseña son obligatorios.');return;}
-  if(pass.length<6){showErr('register','La contraseña debe tener al menos 6 caracteres.');return;}
-  if(pass!==pass2){showErr('register','Las contraseñas no coinciden.');return;}
+  if(!nombre)       {showErr('register','El nombre es obligatorio.');return;}
+  if(!apellido)     {showErr('register','El apellido es obligatorio.');return;}
+  if(!dob)          {showErr('register','La fecha de nacimiento es obligatoria.');return;}
+  if(!sangre)       {showErr('register','El tipo de sangre es obligatorio.');return;}
+  if(!telefono)     {showErr('register','El número de celular es obligatorio.');return;}
+  if(!genero)       {showErr('register','El género es obligatorio.');return;}
+  if(!emergencia||emergencia.length<10){showErr('register','El teléfono de contacto de emergencia es obligatorio (mín. 10 dígitos).');return;}
+  if(!email)        {showErr('register','El correo electrónico es obligatorio.');return;}
+  if(!pass)         {showErr('register','La contraseña es obligatoria.');return;}
+  if(pass.length<6) {showErr('register','La contraseña debe tener al menos 6 caracteres.');return;}
+  if(pass!==pass2)  {showErr('register','Las contraseñas no coinciden.');return;}
 
   const btn=document.getElementById('btn-register');
   btn.disabled=true;btn.textContent='Verificando…';
@@ -1213,10 +1225,10 @@ async function doRegister(){
   const{error}=await sb.auth.signUp({email,password:pass,options:{data:{
     nombre,apellido,nombre_completo:nombre+' '+apellido,
     telefono:telefono||null,
-    fecha_nacimiento:document.getElementById('r-dob').value||null,
-    tipo_sangre:document.getElementById('r-sangre').value||null,
-    genero:document.getElementById('r-genero').value||null,
-    contacto_emergencia:document.getElementById('r-emergencia').value.trim()||null
+    fecha_nacimiento:dob||null,
+    tipo_sangre:sangre||null,
+    genero:genero||null,
+    contacto_emergencia:emergencia||null
   }}});
   btn.disabled=false;btn.textContent='Crear mi cuenta →';
   if(error){showErr('register',error.message);}
@@ -1247,12 +1259,23 @@ async function doForgot(){
 
 function showForgot(){showBlock('forgot');}
 
-/* Blur listeners para validación en tiempo real */
+/* Listeners de validación en tiempo real */
 document.addEventListener('DOMContentLoaded',()=>{
   const rEmail=document.getElementById('r-email');
   const rTel=document.getElementById('r-tel');
+  const rEmg=document.getElementById('r-emergencia');
   if(rEmail)rEmail.addEventListener('blur',validateEmail);
   if(rTel)rTel.addEventListener('blur',validatePhone);
+  /* Contacto de emergencia: solo dígitos */
+  if(rEmg){
+    rEmg.addEventListener('input',()=>{
+      rEmg.value=rEmg.value.replace(/[^0-9]/g,'');
+    });
+    rEmg.addEventListener('keydown',e=>{
+      const allowed=['Backspace','Delete','ArrowLeft','ArrowRight','Tab','Enter'];
+      if(!allowed.includes(e.key)&&!/^[0-9]$/.test(e.key))e.preventDefault();
+    });
+  }
 });
 
 async function doLogout(){
