@@ -109,7 +109,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--cream);display:fle
 /* ── RIGHT AUTH PANEL ── */
 .auth-panel{
   flex:1;overflow-y:auto;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
   padding:48px 40px;
   background:var(--panel);
   position:relative;
@@ -118,7 +118,27 @@ body{font-family:var(--sans);background:var(--bg);color:var(--cream);display:fle
 .auth-panel::-webkit-scrollbar-track{background:transparent;}
 .auth-panel::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
 
-.auth-card{width:100%;max-width:440px;}
+.auth-card{width:100%;max-width:440px;margin:auto 0;}
+
+/* ── Footer ── */
+.auth-footer{
+  width:100%;max-width:440px;flex-shrink:0;
+  padding:28px 0 8px;margin-top:0;
+  border-top:1px solid rgba(74,222,128,.07);
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  text-align:center;
+}
+.auth-footer-brand{display:flex;align-items:center;gap:8px;margin-bottom:4px;}
+.auth-footer-mark{
+  width:24px;height:24px;border-radius:7px;
+  background:linear-gradient(135deg,var(--moss),var(--ember));
+  display:flex;align-items:center;justify-content:center;
+  font-size:.8rem;flex-shrink:0;
+}
+.auth-footer-name{font-family:var(--mono);font-size:.72rem;letter-spacing:.25em;text-transform:uppercase;color:var(--cream);opacity:.55;}
+.auth-footer-legal{font-family:var(--mono);font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0;}
+.auth-footer-sub{font-family:var(--mono);font-size:.52rem;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);margin:0;}
+body.in-dash .auth-footer{display:none;}
 
 /* Tabs */
 .auth-tabs{display:flex;gap:4px;background:rgba(255,255,255,.04);border-radius:12px;padding:4px;margin-bottom:32px;}
@@ -535,7 +555,8 @@ body.in-dash.light-mode .db-bn-item.active{color:#7c3aed;}
     justify-content:flex-start;
     align-items:stretch;
   }
-  .auth-card{max-width:none;}
+  .auth-card{max-width:none;margin:0;}
+  .auth-footer{max-width:none;margin-top:auto;padding:24px 0 8px;}
 
   /* ── Campos: font-size:16px evita el auto-zoom de iOS ── */
   .fi{
@@ -903,6 +924,16 @@ body.in-dash.light-mode .db-bn-item.active{color:#7c3aed;}
     </div>
 
   </div>
+
+  <footer class="auth-footer">
+    <div class="auth-footer-brand">
+      <div class="auth-footer-mark">⛰</div>
+      <span class="auth-footer-name">Altura Libre</span>
+    </div>
+    <p class="auth-footer-legal">© 2025 Altura Libre. Todos los derechos reservados.</p>
+    <p class="auth-footer-sub">Expediciones &amp; aventuras en montaña · Monterrey, N.L., México</p>
+  </footer>
+
 </div>
 
 <script>
