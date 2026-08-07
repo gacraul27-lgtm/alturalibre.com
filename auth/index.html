@@ -507,11 +507,15 @@ body.in-dash.light-mode .db-bn-item.active{color:#7c3aed;}
   /* Non-dashboard auth pages */
   body:not(.in-dash){flex-direction:column;overflow:auto;}
   html,body:not(.in-dash){height:auto;}
-  .brand{width:100%;min-width:unset;padding:32px 24px 24px;min-height:unset;}
+  .brand{width:100%;min-width:unset;padding:28px 20px 20px;min-height:unset;}
   #mtn-canvas,#star-canvas,.aurora-wrap{display:none;}
   .features{display:none;}
-  .brand-headline{font-size:1.8rem;}
-  .auth-panel{padding:32px 20px;min-height:100vh;justify-content:flex-start;}
+  .brand-headline{font-size:1.65rem;}
+  .brand-stats{gap:20px;}
+  .auth-panel{padding:28px 18px;min-height:unset;justify-content:flex-start;}
+  .auth-card{max-width:none;}
+  .field-row{grid-template-columns:1fr;}
+  .otp-inputs input{padding:12px 0;font-size:1.1rem;}
 
   /* Dashboard mobile
      Estrategia: sacar topbar, content y bottom-nav del flujo flex por completo

@@ -414,24 +414,72 @@ footer{padding:40px 48px;border-top:1px solid rgba(134,239,172,.07);display:flex
 @keyframes fade-up{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:none;}}
 @keyframes fade-in{from{opacity:0;}to{opacity:1;}}
 
+/* ── HAMBURGER ── */
+.hamburger{display:none;flex-shrink:0;flex-direction:column;justify-content:center;gap:5px;width:40px;height:40px;padding:9px;border:1px solid rgba(254,243,199,.14);border-radius:7px;background:transparent;cursor:pointer;transition:border-color .2s;}
+.hamburger:hover{border-color:rgba(254,243,199,.3);}
+.hamburger span{display:block;width:18px;height:1.5px;background:rgba(254,243,199,.8);border-radius:2px;transition:all .28s cubic-bezier(.16,1,.3,1);}
+.hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0);}
+.hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+
+/* ── MOBILE MENU OVERLAY ── */
+.mobile-menu{position:fixed;inset:0;z-index:98;background:rgba(3,5,10,.97);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;opacity:0;pointer-events:none;transition:opacity .28s ease;}
+.mobile-menu.open{opacity:1;pointer-events:all;}
+.mobile-menu a{font-family:var(--display);font-size:2.1rem;letter-spacing:.06em;text-transform:uppercase;color:rgba(254,243,199,.5);text-decoration:none;transition:color .18s;padding:10px 28px;display:block;text-align:center;}
+.mobile-menu a:hover,.mobile-menu a:active{color:var(--cream);}
+.mobile-menu .mob-cta{margin-top:16px;font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;padding:12px 32px;border:1px solid rgba(249,115,22,.45);color:var(--ember);border-radius:4px;}
+.mobile-menu .mob-cta:hover{background:rgba(249,115,22,.08);}
+
+/* ── LIGHT MODE HAMBURGER + MOBILE MENU ── */
+html[data-mode="light"] .hamburger{border-color:rgba(30,41,59,.15);}
+html[data-mode="light"] .hamburger span{background:rgba(30,41,59,.65);}
+html[data-mode="light"] .mobile-menu{background:rgba(248,250,252,.98);}
+html[data-mode="light"] .mobile-menu a{color:rgba(30,41,59,.45);}
+html[data-mode="light"] .mobile-menu a:hover{color:#1e293b;}
+
+/* ── TOUCH SCREENS — disable custom cursor ── */
+@media(pointer:coarse){
+  #cur,#cur-ring{display:none!important;}
+  *{cursor:auto!important;}
+}
+
+/* ── TABLET 769–1023px ── */
+@media(min-width:769px) and (max-width:1023px){
+  nav{padding:18px 32px;}
+  .section-inner{padding:0 28px;}
+  .sec-nosotros,.sec-servicios,.sec-contacto,.sec-galeria,.sec-testimonios,.sec-faq,.sec-precios,.sec-staff,.sec-actividades,.sec-cta,.sec-texto{padding:80px 0;}
+  .galeria-grid,.staff-grid{grid-template-columns:repeat(2,1fr);}
+  .actividades-grid{grid-template-columns:repeat(2,1fr);}
+  .nosotros-grid{gap:48px;}
+  .servicios-grid{grid-template-columns:repeat(2,1fr);}
+  .testimonios-grid{grid-template-columns:repeat(2,1fr);}
+  .contacto-inner{gap:40px;}
+}
+
+/* ── MOBILE ≤768px ── */
 @media(max-width:768px){
-  nav{padding:16px 20px;}
+  nav{padding:14px 18px;}
   .nav-links{display:none;}
-  .nosotros-grid,.contacto-inner{grid-template-columns:1fr;gap:40px;}
+  .hamburger{display:flex;}
+  .nosotros-grid,.contacto-inner{grid-template-columns:1fr;gap:32px;}
   .servicios-grid,.testimonios-grid,.galeria-grid,.staff-grid{grid-template-columns:1fr;}
   .precios-grid{grid-template-columns:1fr;}
-  .section-inner{padding:0 20px;}
-  .sec-nosotros,.sec-servicios,.sec-contacto,.sec-galeria,.sec-testimonios,.sec-faq,.sec-precios,.sec-staff{padding:80px 0;}
+  .section-inner{padding:0 18px;}
+  .sec-nosotros,.sec-servicios,.sec-contacto,.sec-galeria,.sec-testimonios,.sec-faq,.sec-precios,.sec-staff{padding:70px 0;}
   .sec-auth{padding:0!important;}
   .auth-split{grid-template-columns:1fr;}
   .auth-brand{display:none;}
-  .auth-panel{padding:36px 22px;max-height:none;}
+  .auth-panel{padding:32px 20px;max-height:none;}
   .rsv-card-bd{grid-template-columns:1fr;}
   .rsv-qrw{flex-direction:row;justify-content:flex-start;}
   .pf-grid{grid-template-columns:1fr;}
   .auth-row{grid-template-columns:1fr;}
-  .sec-cta,.sec-texto{padding:60px 0;}
-  footer{flex-direction:column;gap:12px;text-align:center;padding:28px 20px;}
+  .sec-cta,.sec-texto{padding:56px 0;}
+  footer{flex-direction:column;gap:10px;text-align:center;padding:26px 18px;}
+  .hero-headline{font-size:clamp(3.2rem,14vw,5rem);}
+  .nosotros-stats{grid-template-columns:repeat(2,1fr);}
+  .stat-card{padding:22px 18px;}
+  .servicio-card{padding:32px 24px;}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;}}
 
@@ -683,8 +731,19 @@ html[data-mode="light"] .hero-bg-overlay{background:rgba(15,30,60,.28)!important
     <span class="nav-name">ALTURA LIBRE</span>
   </a>
   <div class="nav-links" id="nav-links"></div>
-  <button class="mode-btn" id="mode-btn" onclick="toggleMode()" title="Cambiar modo"></button>
+  <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
+    <button class="mode-btn" id="mode-btn" onclick="toggleMode()" title="Cambiar modo"></button>
+    <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-label="Abrir menú" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 </nav>
+
+<!-- MOBILE MENU OVERLAY -->
+<div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+  <div id="mobile-links"></div>
+  <a class="mob-cta" href="/auth/">Mi cuenta</a>
+</div>
 
 <!-- HERO -->
 <section id="hero">
@@ -760,14 +819,36 @@ html[data-mode="light"] .hero-bg-overlay{background:rgba(15,30,60,.28)!important
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
-/* CURSOR */
+/* CURSOR — only on pointer-fine devices (mouse) */
 const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
 let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
-(function tr(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tr);})();
+if(window.matchMedia('(pointer:fine)').matches){
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+  (function tr(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tr);})();
+}
 
 /* NAV SCROLL */
 window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',scrollY>60);});
+
+/* MOBILE MENU */
+function toggleMobileMenu(){
+  const hb=document.getElementById('hamburger');
+  const mm=document.getElementById('mobile-menu');
+  const open=mm.classList.toggle('open');
+  hb.classList.toggle('open',open);
+  hb.setAttribute('aria-expanded',open);
+  mm.setAttribute('aria-hidden',!open);
+  document.body.style.overflow=open?'hidden':'';
+}
+function closeMobileMenu(){
+  const hb=document.getElementById('hamburger');
+  const mm=document.getElementById('mobile-menu');
+  hb.classList.remove('open');mm.classList.remove('open');
+  hb.setAttribute('aria-expanded','false');mm.setAttribute('aria-hidden','true');
+  document.body.style.overflow='';
+}
+document.addEventListener('click',e=>{if(e.target.closest('#mobile-menu a'))closeMobileMenu();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMobileMenu();});
 
 /* STARS */
 const cv=document.getElementById('hero-canvas'),ctx=cv.getContext('2d');let stars=[],birds=[];
@@ -1503,6 +1584,9 @@ async function loadContent(){
   const navHtml=secs.map(s=>`<a href="#${s.id}">${s.titulo}</a>`).join('');
   const lastContactId=secs.filter(s=>s.tipo==='contacto').pop()?.id;
   document.getElementById('nav-links').innerHTML=navHtml+(lastContactId?`<a class="nav-cta" href="#${lastContactId}">Reservar</a>`:'')+`<a class="nav-cta" href="/auth/" style="background:var(--ember-dim);border:1px solid rgba(249,115,22,.3);padding:7px 16px;border-radius:8px;color:var(--ember)!important;font-size:.78rem">Mi cuenta</a>`;
+  /* Populate mobile menu with same section links */
+  const mobEl=document.getElementById('mobile-links');
+  if(mobEl)mobEl.innerHTML=secs.map(s=>`<a href="#${s.id}">${s.titulo}</a>`).join('')+(lastContactId?`<a href="#${lastContactId}">Reservar</a>`:'')
 
   // Footer
   document.getElementById('ftr-txt').textContent=c.footer.texto;
