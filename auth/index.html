@@ -981,7 +981,16 @@ body.in-dash.light-mode .db-bn-item.active{color:#7c3aed;}
 /* ── SUPABASE ── */
 const SB_URL='https://smdfrouqumpechbevqix.supabase.co';
 const SB_ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNtZGZyb3VxdW1wZWNoYmV2cWl4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU3NTU5NTYsImV4cCI6MjEwMTMzMTk1Nn0.LPIF4lfnLwAmwHcvkjvF08mNqxOHA7v7yQ1azpS9Wvk';
-const sb=window.supabase.createClient(SB_URL,SB_ANON);
+/* ── Sesión solo en pestaña actual (sessionStorage) ── */
+Object.keys(localStorage).filter(k=>k.startsWith('sb-')).forEach(k=>localStorage.removeItem(k));
+const sb=window.supabase.createClient(SB_URL,SB_ANON,{
+  auth:{
+    storage:window.sessionStorage,
+    persistSession:true,
+    autoRefreshToken:true,
+    detectSessionInUrl:true,
+  }
+});
 
 let sbUser=null,rsvData=[];
 
@@ -1747,10 +1756,28 @@ function toggleTheme(){
 })();
 
 /* ── AUTH STATE LISTENER ── */
+/* ── Timer de inactividad: 20 minutos ── */
+const IDLE_MS=20*60*1000;
+let _idleTimer=null;
+function _resetIdle(){
+  if(!sbUser)return;
+  clearTimeout(_idleTimer);
+  _idleTimer=setTimeout(async()=>{
+    await sb.auth.signOut();
+    sbUser=null;
+    showBlock('login');
+    showErr('login','Tu sesión se cerró por 20 minutos de inactividad.');
+  },IDLE_MS);
+}
+function _startIdle(){['mousemove','mousedown','keydown','touchstart','scroll','click'].forEach(ev=>document.addEventListener(ev,_resetIdle,{passive:true}));_resetIdle();}
+function _stopIdle(){clearTimeout(_idleTimer);}
+
 sb.auth.onAuthStateChange(async(event,session)=>{
   if(session?.user){
     await loadUserData(session.user);
+    _startIdle();
   }else if(event==='SIGNED_OUT'){
+    _stopIdle();
     showBlock('login');
   }
 });

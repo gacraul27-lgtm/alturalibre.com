@@ -889,14 +889,32 @@ async function doLogin(){
   try{
     const r=await gh(`/repos/${OWNER}/${REPO}`);
     if(!r.ok){TOKEN='';showErr('Token inválido o sin permisos de escritura.');btn.textContent='Entrar al panel →';btn.disabled=false;return;}
-    localStorage.setItem('al_tk',t);
+    sessionStorage.setItem('al_tk',t);
     document.getElementById('login').style.display='none';
     document.getElementById('app').style.display='flex';
+    _startAdminIdle();
     await loadContent();
   }catch(e){TOKEN='';showErr('Error de conexión. Revisa tu internet.');btn.textContent='Entrar al panel →';btn.disabled=false;}
 }
 function showErr(m){const e=document.getElementById('login-err');e.textContent=m;e.style.display='block';}
-function logout(){if(!confirm('¿Cerrar sesión?'))return;localStorage.removeItem('al_tk');location.reload();}
+function logout(){if(!confirm('¿Cerrar sesión?'))return;sessionStorage.removeItem('al_tk');TOKEN='';location.reload();}
+
+/* ── Timer de inactividad admin: 15 minutos ── */
+const ADMIN_IDLE_MS=15*60*1000;
+let _adminIdleTimer=null;
+function _resetAdminIdle(){
+  clearTimeout(_adminIdleTimer);
+  _adminIdleTimer=setTimeout(()=>{
+    sessionStorage.removeItem('al_tk');
+    TOKEN='';
+    alert('Sesión de administrador cerrada por 15 minutos de inactividad.');
+    location.reload();
+  },ADMIN_IDLE_MS);
+}
+function _startAdminIdle(){
+  ['mousemove','mousedown','keydown','touchstart','scroll','click'].forEach(ev=>document.addEventListener(ev,_resetAdminIdle,{passive:true}));
+  _resetAdminIdle();
+}
 document.getElementById('tk').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 
 /* ── GITHUB ── */
@@ -2363,8 +2381,10 @@ window.addEventListener('DOMContentLoaded',()=>{
   }
   // Aplicar paleta de color del admin
   aplicarAdminTema(localStorage.getItem('al_admin_tema')||'bosque');
-  // Auto-login
-  const s=localStorage.getItem('al_tk');
+  // Limpiar token antiguo de localStorage (migración de seguridad)
+  if(localStorage.getItem('al_tk')){localStorage.removeItem('al_tk');}
+  // Auto-login solo si la pestaña ya tenía sesión activa (sessionStorage)
+  const s=sessionStorage.getItem('al_tk');
   if(s){TOKEN=s;document.getElementById('tk').value=s;doLogin();}
 });
 </script>
