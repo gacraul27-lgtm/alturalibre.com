@@ -1,0 +1,132 @@
+{
+  "hero": {
+    "linea1": "La cima",
+    "linea2": "te espera",
+    "subtexto": "Expediciones y aventuras en montañas desde Monterrey, Nuevo León.",
+    "plantilla": "default"
+  },
+  "footer": {
+    "texto": "Altura Libre · Comunidad Monterrey"
+  },
+  "fondo": {
+    "tipo": "gradiente",
+    "imagen_url": "",
+    "video_url": "",
+    "overlay": 0.65
+  },
+  "botones": [
+    {
+      "texto": "Ver actividades",
+      "url": "#act1",
+      "estilo": "primary",
+      "icono": "",
+      "icono_pos": "left",
+      "tamano": "md",
+      "forma": "rounded"
+    },
+    {
+      "texto": "Contacto",
+      "url": "#cnt1",
+      "estilo": "outline",
+      "icono": "",
+      "icono_pos": "none",
+      "tamano": "md",
+      "forma": "rounded"
+    }
+  ],
+  "secciones": [
+    {
+      "id": "nos1",
+      "tipo": "nosotros",
+      "visible": true,
+      "titulo": "Quienes somos",
+      "texto": "Somos un equipo apasionado por la montaña con mas de 5 Años llevando a aventureros a descubrir los paisajes mas impresionantes del noreste de Mexico.",
+      "stats": [
+        {
+          "valor": "200+",
+          "etiqueta": "Expediciones"
+        },
+        {
+          "valor": "50+",
+          "etiqueta": "Rutas exploradas"
+        },
+        {
+          "valor": "1000+",
+          "etiqueta": "Aventureros"
+        }
+      ],
+      "plantilla": "foto-texto"
+    },
+    {
+      "id": "act1",
+      "tipo": "actividades",
+      "visible": true,
+      "titulo": "Proximas actividades",
+      "subtitulo": "Elige tu aventura y reserva tu lugar.",
+      "cta_url": "#cnt1"
+    },
+    {
+      "id": "srv1",
+      "tipo": "servicios",
+      "visible": true,
+      "titulo": "Nuestros servicios",
+      "items": [
+        {
+          "emoji": "🏔️",
+          "titulo": "Senderismo",
+          "descripcion": "Rutas guiadas para todos los niveles en las sierras del noreste."
+        },
+        {
+          "emoji": "🪢",
+          "titulo": "Rápel",
+          "descripcion": "Paredes naturales y técnicas con equipo certificado y ganas expertos."
+        },
+        {
+          "emoji": "⛺️",
+          "titulo": "Campamentos",
+          "descripcion": "Noches bajo las estrellas en los puntos más remotos y hermosos."
+        },
+        {
+          "emoji": "⭐️",
+          "titulo": "Expediciones",
+          "descripcion": "Rutas de varios días para los que buscan la aventura completa."
+        }
+      ]
+    },
+    {
+      "id": "cnt1",
+      "tipo": "contacto",
+      "visible": true,
+      "titulo": "Contactanos",
+      "subtitulo": "Contactanos y empecemos a planear tu proxima expedir",
+      "email": "info@alturalibre.com",
+      "telefono": "+52 81 0000 0000",
+      "instagram": "@alturalibre"
+    }
+  ],
+  "tema": "desierto",
+  "dash_accent": "#84cc16",
+  "media": [],
+  "actividades_catalogo": [],
+  "calendario": [],
+  "seo": {
+    "titulo": "Altura Libre · Expediciones en montaña",
+    "descripcion": "Expediciones y aventuras al aire libre desde Monterrey, NL.",
+    "og_imagen": "",
+    "keywords": "hike, senderismo, montaña, Monterrey, expediciones"
+  },
+  "nav": [],
+  "anuncio": {
+    "activo": false,
+    "texto": "",
+    "url": "",
+    "bg": "#84cc16",
+    "color": "#000000"
+  },
+  "whatsapp": {
+    "activo": false,
+    "numero": "",
+    "mensaje": "Hola, me interesa saber más sobre sus aventuras"
+  },
+  "plantilla_global": "montana"
+}
